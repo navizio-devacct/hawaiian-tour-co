@@ -5,7 +5,7 @@ export const FeaturedTours = () => {
     {
       title: "Pearl Harbor Memorial Tour",
       description:
-        "Visit the historic Pearl Harbor and pay tribute to the fallen heroes of WWII.",
+        "Visit the historic Pearl Harbor and pay tribute to the fallen heroes of WWII. TEST UPDATE",
       price: 119,
       duration: "6 hours",
       image: "https://images.unsplash.com/photo-1528844433838-6115c9c13a14",
