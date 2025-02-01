@@ -8,7 +8,7 @@ export const FeaturedTours = () => {
         "Visit the historic Pearl Harbor and pay tribute to the fallen heroes of WWII.",
       price: 119,
       duration: "6 hours",
-      image: "https://images.unsplash.com/photo-1501854140801-50d01698950b",
+      image: "https://images.unsplash.com/photo-1528844433838-6115c9c13a14",
       rating: 4.9,
       location: "Oahu",
     },
