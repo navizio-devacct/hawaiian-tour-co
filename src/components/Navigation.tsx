@@ -30,7 +30,7 @@ export const Navigation = () => {
               isScrolled ? 'text-palm-100' : 'text-white'
             }`}
           >
-            Hawaiian Tour Co
+            Four Winds Travel Group
           </Link>
 
           {/* Desktop Navigation */}
@@ -70,12 +70,30 @@ export const Navigation = () => {
                 </Link>
               </div>
             </div>
-            <NavLink href="#about" isScrolled={isScrolled}>About</NavLink>
-            <NavLink href="#testimonials" isScrolled={isScrolled}>Testimonials</NavLink>
-            <NavLink href="#contact" isScrolled={isScrolled}>Contact</NavLink>
-            <button className="bg-sunset-100 hover:bg-sunset-200 text-white px-6 py-2 rounded-full transition-colors duration-300">
-              Book Now
-            </button>
+            <Link 
+              to="/contact"
+              className={`transition-colors duration-300 ${
+                isScrolled ? 'text-palm-100' : 'text-white'
+              } hover:text-ocean-100`}
+            >
+              Contact
+            </Link>
+            <Link 
+              to="/terms-and-conditions"
+              className={`transition-colors duration-300 ${
+                isScrolled ? 'text-palm-100' : 'text-white'
+              } hover:text-ocean-100`}
+            >
+              Terms
+            </Link>
+            <Link 
+              to="/privacy-policy"
+              className={`transition-colors duration-300 ${
+                isScrolled ? 'text-palm-100' : 'text-white'
+              } hover:text-ocean-100`}
+            >
+              Privacy
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -121,21 +139,27 @@ export const Navigation = () => {
               >
                 Kauai
               </Link>
-              <MobileNavLink href="#about" onClick={() => setIsMenuOpen(false)}>
-                About
-              </MobileNavLink>
-              <MobileNavLink
-                href="#testimonials"
+              <Link
+                to="/contact"
+                className="text-palm-100 hover:text-ocean-100 transition-colors duration-300"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Testimonials
-              </MobileNavLink>
-              <MobileNavLink href="#contact" onClick={() => setIsMenuOpen(false)}>
                 Contact
-              </MobileNavLink>
-              <button className="bg-sunset-100 hover:bg-sunset-200 text-white px-6 py-2 rounded-full transition-colors duration-300 w-full">
-                Book Now
-              </button>
+              </Link>
+              <Link
+                to="/terms-and-conditions"
+                className="text-palm-100 hover:text-ocean-100 transition-colors duration-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Terms
+              </Link>
+              <Link
+                to="/privacy-policy"
+                className="text-palm-100 hover:text-ocean-100 transition-colors duration-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Privacy
+              </Link>
             </div>
           </div>
         )}
