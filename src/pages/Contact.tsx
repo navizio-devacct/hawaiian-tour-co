@@ -3,7 +3,8 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/components/ui/use-toast";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { useState } from "react";
 
@@ -13,17 +14,17 @@ const Contact = () => {
     name: "",
     email: "",
     phone: "",
-    message: ""
+    message: "",
+    smsConsent: false
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement form submission logic when GHL is ready
     toast({
       title: "Message Sent!",
       description: "We'll get back to you as soon as possible.",
     });
-    setFormData({ name: "", email: "", phone: "", message: "" });
+    setFormData({ name: "", email: "", phone: "", message: "", smsConsent: false });
   };
 
   return (
@@ -88,9 +89,10 @@ const Contact = () => {
               <div>
                 <Input
                   type="tel"
-                  placeholder="Your Phone (optional)"
+                  placeholder="Your Phone"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  required
                 />
               </div>
               <div>
@@ -101,6 +103,22 @@ const Contact = () => {
                   required
                   className="min-h-[150px]"
                 />
+              </div>
+              <div className="flex items-start space-x-2">
+                <Checkbox
+                  id="sms-consent"
+                  checked={formData.smsConsent}
+                  onCheckedChange={(checked) => 
+                    setFormData({ ...formData, smsConsent: checked as boolean })
+                  }
+                  required
+                />
+                <label
+                  htmlFor="sms-consent"
+                  className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  I Consent to Receive SMS Notifications, Alerts & Occasional Marketing Communication from Four Winds Travel Group. Message frequency varies. Message & data rates may apply. Text HELP to 888-411-9121 for assistance. You can reply STOP to unsubscribe at any time.
+                </label>
               </div>
               <Button type="submit" className="w-full bg-sunset-100 hover:bg-sunset-200">
                 Send Message

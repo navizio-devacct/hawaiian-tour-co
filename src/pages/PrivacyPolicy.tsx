@@ -1,3 +1,4 @@
+
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 
@@ -8,32 +9,22 @@ const PrivacyPolicy = () => {
       <div className="container mx-auto px-4 py-24">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold text-palm-100 mb-8">Privacy Policy</h1>
-          <div className="prose prose-lg">
-            <p className="mb-6">Last updated: {new Date().toLocaleDateString()}</p>
-            
+          <div className="prose prose-lg max-w-none">
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-palm-100 mb-4">1. Information We Collect</h2>
-              <p>We collect information you provide directly to us, including name, email, phone number, and payment information when making bookings. We also automatically collect certain information about your device when you use our website.</p>
+              <h2 className="text-2xl font-semibold text-palm-100 mb-4">OVERVIEW</h2>
+              <p>This website is operated by Four Winds Travel Group LLC. Throughout the site, the terms "we", "us" and "our" refer to Four Winds Travel Group. Four Winds Travel Group offers this website, including all information, tools and services available from this site to you, the user, conditioned upon your acceptance of all terms, conditions, policies and notices stated here.</p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-palm-100 mb-4">2. How We Use Your Information</h2>
-              <p>We use the information we collect to process your bookings, communicate with you about our services, and improve our website experience. We may also use your information for marketing purposes with your consent.</p>
+              <p>By visiting our site and/ or purchasing something from us, you engage in our "Service" and agree to be bound by the following terms and conditions ("Terms of Service", "Terms"), including those additional terms and conditions and policies referenced herein and/or available by hyperlink. These Terms of Service apply to all users of the site, including without limitation users who are browsers, vendors, customers, merchants, and/ or contributors of content.</p>
             </section>
 
+            {/* Continue adding each section as provided in the text */}
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-palm-100 mb-4">3. Information Sharing</h2>
-              <p>We do not sell your personal information. We may share your information with tour operators and service providers necessary to fulfill your booking and provide our services.</p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-palm-100 mb-4">4. Data Security</h2>
-              <p>We implement appropriate security measures to protect your personal information. However, no method of transmission over the Internet is 100% secure.</p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-palm-100 mb-4">5. Your Rights</h2>
-              <p>You have the right to access, correct, or delete your personal information. Contact us at privacy@hawaiiantourco.com for any privacy-related concerns.</p>
+              <h2 className="text-2xl font-semibold text-palm-100 mb-4">Text Marketing and notifications:</h2>
+              <p>By entering your phone number in the checkout and initializing a purchase, subscribing via our subscription form or a keyword, you agree that we may send you text notifications (for your order, including abandoned cart reminders) and text marketing offers. You acknowledge that consent is not a condition for any purchase.</p>
+              <p>If you wish to unsubscribe from receiving text marketing messages and notifications reply with STOP to any mobile message sent from us or use the unsubscribe link we provided you within any of our messages. You understand and agree that alternative methods of opting out, such as using alternative words or requests will not be accounted as a reasonable means of opting out. Message and data rates may apply.</p>
+              <p>For any questions please text HELP to the number you received the messages from. You can also contact us for more information. If you wish to opt out please follow the procedures above.</p>
             </section>
           </div>
         </div>

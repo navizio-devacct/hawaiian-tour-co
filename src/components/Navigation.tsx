@@ -71,6 +71,22 @@ export const Navigation = () => {
               </div>
             </div>
             <Link 
+              to="/about"
+              className={`transition-colors duration-300 ${
+                isScrolled ? 'text-palm-100' : 'text-white'
+              } hover:text-ocean-100`}
+            >
+              About
+            </Link>
+            <Link 
+              to="/testimonials"
+              className={`transition-colors duration-300 ${
+                isScrolled ? 'text-palm-100' : 'text-white'
+              } hover:text-ocean-100`}
+            >
+              Testimonials
+            </Link>
+            <Link 
               to="/contact"
               className={`transition-colors duration-300 ${
                 isScrolled ? 'text-palm-100' : 'text-white'
@@ -79,20 +95,12 @@ export const Navigation = () => {
               Contact
             </Link>
             <Link 
-              to="/terms-and-conditions"
+              to="/book-now"
               className={`transition-colors duration-300 ${
                 isScrolled ? 'text-palm-100' : 'text-white'
               } hover:text-ocean-100`}
             >
-              Terms
-            </Link>
-            <Link 
-              to="/privacy-policy"
-              className={`transition-colors duration-300 ${
-                isScrolled ? 'text-palm-100' : 'text-white'
-              } hover:text-ocean-100`}
-            >
-              Privacy
+              Book Now
             </Link>
           </div>
 
@@ -140,6 +148,20 @@ export const Navigation = () => {
                 Kauai
               </Link>
               <Link
+                to="/about"
+                className="text-palm-100 hover:text-ocean-100 transition-colors duration-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                About
+              </Link>
+              <Link
+                to="/testimonials"
+                className="text-palm-100 hover:text-ocean-100 transition-colors duration-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Testimonials
+              </Link>
+              <Link
                 to="/contact"
                 className="text-palm-100 hover:text-ocean-100 transition-colors duration-300"
                 onClick={() => setIsMenuOpen(false)}
@@ -147,18 +169,11 @@ export const Navigation = () => {
                 Contact
               </Link>
               <Link
-                to="/terms-and-conditions"
+                to="/book-now"
                 className="text-palm-100 hover:text-ocean-100 transition-colors duration-300"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Terms
-              </Link>
-              <Link
-                to="/privacy-policy"
-                className="text-palm-100 hover:text-ocean-100 transition-colors duration-300"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Privacy
+                Book Now
               </Link>
             </div>
           </div>
