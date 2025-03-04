@@ -318,23 +318,7 @@ const TermsAndConditions = () => {
               </p>
             </section>
 
-            {/* SMS Consent Checkbox */}
-            <div className="bg-white p-6 rounded-lg shadow-sm mt-8 border border-gray-200">
-              <div className="flex items-start space-x-3">
-                <Checkbox
-                  id="sms-consent"
-                  checked={smsConsent}
-                  onCheckedChange={handleConsentChange}
-                  className="mt-1"
-                />
-                <label
-                  htmlFor="sms-consent"
-                  className="text-sm text-gray-600 leading-relaxed"
-                >
-                  I Consent to Receive SMS Notifications, Alerts & Occasional Marketing Communication from Four Winds Travel Group. Message frequency varies. Message & data rates may apply. Text HELP to 888-411-9121 for assistance. You can reply STOP to unsubscribe at any time.
-                </label>
-              </div>
-            </div>
+           
           </div>
         </div>
       </div>
