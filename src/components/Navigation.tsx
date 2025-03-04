@@ -15,13 +15,9 @@ export const Navigation = () => {
   }, []);
 
   return (
-    <nav
-      className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-white/95 backdrop-blur-md shadow-sm py-4"
-          : "bg-transparent py-6"
-      }`}
-    >
+    <nav className={`fixed w-full z-50 transition-all duration-300 ${
+      isScrolled ? "bg-white/95 backdrop-blur-md shadow-sm py-4" : "bg-transparent py-6"
+    }`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           <Link 
@@ -44,30 +40,10 @@ export const Navigation = () => {
                 Islands
               </span>
               <div className="absolute top-full left-0 mt-2 w-48 bg-white/95 backdrop-blur-md shadow-lg rounded-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                <Link
-                  to="/oahu"
-                  className="block px-4 py-2 text-palm-100 hover:bg-ocean-100/10"
-                >
-                  Oahu
-                </Link>
-                <Link
-                  to="/maui"
-                  className="block px-4 py-2 text-palm-100 hover:bg-ocean-100/10"
-                >
-                  Maui
-                </Link>
-                <Link
-                  to="/big-island"
-                  className="block px-4 py-2 text-palm-100 hover:bg-ocean-100/10"
-                >
-                  Big Island
-                </Link>
-                <Link
-                  to="/kauai"
-                  className="block px-4 py-2 text-palm-100 hover:bg-ocean-100/10"
-                >
-                  Kauai
-                </Link>
+                <Link to="/oahu" className="block px-4 py-2 text-palm-100 hover:bg-ocean-100/10">Oahu</Link>
+                <Link to="/maui" className="block px-4 py-2 text-palm-100 hover:bg-ocean-100/10">Maui</Link>
+                <Link to="/big-island" className="block px-4 py-2 text-palm-100 hover:bg-ocean-100/10">Big Island</Link>
+                <Link to="/kauai" className="block px-4 py-2 text-palm-100 hover:bg-ocean-100/10">Kauai</Link>
               </div>
             </div>
             <Link 

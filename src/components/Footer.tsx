@@ -1,4 +1,5 @@
 import { Facebook, Instagram, Youtube, Mail, Phone, MapPin, Clock } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
   return (
@@ -44,11 +45,11 @@ export const Footer = () => {
           <div>
             <h3 className="text-xl font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><a href="#about" className="hover:text-sunset-100">About Us</a></li>
-              <li><a href="#" className="hover:text-sunset-100">Contact Us</a></li>
-              <li><a href="#" className="hover:text-sunset-100">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-sunset-100">Terms & Conditions</a></li>
-              <li><a href="#" className="hover:text-sunset-100">Cancellation Policy</a></li>
+              <li><Link to="/about" className="hover:text-sunset-100">About Us</Link></li>
+              <li><Link to="/contact" className="hover:text-sunset-100">Contact Us</Link></li>
+              <li><Link to="/privacy-policy" className="hover:text-sunset-100">Privacy Policy</Link></li>
+              <li><Link to="/terms-and-conditions" className="hover:text-sunset-100">Terms & Conditions</Link></li>
+              <li><Link to="/cancellation-policy" className="hover:text-sunset-100">Cancellation Policy</Link></li>
             </ul>
           </div>
 
