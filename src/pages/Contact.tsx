@@ -44,7 +44,7 @@ const Contact = () => {
                 <Mail className="w-6 h-6 text-ocean-100 mt-1" />
                 <div>
                   <h3 className="font-semibold text-lg">Email Us</h3>
-                  <p className="text-gray-600">info@hawaiiantourco.com</p>
+                  <p className="text-gray-600">hello@hawaiiantourco.com</p>
                   <p className="text-sm text-gray-500">We'll respond within 24 hours</p>
                 </div>
               </div>
@@ -53,7 +53,7 @@ const Contact = () => {
                 <Phone className="w-6 h-6 text-ocean-100 mt-1" />
                 <div>
                   <h3 className="font-semibold text-lg">Call Us</h3>
-                  <p className="text-gray-600">1-800-HAWAII-TOURS</p>
+                  <p className="text-gray-600">1-888-411-9121</p>
                   <p className="text-sm text-gray-500">Available 7 days a week, 8am-6pm HST</p>
                 </div>
               </div>
@@ -62,8 +62,8 @@ const Contact = () => {
                 <MapPin className="w-6 h-6 text-ocean-100 mt-1" />
                 <div>
                   <h3 className="font-semibold text-lg">Visit Us</h3>
-                  <p className="text-gray-600">123 Beach Road</p>
-                  <p className="text-gray-600">Honolulu, HI 96815</p>
+                  <p className="text-gray-600">801 Kakala St #1903</p>
+                  <p className="text-gray-600">Kapolei, HI 96707</p>
                 </div>
               </div>
             </div>
