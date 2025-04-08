@@ -186,6 +186,114 @@ export const tours: Tour[] = [
     category: "Boat Tours",
     affiliateUrl: "https://fareharbor.com/embeds/book/hanaleicharters/items/437141/?asn=fhdn&asn-ref=hawaiiantourco&full-items=yes&flow=no&branding=yes&bookable-only=yes&ref=hawaiiantourco&back=BACKLINK",
     tags: ["featured"]
+  },
+  {
+    title: "Deluxe Afternoon Adventure",
+    description: "Na Pali Experience - Boat Tour in Kekaha Kauai, Hawaii",
+    price: 0,
+    duration: "3 hours",
+    image: "https://cdn.filestackcontent.com/kroYeTuSWKdhysoEQY5Q",
+    rating: 4.8,
+    location: "Kauai",
+    category: "Boat Tours",
+    affiliateUrl: "https://fareharbor.com/embeds/book/napaliexperience/items/583974/?asn=fhdn&asn-ref=hawaiiantourco&full-items=yes&flow=no&branding=yes&bookable-only=yes&ref=hawaiiantourco&back=BACKLINK",
+    tags: ["featured"]
+  },
+  {
+    title: "Deluxe Morning Magic",
+    description: "Na Pali Experience - Boat Tour in Kekaha Kauai, Hawaii",
+    price: 0,
+    duration: "3 hours",
+    image: "https://cdn.filestackcontent.com/zNuSeOtVQY2qULnMRjvG",
+    rating: 4.7,
+    location: "Kauai",
+    category: "Boat Tours",
+    affiliateUrl: "https://fareharbor.com/embeds/book/napaliexperience/items/583972/?asn=fhdn&asn-ref=hawaiiantourco&full-items=yes&flow=no&branding=yes&bookable-only=yes&ref=hawaiiantourco&back=BACKLINK",
+    tags: ["featured"]
+  },
+  {
+    title: "Shark Dive",
+    description: "North Shore Shark Adventures / Whale Encounters / Turtle Encounters - Environmental Attraction in Haleiwa, Hawaii",
+    price: 0,
+    duration: "2 hours",
+    image: "https://www.filepicker.io/api/file/0p7jDDz3QjGkqFn11xlX",
+    rating: 4.9,
+    location: "Oahu",
+    category: "Boat Tours",
+    affiliateUrl: "https://fareharbor.com/embeds/book/sharktourshawaii/items/7241/?asn=fhdn&asn-ref=hawaiiantourco&full-items=yes&flow=no&branding=yes&bookable-only=yes&ref=hawaiiantourco&back=BACKLINK",
+    tags: ["featured"]
+  },
+  {
+    title: "Private Snorkel or Dive Charter",
+    description: "Dolphin Divers - Scuba in Waianae, Hawaii",
+    price: 0,
+    duration: "4 hours",
+    image: "https://cdn.filestackcontent.com/5lvgK8NT3eOfpkMkoQ1o",
+    rating: 4.8,
+    location: "Oahu",
+    category: "Boat Tours",
+    affiliateUrl: "https://fareharbor.com/embeds/book/oahuscubadiving/items/65105/?asn=fhdn&asn-ref=hawaiiantourco&full-items=yes&flow=no&branding=yes&bookable-only=yes&ref=hawaiiantourco&back=BACKLINK",
+    tags: ["featured"]
+  },
+  {
+    title: "Oahu Highlights Tour & Sunset Sail",
+    description: "DanielsHawaii - Helicopter in Kapolei, Hawaii",
+    price: 0,
+    duration: "6 hours",
+    image: "https://cdn.filestackcontent.com/hGmWHvbwSO2murqDgpP9",
+    rating: 4.7,
+    location: "Oahu",
+    category: "Boat Tours",
+    affiliateUrl: "https://fareharbor.com/embeds/book/hawaiireisetipps/items/191302/?asn=fhdn&asn-ref=hawaiiantourco&full-items=yes&flow=no&branding=yes&bookable-only=yes&ref=hawaiiantourco&back=BACKLINK",
+    tags: ["featured"]
+  },
+  {
+    title: "Venture Ko Olina Wildlife Snorkel",
+    description: "Mana Cruises - Catamaran in Kapolei, Hawaii",
+    price: 0,
+    duration: "2.5 hours",
+    image: "https://cdn.filestackcontent.com/oIF66o6XSY6sMIrZWy4Z",
+    rating: 4.9,
+    location: "Oahu",
+    category: "Boat Tours",
+    affiliateUrl: "https://fareharbor.com/embeds/book/manacruises/items/496438/?asn=fhdn&asn-ref=hawaiiantourco&full-items=yes&flow=no&branding=yes&bookable-only=yes&ref=hawaiiantourco&back=BACKLINK",
+    tags: ["featured"]
+  },
+  {
+    title: "Venture Ko Olina Nearshore Fishing",
+    description: "Mana Cruises - Catamaran in Kapolei, Hawaii",
+    price: 0,
+    duration: "3 hours",
+    image: "https://cdn.filestackcontent.com/BPdPgNSwQaSu8yBGBnyr",
+    rating: 4.6,
+    location: "Oahu",
+    category: "Boat Tours",
+    affiliateUrl: "https://fareharbor.com/embeds/book/manacruises/items/496437/?asn=fhdn&asn-ref=hawaiiantourco&full-items=yes&flow=no&branding=yes&bookable-only=yes&ref=hawaiiantourco&back=BACKLINK",
+    tags: ["featured"]
+  },
+  {
+    title: "Ko Olina Captain's Sunset + Tasting",
+    description: "Mana Cruises - Catamaran in Kapolei, Hawaii",
+    price: 0,
+    duration: "2 hours",
+    image: "https://cdn.filestackcontent.com/7X5d7z4Sm6GKMU5Qp7RH",
+    rating: 4.8,
+    location: "Oahu",
+    category: "Boat Tours",
+    affiliateUrl: "https://fareharbor.com/embeds/book/manacruises/items/57550/?asn=fhdn&asn-ref=hawaiiantourco&full-items=yes&flow=no&branding=yes&bookable-only=yes&ref=hawaiiantourco&back=BACKLINK",
+    tags: ["featured"]
+  },
+  {
+    title: "Waikiki Glass Bottom Boat Cruise",
+    description: "Hawaii Glass Bottom Boats LLC - Boat Tour in Honolulu, Hawaii",
+    price: 0,
+    duration: "1 hour",
+    image: "https://cdn.filestackcontent.com/11iZD2cTJugSKQJ2N2Bn",
+    rating: 4.7,
+    location: "Oahu",
+    category: "Boat Tours",
+    affiliateUrl: "https://fareharbor.com/embeds/book/hawaiiglassbottomboats/items/72457/?asn=fhdn&asn-ref=hawaiiantourco&full-items=yes&flow=no&branding=yes&bookable-only=yes&ref=hawaiiantourco&back=BACKLINK",
+    tags: ["featured"]
   }
 ];
 
