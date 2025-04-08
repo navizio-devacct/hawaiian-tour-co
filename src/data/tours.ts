@@ -1,4 +1,3 @@
-
 export interface Tour {
   title: string;
   description: string;
@@ -173,6 +172,20 @@ export const tours: Tour[] = [
     category: "Adventure Sports",
     affiliateUrl: "https://fareharbor.com/embeds/book/kauaizipline/items/90123/?ref=hawaiiantourco",
     tags: ["adrenaline", "scenic-views"]
+  },
+  
+  // Boat Tours
+  {
+    title: "4 hour Premium Morning Na Pali Adventure & Snorkel tour",
+    description: "Hanalei Charters, Inc. - Snorkel in Hanalei, Hawaii",
+    price: 0,
+    duration: "4 hours",
+    image: "https://cdn.filestackcontent.com/v19dv6Q1R16KDmt74R2k",
+    rating: 4.9,
+    location: "Kauai",
+    category: "Boat Tours",
+    affiliateUrl: "https://fareharbor.com/embeds/book/hanaleicharters/items/437141/?asn=fhdn&asn-ref=hawaiiantourco&full-items=yes&flow=no&branding=yes&bookable-only=yes&ref=hawaiiantourco&back=BACKLINK",
+    tags: ["featured"]
   }
 ];
 

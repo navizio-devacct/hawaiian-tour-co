@@ -3,7 +3,7 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { ActivityPage } from "@/components/ActivityPage";
 import { tours } from "@/data/tours";
-import { Boat } from "lucide-react";
+import { Ship } from "lucide-react";
 
 const BoatTours = () => {
   const boatTours = tours.filter(
@@ -16,7 +16,7 @@ const BoatTours = () => {
       <ActivityPage
         title="Boat Tours"
         description="Experience Hawaii's stunning coastal views and marine life from the water on our expertly guided boat tours."
-        icon={<Boat className="w-8 h-8 text-ocean-100" />}
+        icon={<Ship className="w-8 h-8 text-ocean-100" />}
         tours={boatTours}
       />
       <Footer />
