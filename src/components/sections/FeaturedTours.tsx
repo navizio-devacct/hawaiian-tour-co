@@ -3,34 +3,40 @@ import { TourCard } from "@/components/TourCard";
 export const FeaturedTours = () => {
   const tours = [
     {
-      title: "Pearl Harbor Memorial Tour",
+      title: "All Lemuria Journey",
       description:
-        "Visit the historic Pearl Harbor and pay tribute to the fallen heroes of WWII. TEST UPDATE",
-      price: 119,
-      duration: "6 hours",
-      image: "https://images.unsplash.com/photo-1528844433838-6115c9c13a14",
+        "A sacred Kauai tour connecting spiritual seekers to Lemurian energy portals.",
+      price: 122,
+      duration: "4 hours",
+      image: "https://cdn.filestackcontent.com/RF4FPBllSn5i7YnX4Dt2",
       rating: 4.9,
-      location: "Oahu",
+      location: "Kauai",
+      affiliateUrl:
+        "https://fareharbor.com/embeds/book/spiritofkauai/items/441140/?asn=fhdn&asn-ref=hawaiiantourco&full-items=yes",
     },
     {
-      title: "Road to Hana Adventure",
+      title: "Kaua'i Healing Journey",
       description:
-        "Experience the legendary Road to Hana with its waterfalls and scenic views.",
-      price: 189,
-      duration: "12 hours",
-      image: "https://images.unsplash.com/photo-1472396961693-142e6e269027",
+        "Explore deep healing with local guides through sacred Kauai sites.",
+      price: 144,
+      duration: "6 hours",
+      image: "https://cdn.filestackcontent.com/ARYI4SVoQQeD3BUtyxOJ",
       rating: 4.8,
-      location: "Maui",
+      location: "Kauai",
+      affiliateUrl:
+        "https://fareharbor.com/embeds/book/spiritofkauai/items/441138/?asn=fhdn&asn-ref=hawaiiantourco&full-items=yes",
     },
     {
-      title: "Volcano National Park Explorer",
+      title: "Whole Presence QSR Quantum Soul Retrieval",
       description:
-        "Discover the active volcanoes and unique landscapes of Hawaii's Big Island.",
-      price: 149,
+        "Embark on a transformational soul journey with Kauai's sacred energy.",
+      price: 199,
       duration: "8 hours",
-      image: "https://images.unsplash.com/photo-1518495973542-4542c06a5843",
+      image: "https://cdn.filestackcontent.com/H2osZ5YzTKSoK74SnB6Y",
       rating: 4.7,
-      location: "Big Island",
+      location: "Kauai",
+      affiliateUrl:
+        "https://fareharbor.com/embeds/book/spiritofkauai/items/441128/?asn=fhdn&asn-ref=hawaiiantourco&full-items=yes",
     },
   ];
 
