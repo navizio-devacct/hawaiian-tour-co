@@ -1,3 +1,4 @@
+
 import { TourCard } from "@/components/TourCard";
 
 export const OahuTours = () => {
@@ -11,6 +12,7 @@ export const OahuTours = () => {
       image: "https://images.unsplash.com/photo-1501854140801-50d01698950b",
       rating: 4.9,
       location: "Pearl Harbor",
+      affiliateUrl: "https://fareharbor.com/embeds/book/pearlharboroahu/items/123/?ref=hawaiiantourco"
     },
     {
       title: "North Shore Adventure",
@@ -21,6 +23,7 @@ export const OahuTours = () => {
       image: "https://images.unsplash.com/photo-1507876466758-bc54f384809c",
       rating: 4.8,
       location: "North Shore",
+      affiliateUrl: "https://fareharbor.com/embeds/book/northshoreoahu/items/456/?ref=hawaiiantourco"
     },
     {
       title: "Diamond Head Sunrise Hike",
@@ -31,6 +34,7 @@ export const OahuTours = () => {
       image: "https://images.unsplash.com/photo-1542259009477-d625272157b7",
       rating: 4.7,
       location: "Diamond Head",
+      affiliateUrl: "https://fareharbor.com/embeds/book/diamondheadoahu/items/789/?ref=hawaiiantourco"
     },
   ];
 
