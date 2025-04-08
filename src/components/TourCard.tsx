@@ -9,7 +9,7 @@ interface TourCardProps {
   image: string;
   rating: number;
   location: string;
-  affiliateUrl: string;
+  affiliateUrl: string; // ✅ NEW
 }
 
 export const TourCard = ({
@@ -22,13 +22,6 @@ export const TourCard = ({
   location,
   affiliateUrl,
 }: TourCardProps) => {
-  // 👇 Rebind FareHarbor modal behavior after render
-  useEffect(() => {
-    if (window.FH && typeof window.FH.rebind === "function") {
-      window.FH.rebind();
-    }
-  }, []);
-
   return (
     <div className="group relative bg-white rounded-lg overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl">
       {/* Image */}
@@ -61,12 +54,10 @@ export const TourCard = ({
             ${price}
             <span className="text-sm font-normal text-gray-500">/person</span>
           </span>
-
-          {/* 👇 FareHarbor modal trigger */}
           <a
             href={affiliateUrl}
-            data-fareharbor-lightframe
-            data-fareharbor-lightframe-parameters="view=items"
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-sunset-100 hover:bg-sunset-200 text-white px-4 py-2 rounded-full text-sm transition-colors duration-300"
           >
             Book Now
