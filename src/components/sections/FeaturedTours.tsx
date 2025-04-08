@@ -1,3 +1,4 @@
+
 import { TourCard } from "@/components/TourCard";
 
 export const FeaturedTours = () => {
