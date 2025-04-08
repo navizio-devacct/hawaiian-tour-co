@@ -183,7 +183,22 @@ export const categoryToUrl = {
   "Nature Tours": "nature-tours",
   "Photography Tours": "photography",
   "Sunset Cruises": "sunset",
-  "Adventure Sports": "adventure"
+  "Adventure Sports": "adventure",
+  "Boat Tours": "boat-tours",
+  "Water Activities": "water-activities",
+  "Surf Lessons": "surf",
+  "Scuba Diving": "scuba",
+  "Private Tours": "private-tours",
+  "Equipment Rentals": "rentals",
+  "Guided Tours": "guided-tours",
+  "Sightseeing Tours": "sightseeing",
+  "Stand-Up Paddleboarding": "sup",
+  "Bus Tours": "bus-tours",
+  "Whale Watching": "whale-watch",
+  "Kayaking Adventures": "kayaking",
+  "Transportation Services": "transportation",
+  "Walking Tours": "walking-tours",
+  "Sailing Charters": "sailing"
 };
 
 // URL to category mapping (reverse of above)

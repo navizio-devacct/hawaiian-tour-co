@@ -21,6 +21,21 @@ import NatureTours from "./pages/activities/NatureTours";
 import Photography from "./pages/activities/Photography";
 import SunsetCruises from "./pages/activities/Sunset";
 import Adventure from "./pages/activities/Adventure";
+import BoatTours from "./pages/activities/BoatTours";
+import WaterActivities from "./pages/activities/WaterActivities";
+import Surf from "./pages/activities/Surf";
+import Scuba from "./pages/activities/Scuba";
+import PrivateTours from "./pages/activities/PrivateTours";
+import Rentals from "./pages/activities/Rentals";
+import GuidedTours from "./pages/activities/GuidedTours";
+import Sightseeing from "./pages/activities/Sightseeing";
+import SUP from "./pages/activities/SUP";
+import BusTours from "./pages/activities/BusTours";
+import WhaleWatch from "./pages/activities/WhaleWatch";
+import Kayaking from "./pages/activities/Kayaking";
+import Transportation from "./pages/activities/Transportation";
+import WalkingTours from "./pages/activities/WalkingTours";
+import Sailing from "./pages/activities/Sailing";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +63,23 @@ const App = () => (
           <Route path="/activities/photography" element={<Photography />} />
           <Route path="/activities/sunset" element={<SunsetCruises />} />
           <Route path="/activities/adventure" element={<Adventure />} />
+          
+          {/* New Activity Routes */}
+          <Route path="/activities/boat-tours" element={<BoatTours />} />
+          <Route path="/activities/water-activities" element={<WaterActivities />} />
+          <Route path="/activities/surf" element={<Surf />} />
+          <Route path="/activities/scuba" element={<Scuba />} />
+          <Route path="/activities/private-tours" element={<PrivateTours />} />
+          <Route path="/activities/rentals" element={<Rentals />} />
+          <Route path="/activities/guided-tours" element={<GuidedTours />} />
+          <Route path="/activities/sightseeing" element={<Sightseeing />} />
+          <Route path="/activities/sup" element={<SUP />} />
+          <Route path="/activities/bus-tours" element={<BusTours />} />
+          <Route path="/activities/whale-watch" element={<WhaleWatch />} />
+          <Route path="/activities/kayaking" element={<Kayaking />} />
+          <Route path="/activities/transportation" element={<Transportation />} />
+          <Route path="/activities/walking-tours" element={<WalkingTours />} />
+          <Route path="/activities/sailing" element={<Sailing />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
