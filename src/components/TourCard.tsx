@@ -1,7 +1,7 @@
-import { Star } from "lucide-react";
-import { useEffect } from "react";
 
-interface TourCardProps {
+import { Star } from "lucide-react";
+
+export interface TourCardProps {
   title: string;
   description: string;
   price: number;
@@ -9,7 +9,9 @@ interface TourCardProps {
   image: string;
   rating: number;
   location: string;
-  affiliateUrl: string; // ✅ NEW
+  affiliateUrl: string;
+  category?: string;
+  tags?: string[];
 }
 
 export const TourCard = ({
@@ -21,6 +23,7 @@ export const TourCard = ({
   rating,
   location,
   affiliateUrl,
+  tags,
 }: TourCardProps) => {
   return (
     <div className="group relative bg-white rounded-lg overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl">
@@ -34,6 +37,27 @@ export const TourCard = ({
         <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-palm-100">
           {duration}
         </div>
+        
+        {/* Tags */}
+        {tags && tags.length > 0 && (
+          <div className="absolute bottom-4 left-4 flex flex-wrap gap-2">
+            {tags.includes('featured') && (
+              <span className="bg-sunset-100 text-white text-xs px-2 py-1 rounded-full">
+                Featured
+              </span>
+            )}
+            {tags.includes('top-rated') && (
+              <span className="bg-ocean-100 text-white text-xs px-2 py-1 rounded-full">
+                Top Rated
+              </span>
+            )}
+            {tags.includes('new') && (
+              <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full">
+                New
+              </span>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Content */}

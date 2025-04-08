@@ -1,10 +1,13 @@
+
 import { Compass, Mountain, Waves, TreePine, Camera, Sunset } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface ActivityCard {
   title: string;
   description: string;
   icon: React.ReactNode;
   image: string;
+  url: string;
 }
 
 export const FeaturedActivities = () => {
@@ -14,36 +17,42 @@ export const FeaturedActivities = () => {
       description: "Explore vibrant coral reefs and tropical marine life in crystal-clear waters.",
       icon: <Waves className="w-8 h-8 text-ocean-100" />,
       image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80",
+      url: "/activities/snorkeling"
     },
     {
       title: "Hiking Expeditions",
       description: "Trek through lush rainforests and discover breathtaking volcanic landscapes.",
       icon: <Mountain className="w-8 h-8 text-ocean-100" />,
       image: "https://images.unsplash.com/photo-1542332213-9b5a5a3fad35?q=80",
+      url: "/activities/hiking"
     },
     {
       title: "Nature Tours",
       description: "Experience Hawaii's unique flora and fauna with expert naturalist guides.",
       icon: <TreePine className="w-8 h-8 text-ocean-100" />,
       image: "https://images.unsplash.com/photo-1598135753163-6167c1a1ad65?q=80",
+      url: "/activities/nature-tours"
     },
     {
       title: "Photography Tours",
       description: "Capture stunning landscapes and memorable moments with professional guidance.",
       icon: <Camera className="w-8 h-8 text-ocean-100" />,
       image: "https://images.unsplash.com/photo-1623718649591-311775a30c43?q=80",
+      url: "/activities/photography"
     },
     {
       title: "Sunset Cruises",
       description: "Sail into the sunset while enjoying drinks and spectacular ocean views.",
       icon: <Sunset className="w-8 h-8 text-ocean-100" />,
       image: "https://images.unsplash.com/photo-1502519144081-acca18599776?q=80",
+      url: "/activities/sunset"
     },
     {
       title: "Adventure Sports",
       description: "Get your adrenaline pumping with surfing, kayaking, and more.",
       icon: <Compass className="w-8 h-8 text-ocean-100" />,
       image: "https://images.unsplash.com/photo-1537519646099-335112f03225?q=80",
+      url: "/activities/adventure"
     },
   ];
 
@@ -65,8 +74,9 @@ export const FeaturedActivities = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {activities.map((activity, index) => (
-            <div
+            <Link
               key={index}
+              to={activity.url}
               className="group relative bg-white rounded-lg overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl"
             >
               <div className="relative h-48 overflow-hidden">
@@ -87,11 +97,11 @@ export const FeaturedActivities = () => {
                 <p className="text-gray-600 text-sm mb-4">
                   {activity.description}
                 </p>
-                <button className="w-full bg-sunset-100 hover:bg-sunset-200 text-white px-4 py-2 rounded-full text-sm transition-colors duration-300">
+                <div className="w-full bg-sunset-100 hover:bg-sunset-200 text-white px-4 py-2 rounded-full text-sm transition-colors duration-300 text-center">
                   Explore Activities
-                </button>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
