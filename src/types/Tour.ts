@@ -8,4 +8,6 @@ export interface Tour {
   category: string;
   affiliateUrl: string;
   tags?: string[];
+  price: number | null;
+  duration: string | null;
 }

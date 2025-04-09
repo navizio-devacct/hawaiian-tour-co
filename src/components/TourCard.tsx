@@ -1,16 +1,7 @@
-
 import { Star } from "lucide-react";
+import { Tour } from "@/types/Tour";
 
-interface TourCardProps {
-  title: string;
-  description: string;
-  price: number | null;
-  duration: string | null;
-  image: string;
-  rating: number;
-  location: string;
-  affiliateUrl: string;
-}
+type TourCardProps = Omit<Tour, "tags" | "category">;
 
 export const TourCard = ({
   title,
