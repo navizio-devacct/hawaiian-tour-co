@@ -17,7 +17,7 @@ const Oahu = () => {
       map={<OahuMap />}
       weather={<OahuWeather />}
       culture={<OahuCulture />}
-      tours={<OahuTours />}
+      
       highlights={<OahuHighlights />}
       activities={<OahuActivities />}
       history={<OahuHistory />}
