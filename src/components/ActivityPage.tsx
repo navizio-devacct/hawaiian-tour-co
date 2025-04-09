@@ -1,7 +1,8 @@
 
 import { useState } from "react";
 import { TourCard } from "@/components/TourCard";
-import { Tour, locations } from "@/data/tours";
+import { Tour } from "@/types/Tour";
+import { locations } from "@/data/tours";
 import {
   Select,
   SelectContent,
