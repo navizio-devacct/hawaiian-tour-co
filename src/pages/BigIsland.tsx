@@ -6,7 +6,7 @@ import { BigIslandWeather } from "@/components/islands/bigisland/BigIslandWeathe
 import { BigIslandCulture } from "@/components/islands/bigisland/BigIslandCulture";
 import { BigIslandTours } from "@/components/islands/bigisland/BigIslandTours";
 import { BigIslandHighlights } from "@/components/islands/bigisland/BigIslandHighlights";
-import { BigIslandActivities } from "@/components/islands/bigisland/BigIslandActivities";
+// import { BigIslandActivities } from "@/components/islands/bigisland/BigIslandActivities";
 import { BigIslandHistory } from "@/components/islands/bigisland/BigIslandHistory";
 
 const BigIsland = () => {
@@ -19,7 +19,7 @@ const BigIsland = () => {
       culture={<BigIslandCulture />}
       tours={<BigIslandTours />}
       highlights={<BigIslandHighlights />}
-      activities={<BigIslandActivities />}
+    //  activities={<BigIslandActivities />}
       history={<BigIslandHistory />}
     />
   );

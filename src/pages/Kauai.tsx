@@ -6,7 +6,7 @@ import { KauaiWeather } from "@/components/islands/kauai/KauaiWeather";
 import { KauaiCulture } from "@/components/islands/kauai/KauaiCulture";
 import { KauaiTours } from "@/components/islands/kauai/KauaiTours";
 import { KauaiHighlights } from "@/components/islands/kauai/KauaiHighlights";
-import { KauaiActivities } from "@/components/islands/kauai/KauaiActivities";
+// import { KauaiActivities } from "@/components/islands/kauai/KauaiActivities";
 import { KauaiHistory } from "@/components/islands/kauai/KauaiHistory";
 
 const Kauai = () => {
@@ -19,7 +19,7 @@ const Kauai = () => {
       culture={<KauaiCulture />}
       tours={<KauaiTours />}
       highlights={<KauaiHighlights />}
-      activities={<KauaiActivities />}
+     // activities={<KauaiActivities />}
       history={<KauaiHistory />}
     />
   );
