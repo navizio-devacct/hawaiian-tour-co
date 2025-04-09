@@ -1,4 +1,5 @@
 
+import { useState } from "react";
 import { ReactNode } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -8,6 +9,13 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 import { tours } from "@/data/tours";
 import { TourCard } from "@/components/TourCard";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface IslandLayoutProps {
   name: string;
@@ -32,17 +40,30 @@ export const IslandLayout = ({
   activities,
   history,
 }: IslandLayoutProps) => {
-  // Filter tours based on island name if custom tours are not provided
-  const filteredTours = tours
-    .filter(tour => tour.location === name && tour.tags?.includes('featured'))
-    
+  const [selectedCategory, setSelectedCategory] = useState("all");
+
+  // Get all featured tours for this island
+  const islandTours = tours.filter(
+    (tour) => tour.location === name && tour.tags?.includes("featured")
+  );
+
+  // Build unique category list
+  const categories = Array.from(
+    new Set(islandTours.map((tour) => tour.category))
+  );
+
+  // Filter based on selected category
+  const filteredTours =
+    selectedCategory === "all"
+      ? islandTours
+      : islandTours.filter((tour) => tour.category === selectedCategory);
 
   return (
     <div className="min-h-screen bg-sand-50">
       <Navigation />
       {hero}
       <WeatherTicker location={name} />
-      
+
       {/* Quick Actions */}
       <div className="bg-white py-8 shadow-sm">
         <div className="container mx-auto px-4">
@@ -73,26 +94,10 @@ export const IslandLayout = ({
           {culture}
         </div>
 
-        {/* Highlights Section (optional) */}
-        {highlights && (
-          <section className="space-y-6">
-            {highlights}
-          </section>
-        )}
-
-        {/* Activities Section (optional) */}
-        {activities && (
-          <section className="space-y-6">
-            {activities}
-          </section>
-        )}
-
-        {/* History Section (optional) */}
-        {history && (
-          <section className="space-y-6">
-            {history}
-          </section>
-        )}
+        {/* Highlights Section */}
+        {highlights && <section className="space-y-6">{highlights}</section>}
+        {activities && <section className="space-y-6">{activities}</section>}
+        {history && <section className="space-y-6">{history}</section>}
 
         {/* Featured Tours */}
         <section className="space-y-6">
@@ -104,7 +109,26 @@ export const IslandLayout = ({
               Must-Do {name} Experiences
             </h2>
           </div>
-          
+
+          {/* Category Filter */}
+          {!customTours && (
+            <div className="flex justify-center mb-6">
+              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                <SelectTrigger className="w-[240px]">
+                  <SelectValue placeholder="Filter by Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Categories</SelectItem>
+                  {categories.map((cat) => (
+                    <SelectItem key={cat} value={cat}>
+                      {cat}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
           {customTours ? (
             customTours
           ) : (
@@ -116,7 +140,6 @@ export const IslandLayout = ({
           )}
         </section>
 
-        {/* Newsletter Section */}
         <div className="bg-ocean-100/5 rounded-2xl p-8">
           <Newsletter />
         </div>
@@ -125,3 +148,4 @@ export const IslandLayout = ({
     </div>
   );
 };
+

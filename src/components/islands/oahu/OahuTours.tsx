@@ -1,4 +1,4 @@
-
+{/*}
 import { TourCard } from "@/components/TourCard";
 import { tours } from "@/data/tours";
 
@@ -31,3 +31,4 @@ export const OahuTours = () => {
     </section>
   );
 };
+*/}
