@@ -4,10 +4,10 @@ import { Star } from "lucide-react";
 export interface TourCardProps {
   title: string;
   description: string;
-  price: number; // Keeping this in the interface for future use
-  duration: string; // Keeping this in the interface for future use
+  price: number | null; // Can be null now
+  duration: string | null; // Can be null now
   image: string;
-  rating: number;
+  rating: number | null; // Can be null
   location: string;
   affiliateUrl: string;
   category?: string;
@@ -59,10 +59,12 @@ export const TourCard = ({
       <div className="p-6">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm text-ocean-100">{location}</span>
-          <div className="flex items-center">
-            <Star className="w-4 h-4 text-yellow-400 fill-current" />
-            <span className="ml-1 text-sm text-gray-600">{rating}</span>
-          </div>
+          {rating && (
+            <div className="flex items-center">
+              <Star className="w-4 h-4 text-yellow-400 fill-current" />
+              <span className="ml-1 text-sm text-gray-600">{rating}</span>
+            </div>
+          )}
         </div>
 
         <h3 className="text-xl font-semibold text-palm-100 mb-2">{title}</h3>

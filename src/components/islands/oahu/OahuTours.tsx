@@ -1,42 +1,12 @@
 
 import { TourCard } from "@/components/TourCard";
+import { tours } from "@/data/tours";
 
 export const OahuTours = () => {
-  const recommendedTours = [
-    {
-      title: "Pearl Harbor Remembered",
-      description:
-        "Visit the USS Arizona Memorial and learn about the events that brought the US into World War II.",
-      price: 119,
-      duration: "6 hours",
-      image: "https://images.unsplash.com/photo-1501854140801-50d01698950b",
-      rating: 4.9,
-      location: "Pearl Harbor",
-      affiliateUrl: "https://fareharbor.com/embeds/book/pearlharboroahu/items/123/?ref=hawaiiantourco"
-    },
-    {
-      title: "North Shore Adventure",
-      description:
-        "Experience the legendary North Shore with its famous beaches, surf spots, and local culture.",
-      price: 149,
-      duration: "8 hours",
-      image: "https://images.unsplash.com/photo-1507876466758-bc54f384809c",
-      rating: 4.8,
-      location: "North Shore",
-      affiliateUrl: "https://fareharbor.com/embeds/book/northshoreoahu/items/456/?ref=hawaiiantourco"
-    },
-    {
-      title: "Diamond Head Sunrise Hike",
-      description:
-        "Hike to the summit of Diamond Head crater for breathtaking views of Waikiki and the Pacific Ocean.",
-      price: 79,
-      duration: "3 hours",
-      image: "https://images.unsplash.com/photo-1542259009477-d625272157b7",
-      rating: 4.7,
-      location: "Diamond Head",
-      affiliateUrl: "https://fareharbor.com/embeds/book/diamondheadoahu/items/789/?ref=hawaiiantourco"
-    },
-  ];
+  // Get tours specific to Oahu location
+  const oahuTours = tours
+    .filter(tour => tour.location === "Oahu" && tour.tags?.includes('featured'))
+    .slice(0, 3); // Limit to 3 tours for display
 
   return (
     <section className="space-y-8">
@@ -54,7 +24,7 @@ export const OahuTours = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {recommendedTours.map((tour) => (
+        {oahuTours.map((tour) => (
           <TourCard key={tour.title} {...tour} />
         ))}
       </div>

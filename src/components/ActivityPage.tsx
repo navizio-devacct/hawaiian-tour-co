@@ -19,6 +19,9 @@ interface ActivityPageProps {
 
 export const ActivityPage = ({ title, description, icon, tours }: ActivityPageProps) => {
   const [selectedLocation, setSelectedLocation] = useState<string>("all");
+  
+  // Get unique locations for the current tour category
+  const categoryLocations = [...new Set(tours.map(tour => tour.location))];
 
   const filteredTours = selectedLocation === "all"
     ? tours
@@ -62,7 +65,7 @@ export const ActivityPage = ({ title, description, icon, tours }: ActivityPagePr
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Islands</SelectItem>
-                  {locations.map((location) => (
+                  {categoryLocations.map((location) => (
                     <SelectItem key={location} value={location}>
                       {location}
                     </SelectItem>
