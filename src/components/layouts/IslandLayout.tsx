@@ -93,12 +93,38 @@ export const IslandLayout = ({
           {weather}
           {culture}
         </div>
+         {/* Unforgettable Experiences Section */}
+{!customTours && (
+  <section className="space-y-6">
+    <div className="text-center">
+      <span className="inline-block bg-sunset-100/10 text-sunset-100 px-4 py-1 rounded-full text-sm">
+        Unforgettable Experiences
+      </span>
+      <h2 className="mt-4 text-3xl font-bold text-palm-100">
+        Our Top Picks for {name}
+      </h2>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {tours
+        .filter(
+          (tour) =>
+            tour.location === name && tour.tags?.includes("unforgettable")
+        )
+        .map((tour) => (
+          <TourCard key={tour.title} {...tour} />
+        ))}
+    </div>
+  </section>
+)}
+
 
         {/* Highlights Section */}
         {highlights && <section className="space-y-6">{highlights}</section>}
         {activities && <section className="space-y-6">{activities}</section>}
         {history && <section className="space-y-6">{history}</section>}
-
+       
+      
         {/* Featured Tours */}
         <section className="space-y-6">
           <div className="text-center">
@@ -110,24 +136,35 @@ export const IslandLayout = ({
             </h2>
           </div>
 
-          {/* Category Filter */}
-          {!customTours && (
-            <div className="flex justify-center mb-6">
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger className="w-[240px]">
-                  <SelectValue placeholder="Filter by Category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  {categories.map((cat) => (
-                    <SelectItem key={cat} value={cat}>
-                      {cat}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          )}
+{/* Category Button Filter */}
+{!customTours && (
+  <div className="flex flex-wrap justify-center gap-3 mb-6">
+    <button
+      onClick={() => setSelectedCategory("all")}
+      className={`px-4 py-2 rounded-full text-sm font-medium border transition ${
+        selectedCategory === "all"
+          ? "bg-sunset-100 text-white border-sunset-100"
+          : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+      }`}
+    >
+      All
+    </button>
+    {categories.map((cat) => (
+      <button
+        key={cat}
+        onClick={() => setSelectedCategory(cat)}
+        className={`px-4 py-2 rounded-full text-sm font-medium border transition ${
+          selectedCategory === cat
+            ? "bg-sunset-100 text-white border-sunset-100"
+            : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+        }`}
+      >
+        {cat}
+      </button>
+    ))}
+  </div>
+)}
+
 
           {customTours ? (
             customTours
@@ -148,4 +185,3 @@ export const IslandLayout = ({
     </div>
   );
 };
-

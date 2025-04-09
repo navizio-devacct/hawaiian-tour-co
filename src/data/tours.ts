@@ -358,7 +358,7 @@ export const tours: Tour[] = [
     location: "Oahu",
     category: "Photography Tours",
     affiliateUrl: "https://fareharbor.com/embeds/book/hawaiiglassbottomboats/items/94374/?asn=fhdn&asn-ref=hawaiiantourco&full-items=yes&flow=no&branding=yes&bookable-only=yes&ref=hawaiiantourco&back=BACKLINK",
-    tags: ["featured"]
+    tags: ["featured", "unforgettable"]
   },
   {
     title: "Diamond Head Crater & East Side Beach Day",
@@ -370,7 +370,7 @@ export const tours: Tour[] = [
     location: "Oahu",
     category: "Photography Tours",
     affiliateUrl: "https://fareharbor.com/embeds/book/hawaiianshuttles/items/62871/?asn=fhdn&asn-ref=hawaiiantourco&full-items=yes&flow=no&branding=yes&bookable-only=yes&ref=hawaiiantourco&back=BACKLINK",
-    tags: ["featured"]
+    tags: ["featured", "unforgettable"]
   },
   {
     title: "Private Custom Tour",
@@ -382,7 +382,7 @@ export const tours: Tour[] = [
     location: "Oahu",
     category: "Photography Tours",
     affiliateUrl: "https://fareharbor.com/embeds/book/hawaiianshuttles/items/62860/?asn=fhdn&asn-ref=hawaiiantourco&full-items=yes&flow=no&branding=yes&bookable-only=yes&ref=hawaiiantourco&back=BACKLINK",
-    tags: ["featured"]
+    tags: ["featured", "unforgettable"]
   },
   {
     title: "Proposal Photography Session",

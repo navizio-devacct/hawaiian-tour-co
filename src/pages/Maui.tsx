@@ -6,7 +6,7 @@ import { MauiWeather } from "@/components/islands/maui/MauiWeather";
 import { MauiCulture } from "@/components/islands/maui/MauiCulture";
 import { MauiTours } from "@/components/islands/maui/MauiTours";
 import { MauiHighlights } from "@/components/islands/maui/MauiHighlights";
-import { MauiActivities } from "@/components/islands/maui/MauiActivities";
+// import { MauiActivities } from "@/components/islands/maui/MauiActivities";
 import { MauiHistory } from "@/components/islands/maui/MauiHistory";
 
 const Maui = () => {
@@ -19,7 +19,7 @@ const Maui = () => {
       culture={<MauiCulture />}
       tours={<MauiTours />}
       highlights={<MauiHighlights />}
-      activities={<MauiActivities />}
+     // activities={<MauiActivities />}
       history={<MauiHistory />}
     />
   );

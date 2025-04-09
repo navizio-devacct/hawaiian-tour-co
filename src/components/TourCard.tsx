@@ -54,20 +54,17 @@ export const TourCard = ({
         <h3 className="text-xl font-semibold text-palm-100 mb-2">{title}</h3>
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">{description}</p>
 
-        <div className="flex items-center justify-between">
-          <span className="text-2xl font-bold text-palm-100">
-            {price ? `$${price}` : "From"}
-            <span className="text-sm font-normal text-gray-500">/person</span>
-          </span>
-          <a
-            href={fullUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-sunset-100 hover:bg-sunset-200 text-white px-4 py-2 rounded-full text-sm transition-colors duration-300"
-          >
-            Book Now
-          </a>
-        </div>
+        <div className="flex justify-end">
+  <a
+    href={affiliateUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="bg-sunset-100 hover:bg-sunset-200 text-white px-4 py-2 rounded-full text-sm transition-colors duration-300"
+  >
+    Book Now
+  </a>
+</div>
+
       </div>
     </div>
   );

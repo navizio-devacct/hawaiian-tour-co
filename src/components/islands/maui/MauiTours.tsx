@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+{/*import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const MauiTours = () => {
   const tours = [
@@ -43,4 +43,4 @@ export const MauiTours = () => {
       </div>
     </div>
   );
-};
+}; */}
