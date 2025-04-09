@@ -35,7 +35,7 @@ export const IslandLayout = ({
   // Filter tours based on island name if custom tours are not provided
   const filteredTours = tours
     .filter(tour => tour.location === name && tour.tags?.includes('featured'))
-    .slice(0, 3);
+    
 
   return (
     <div className="min-h-screen bg-sand-50">
