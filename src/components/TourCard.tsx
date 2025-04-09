@@ -75,7 +75,7 @@ export const TourCard = ({
 
         <div className="flex items-center justify-between">
           <span className="text-2xl font-bold text-palm-100">
-            ${price}
+            See Booking Page
             <span className="text-sm font-normal text-gray-500">/person</span>
           </span>
           <a
