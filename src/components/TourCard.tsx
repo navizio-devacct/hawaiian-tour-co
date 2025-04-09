@@ -4,8 +4,8 @@ import { Star } from "lucide-react";
 export interface TourCardProps {
   title: string;
   description: string;
-  price: number;
-  duration: string;
+  price: number; // Keeping this in the interface for future use
+  duration: string; // Keeping this in the interface for future use
   image: string;
   rating: number;
   location: string;
@@ -17,8 +17,6 @@ export interface TourCardProps {
 export const TourCard = ({
   title,
   description,
-  price,
-  duration,
   image,
   rating,
   location,
@@ -34,9 +32,6 @@ export const TourCard = ({
           alt={title}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
-        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-palm-100">
-          {duration}
-        </div>
         
         {/* Tags */}
         {tags && tags.length > 0 && (
@@ -73,11 +68,7 @@ export const TourCard = ({
         <h3 className="text-xl font-semibold text-palm-100 mb-2">{title}</h3>
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">{description}</p>
 
-        <div className="flex items-center justify-between">
-          <span className="text-2xl font-bold text-palm-100">
-            See Booking Page
-            <span className="text-sm font-normal text-gray-500">/person</span>
-          </span>
+        <div className="flex items-center justify-end">
           <a
             href={affiliateUrl}
             target="_blank"
