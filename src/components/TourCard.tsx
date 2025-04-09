@@ -73,11 +73,11 @@ export const TourCard = ({
         <h3 className="text-xl font-semibold text-palm-100 mb-2">{title}</h3>
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">{description}</p>
 
-        {/*  <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <span className="text-2xl font-bold text-palm-100">
             ${price}
             <span className="text-sm font-normal text-gray-500">/person</span>
-          </span> */}
+          </span>
           <a
             href={affiliateUrl}
             target="_blank"
