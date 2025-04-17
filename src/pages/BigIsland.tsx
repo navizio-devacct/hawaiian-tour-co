@@ -17,7 +17,7 @@ const BigIsland = () => {
       map={<BigIslandMap />}
       weather={<BigIslandWeather />}
       culture={<BigIslandCulture />}
-      tours={<BigIslandTours />}
+     // tours={<BigIslandTours />}
       highlights={<BigIslandHighlights />}
     //  activities={<BigIslandActivities />}
       history={<BigIslandHistory />}

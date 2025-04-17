@@ -12,6 +12,9 @@ import {
 import { format } from "date-fns";
 import { DateRange } from "react-day-picker";
 
+import { tours } from "@/data/tours";
+import { TourCard } from "@/components/TourCard";
+
 const tourCategories = [
   "Sightseeing Tours",
   "Water Tours",
@@ -31,22 +34,32 @@ export const SearchTours = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
-      title: "Search initiated",
-      description: `Searching for "${searchQuery}" tours${
+      title: "Search applied",
+      description: `Filtering tours by "${searchQuery}"$${
         dateRange?.from && dateRange?.to
-          ? ` between ${format(dateRange.from, "PPP")} and ${format(
+          ? ` from ${format(dateRange.from, "PPP")} to ${format(
               dateRange.to,
               "PPP"
             )}`
           : ""
-      }...`,
+      }`,
     });
-    // TODO: Implement actual search functionality with Fareharbor API integration
   };
 
   const handleTagClick = (category: string) => {
     setSearchQuery(category);
   };
+
+  const filteredTours = tours.filter((tour) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      tour.title?.toLowerCase().includes(query) ||
+      tour.description?.toLowerCase().includes(query) ||
+      tour.category?.toLowerCase().includes(query) ||
+      tour.location?.toLowerCase().includes(query) ||
+      tour.tags?.some((tag) => tag.toLowerCase().includes(query))
+    );
+  });
 
   return (
     <section className="py-12 bg-sand-50">
@@ -61,6 +74,7 @@ export const SearchTours = () => {
           </p>
         </div>
 
+        {/* Search Form */}
         <div className="max-w-3xl mx-auto">
           <form onSubmit={handleSearch} className="space-y-4 mb-6">
             <div className="relative">
@@ -87,8 +101,7 @@ export const SearchTours = () => {
                     {dateRange?.from ? (
                       dateRange.to ? (
                         <>
-                          {format(dateRange.from, "LLL dd, y")} -{" "}
-                          {format(dateRange.to, "LLL dd, y")}
+                          {format(dateRange.from, "LLL dd, y")} - {format(dateRange.to, "LLL dd, y")}
                         </>
                       ) : (
                         format(dateRange.from, "LLL dd, y")
@@ -120,16 +133,59 @@ export const SearchTours = () => {
             </div>
           </form>
 
-          <div className="flex flex-wrap gap-3 justify-center items-center">
+          <div className="flex flex-wrap gap-3 justify-center items-center mb-8">
             {tourCategories.map((category) => (
               <button
                 key={category}
                 onClick={() => handleTagClick(category)}
-                className="px-4 py-2 rounded-full bg-white border border-ocean-100/20 text-ocean-100 hover:bg-ocean-100/10 transition-colors text-sm font-medium animate-fade-up"
+                className="px-4 py-2 rounded-full bg-white border border-ocean-100/20 text-ocean-100 hover:bg-ocean-100/10 transition-colors text-sm font-medium"
               >
                 {category}
               </button>
             ))}
+          </div>
+        </div>
+
+        {/* Results Section */}
+        <div className="container mx-auto px-4">
+          {searchQuery.length > 0 ? (
+            filteredTours.length > 0 ? (
+              <section className="rounded-xl space-y-10 mt-12">
+                <div className="text-center">
+                  <span className="inline-block bg-sunset-100/10 text-sunset-100 px-4 py-1 rounded-full text-sm">
+                    Search Results
+                  </span>
+                  <h2 className="mt-4 text-3xl font-bold text-palm-100">
+                    Matching Tours Found
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {filteredTours.map((tour) => (
+                    <TourCard key={tour.title} {...tour} />
+                  ))}
+                </div>
+              </section>
+            ) : (
+              <p className="text-center text-gray-500 mt-8">No tours found.</p>
+            )
+          ) : (
+            <p className="text-center text-gray-400 mt-8 text-sm">
+              Use the search above or tap a category to explore tours.
+            </p>
+          )}
+
+          <div className="text-center mt-4">
+            <Button
+              variant="ghost"
+              className="text-sm text-ocean-100 hover:underline"
+              onClick={() => {
+                setSearchQuery("");
+                setDateRange(undefined);
+              }}
+            >
+              Reset Search
+            </Button>
           </div>
         </div>
       </div>

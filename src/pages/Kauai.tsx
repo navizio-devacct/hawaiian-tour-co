@@ -17,7 +17,7 @@ const Kauai = () => {
       map={<KauaiMap />}
       weather={<KauaiWeather />}
       culture={<KauaiCulture />}
-      tours={<KauaiTours />}
+     // tours={<KauaiTours />}
       highlights={<KauaiHighlights />}
      // activities={<KauaiActivities />}
       history={<KauaiHistory />}

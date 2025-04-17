@@ -29,7 +29,7 @@ export const Navigation = () => {
             Four Winds Travel Group
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation 
           <div className="hidden md:flex items-center space-x-8">
             <div className="relative group">
               <span 
@@ -78,21 +78,21 @@ export const Navigation = () => {
             >
               Book Now
             </Link>
-          </div>
+          </div> */} 
 
           {/* Mobile Menu Button */}
-          <button
+         {/* <button
             className={`md:hidden transition-colors duration-300 ${
               isScrolled ? 'text-palm-100' : 'text-white'
             }`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          </button> */}
         </div>
 
         {/* Mobile Navigation */}
-        {isMenuOpen && (
+       {/* {isMenuOpen && (
           <div className="md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-md shadow-lg py-4 animate-fade-down">
             <div className="flex flex-col space-y-4 px-4">
               <Link
@@ -153,9 +153,9 @@ export const Navigation = () => {
               </Link>
             </div>
           </div>
-        )}
+        )} */}
       </div>
-    </nav>
+    </nav> 
   );
 };
 

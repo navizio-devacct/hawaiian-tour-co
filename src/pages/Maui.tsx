@@ -17,7 +17,7 @@ const Maui = () => {
       map={<MauiMap />}
       weather={<MauiWeather />}
       culture={<MauiCulture />}
-      tours={<MauiTours />}
+     // tours={<MauiTours />}
       highlights={<MauiHighlights />}
      // activities={<MauiActivities />}
       history={<MauiHistory />}

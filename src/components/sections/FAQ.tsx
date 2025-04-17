@@ -4,34 +4,39 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { HelpCircle } from "lucide-react";
+import { HelpCircle, CalendarDays, MapPin, Users, RefreshCcw, Globe } from "lucide-react";
 
 export const FAQ = () => {
   const faqs = [
     {
-      question: "What are the most popular things to do in Maui?",
+      icon: <CalendarDays className="text-ocean-100 w-5 h-5 mr-2" />,
+      question: "What is the best time to visit Hawaii?",
       answer:
-        "Watch the sunrise at Haleakala, drive the Road to Hana, snorkel at Molokini Crater, visit the historic town of Lahaina, and experience a traditional luau. Whale watching (in season), hiking in Iao Valley, and relaxing on Ka'anapali Beach are also must-do activities.",
+        "Hawaii is a year-round destination! The driest months are April through October. If you're hoping to see humpback whales, visit between December and May.",
     },
     {
-      question: "What is the best time to visit Maui?",
+      icon: <Globe className="text-ocean-100 w-5 h-5 mr-2" />,
+      question: "Do I need to book tours in advance?",
       answer:
-        "The best time to visit Maui is from April to October when the weather is consistently warm and dry. However, if you're interested in whale watching, visit between December and May when humpback whales migrate to the warm Hawaiian waters.",
+        "Yes — we recommend booking your tours early, especially for popular activities like luaus, snorkeling excursions, and helicopter rides. Many experiences sell out weeks in advance.",
     },
     {
-      question: "How big is the island of Maui?",
+      icon: <MapPin className="text-ocean-100 w-5 h-5 mr-2" />,
+      question: "Which island should I visit first?",
       answer:
-        "Maui is the second-largest Hawaiian island, with an area of 727.2 square miles. The island is 48 miles long and 26 miles wide, making it easy to explore multiple areas during your stay.",
+        "It depends! Oahu is great for first-timers and nightlife. Maui offers scenic beauty and waterfalls. Big Island has volcano adventures. Kauai is perfect for nature lovers and hiking.",
     },
     {
-      question: "What makes Maui's beaches unique?",
+      icon: <Users className="text-ocean-100 w-5 h-5 mr-2" />,
+      question: "Are your tours suitable for families or kids?",
       answer:
-        "Maui's beaches are known for their diverse characteristics - from the black sand beaches of Waianapanapa to the red sand of Kaihalulu. The island features over 30 miles of beaches, many of which are perfect for swimming, snorkeling, and surfing.",
+        "Absolutely! Many tours are family-friendly — including boat cruises, cultural experiences, and wildlife watching. Always check the activity details for age and safety recommendations.",
     },
     {
-      question: "What should I know about the Road to Hana?",
+      icon: <RefreshCcw className="text-ocean-100 w-5 h-5 mr-2" />,
+      question: "Can I cancel or reschedule my tour?",
       answer:
-        "The Road to Hana is a 64.4-mile scenic drive that includes 620 curves and 59 bridges. It typically takes 2.5 to 3 hours one-way without stops. It's recommended to start early and plan for a full day to enjoy the numerous waterfalls, beaches, and scenic points along the way.",
+        "Each tour operator has their own cancellation policy. Most allow free changes up to 24–48 hours before departure. Check the details at checkout or contact us for help.",
     },
   ];
 
@@ -45,14 +50,14 @@ export const FAQ = () => {
               Frequently Asked Questions
             </h2>
             <p className="text-palm-100/80">
-              Find answers to common questions about Maui tours and activities.
+              Find answers to common questions about booking tours across the Hawaiian Islands.
             </p>
           </div>
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, index) => (
               <AccordionItem key={index} value={`item-${index}`}>
                 <AccordionTrigger className="text-palm-100 hover:text-ocean-100">
-                  {faq.question}
+                  <div className="flex items-center">{faq.icon}{faq.question}</div>
                 </AccordionTrigger>
                 <AccordionContent className="text-palm-100/80">
                   {faq.answer}
