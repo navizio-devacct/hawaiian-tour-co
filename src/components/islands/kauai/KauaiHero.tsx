@@ -164,7 +164,7 @@ export const KauaiHero = () => {
                 <div className="text-xs sm:text-sm opacity-90">Average Rating</div>
               </div>
               <div className="text-center">
-                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-teal-200">18K+</div>
+                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-teal-200">10K+</div>
                 <div className="text-xs sm:text-sm opacity-90">Happy Visitors</div>
               </div>
             </div>

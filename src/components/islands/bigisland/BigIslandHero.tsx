@@ -48,7 +48,7 @@ export const BigIslandHero = () => {
           className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage:
-              'url("https://images.unsplash.com/photo-1540979388789-6cee28a1cdc9?q=80&w=2070")',
+              'url("https://images.unsplash.com/photo-1608673058756-7403c3d69f4f")',
           }}
         >
           {/* Enhanced gradient overlay for volcanic dramatic effect */}

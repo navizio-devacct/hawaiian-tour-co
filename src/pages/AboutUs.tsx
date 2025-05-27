@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { Link } from "react-router-dom";
 
 const AboutUs = () => {
   const values = [
@@ -37,22 +38,22 @@ const AboutUs = () => {
 
   const teamMembers = [
     {
-      name: "Kailani Nakamura",
-      role: "Founder & Cultural Director",
-      image: "KN",
-      description: "Born and raised on Oahu, Kailani founded our company to share authentic Hawaiian experiences while supporting local communities."
+      name: "Evan Hayes",
+      role: "Co-Founder & Cultural Director",
+      image: "EH",
+      description: "Born and raised on Oahu, Evan co-founded our company to share authentic Hawaiian experiences while supporting local communities."
     },
     {
-      name: "Makoa Williams",
-      role: "Operations Manager",
-      image: "MW", 
-      description: "A Big Island native with 15 years in tourism, Makoa ensures every tour meets our high standards for safety and authenticity."
+      name: "Dallas Hidalgo",
+      role: "Co-Founder & Operations Manager",
+      image: "DH", 
+      description: "A Big Island native with 15 years in tourism, Dallas ensures every tour meets our high standards for safety and authenticity."
     },
     {
-      name: "Leilani Patel",
-      role: "Guest Experience Lead",
-      image: "LP",
-      description: "From Maui's upcountry, Leilani creates memorable experiences that connect visitors with Hawaii's natural beauty and culture."
+      name: "Justin Jacobs",
+      role: "Co-Founder & CMO",
+      image: "JJ",
+      description: "Justin creates memorable experiences that connect visitors with Hawaii's natural beauty and culture."
     }
   ];
 
@@ -260,37 +261,43 @@ const AboutUs = () => {
             </div>
             <div className="bg-gradient-to-br from-ocean-100/5 to-sunset-100/5 rounded-2xl p-8">
               <h3 className="text-2xl font-bold text-palm-100 mb-4">Join Our Mission</h3>
-              <p className="text-gray-700 mb-6">
-                Every tour you book directly contributes to preserving Hawaiian culture and supporting local families. 
-                Together, we can ensure Hawaii remains a paradise for generations to come.
-              </p>
-              <Button className="bg-sunset-100 hover:bg-sunset-200 text-white">
-                Explore Our Tours
-              </Button>
+                 <p className="text-gray-700 mb-6">
+                  Every tour you book directly contributes to preserving Hawaiian culture and supporting local families. 
+                   Together, we can ensure Hawaii remains a paradise for generations to come.
+                 </p>
+               <Link to="/booknow">
+                    <Button className="bg-sunset-100 hover:bg-sunset-200 text-white">
+               Explore Our Tours
+                   </Button>
+               </Link>
             </div>
           </div>
         </section>
 
         {/* CTA */}
         <section className="text-center">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-palm-100 mb-6">
-              Ready to Experience Authentic Hawaii?
-            </h2>
-            <p className="text-lg text-gray-600 mb-8">
-              Book with us and become part of our mission to preserve and share 
-              the true spirit of Hawaii while supporting local communities.
-            </p>
+            <div className="max-w-3xl mx-auto">
+               <h2 className="text-3xl md:text-4xl font-bold text-palm-100 mb-6">
+                 Ready to Experience Authentic Hawaii?
+               </h2>
+             <p className="text-lg text-gray-600 mb-8">
+                 Book with us and become part of our mission to preserve and share 
+                  the true spirit of Hawaii while supporting local communities.
+                </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button className="bg-sunset-100 hover:bg-sunset-200 text-white px-8 py-3">
-                Book Your Adventure
-              </Button>
-              <Button variant="outline" className="border-ocean-100 text-ocean-100 hover:bg-ocean-100 hover:text-white px-8 py-3">
-                Contact Us
-              </Button>
-            </div>
-          </div>
-        </section>
+                 <Link to="/booknow">
+                    <Button className="bg-sunset-100 hover:bg-sunset-200 text-white px-8 py-3">
+                  Book Your Adventure
+                   </Button>
+                  </Link>
+              <Link to="/contact">
+                      <Button variant="outline" className="border-ocean-100 text-ocean-100 hover:bg-ocean-100 hover:text-white px-8 py-3">
+                 Contact Us
+                 </Button>
+               </Link>
+               </div>
+           </div>
+      </section>
       </div>
       <Footer />
       {/* Footer will be added when you copy this to your project */}

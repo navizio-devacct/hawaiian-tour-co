@@ -98,7 +98,7 @@ export const OahuTestimonials = () => {
               <span className="ml-1">Average Rating</span>
             </div>
             <div>
-              <span className="font-semibold">25,000+</span>
+              <span className="font-semibold">10,000+</span>
               <span className="ml-1">Happy Travelers</span>
             </div>
             <div>

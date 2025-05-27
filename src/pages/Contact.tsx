@@ -56,19 +56,19 @@ const EnhancedContact = () => {
       detail: "Available during business hours",
       subDetail: "Chat widget on bottom right"
     },
-    {
-      icon: <MapPin className="w-6 h-6 text-ocean-100" />,
-      title: "Visit Our Office",
-      subtitle: "Meet us in person in beautiful Hawaii",
-      detail: "801 Kakala St #1903, Kapolei, HI 96707",
-      subDetail: "By appointment only"
-    }
+//    {
+//      icon: <MapPin className="w-6 h-6 text-ocean-100" />,
+//      title: "Visit Our Office",
+//      subtitle: "Meet us in person in beautiful Hawaii",
+//      detail: "801 Kakala St #1903, Kapolei, HI 96707",
+//      subDetail: "By appointment only"
+//    }
   ];
 
   const trustSignals = [
     {
       icon: <Users className="w-8 h-8 text-sunset-100" />,
-      stat: "25,000+",
+      stat: "10,000+",
       label: "Happy Customers"
     },
     {
@@ -92,7 +92,7 @@ const EnhancedContact = () => {
     <div className="min-h-screen bg-sand-50">
       <Navigation />
       {/* Hero Section */}
-      <div className="relative h-[50vh] w-full overflow-hidden">
+      <div className="relative h-[70vh] w-full overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
@@ -102,7 +102,7 @@ const EnhancedContact = () => {
           <div className="absolute inset-0 bg-black/40" />
         </div>
         
-        <div className="relative h-full flex flex-col items-center justify-center text-white px-4">
+        <div className="relative h-full flex flex-col items-center justify-center text-white px-4 pt-12 pb-12 md:pt-20 md:pb-20">
           <div className="text-center max-w-3xl mx-auto">
             <span className="inline-block bg-ocean-100/90 text-white px-4 py-1 rounded-full text-sm mb-6 backdrop-blur-sm">
               Get In Touch
@@ -154,7 +154,7 @@ const EnhancedContact = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
             {contactMethods.map((method, index) => (
               <Card key={index} className="hover:shadow-xl transition-all duration-300 border-0 shadow-lg">
                 <CardContent className="p-6 text-center">
