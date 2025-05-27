@@ -129,6 +129,7 @@
     overflow-wrap: break-word;
     hyphens: auto;
   }
+}
 
 @layer utilities {
   /* Force true full viewport width - overrides any parent constraints */
