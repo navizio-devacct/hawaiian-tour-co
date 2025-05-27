@@ -101,18 +101,18 @@ export const IslandLayout = ({
       <Navigation />
       
       {/* Hero Section - Full Width */}
-      <Section fullWidth>
+      <div className="w-full">
         {hero}
-      </Section>
+      </div>
       
       {/* Weather Ticker - Full Width */}
-      <Section fullWidth background="white">
+      <div className="w-full bg-white py-8 shadow-sm">
         <WeatherTicker location={name} />
-      </Section>
+      </div>
 
       {/* Quick Actions - Contained */}
-      <Section background="white" className="py-8 shadow-sm">
-        <Container>
+      <div className="w-full bg-white py-8 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-4">
             <Button className="bg-sunset-100 hover:bg-sunset-200">
               Book a Tour <ChevronRight className="ml-2 h-4 w-4" />
@@ -121,11 +121,11 @@ export const IslandLayout = ({
               Download Guide
             </Button>
           </div>
-        </Container>
-      </Section>
+        </div>
+      </div>
 
       {/* Main Content Sections */}
-      <Container className="py-12 space-y-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
         {/* Map Section */}
         <section className="space-y-6">
           <div className="text-center">
@@ -312,14 +312,14 @@ export const IslandLayout = ({
             </>
           )}
         </section>
-      </Container>
+      </div>
 
       {/* Newsletter Section - Full Width */}
-      <Section background="gradient" className="py-16">
-        <Container>
+      <div className="w-full bg-gradient-to-br from-blue-50 to-green-50 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Newsletter />
-        </Container>
-      </Section>
+        </div>
+      </div>
       
       <Footer />
     </div>
