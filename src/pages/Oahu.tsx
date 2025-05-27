@@ -7,19 +7,24 @@ import { OahuCulture } from "@/components/islands/oahu/OahuCulture";
 import { OahuHighlights } from "@/components/islands/oahu/OahuHighlights";
 // import { OahuActivities } from "@/components/islands/oahu/OahuActivities";
 import { OahuHistory } from "@/components/islands/oahu/OahuHistory";
+import { OahuTestimonials } from "@/components/islands/oahu/OahuTestimonials";
 
 const Oahu = () => {
   return (
-    <IslandLayout
-      name="Oahu"
-      hero={<OahuHero />}
-      map={<OahuMap />}
-      weather={<OahuWeather />}
-      culture={<OahuCulture />}
-      highlights={<OahuHighlights />}
-    //  activities={<OahuActivities />}
-      history={<OahuHistory />}
-    />
+<IslandLayout
+  name="Oahu"
+  hero={<OahuHero />}
+  map={<OahuMap />}
+  weather={<OahuWeather />}
+  culture={<OahuCulture />}
+  highlights={
+    <>
+      <OahuHighlights />
+      <OahuTestimonials />
+    </>
+  }
+  history={<OahuHistory />}
+/>
   );
 };
 

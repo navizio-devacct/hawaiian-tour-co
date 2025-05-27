@@ -15,6 +15,8 @@ import Contact from "./pages/Contact";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CancellationPolicy from "./pages/CancellationPolicy";
+import AboutUs from "./pages/AboutUs";
+import BookNow from "./pages/BookNow/BookNow.tsx";
 
 // Activity Pages
 import Snorkeling from "./pages/activities/Snorkeling";
@@ -55,6 +57,8 @@ const App = () => (
           <Route path="/big-island" element={<BigIsland />} />
           <Route path="/kauai" element={<Kauai />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/booknow" element={<BookNow />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/cancellation-policy" element={<CancellationPolicy />} />

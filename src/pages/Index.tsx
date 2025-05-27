@@ -10,17 +10,22 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { Newsletter } from "@/components/sections/Newsletter";
 import { FAQ } from "@/components/sections/FAQ";
 import { Footer } from "@/components/Footer";
+import { IslandShowcase } from "@/components/IslandShowcase";
+import { LiveStats } from "@/components/LiveStats";
+import { HawaiiNews } from "./HawaiiNews";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-sand-50">
       <Navigation />
       <Hero />
-      <SearchTours />
+      <IslandShowcase />
+      <LiveStats />
       <FeaturedTours />
-      <FeaturedActivities />
+     {/*  <FeaturedActivities /> */}
       <AboutUs />
-      <WhyChooseUs />
+     {/* <WhyChooseUs /> */}
+      <HawaiiNews />
       <Blog />
       <Testimonials />
       <Newsletter />

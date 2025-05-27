@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { Cloud, Sun, Droplets, Wind } from "lucide-react";
+import { Cloud, Sun, Droplets, Wind, RefreshCw, Eye, Thermometer, Gauge, MapPin } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -7,81 +6,227 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
-interface WeatherData {
-  temperature: number;
-  humidity: number;
-  windSpeed: number;
-  condition: string;
-}
+import { useWeatherAPI } from "../../../hooks/useWeatherAPI";
 
 export const OahuWeather = () => {
-  const [weather, setWeather] = useState<WeatherData>({
-    temperature: 27,
-    humidity: 65,
-    windSpeed: 12,
-    condition: "Partly Cloudy",
-  });
+  const { 
+    weatherData, 
+    loading, 
+    error, 
+    refreshWeather, 
+    getWeatherEmoji,
+    lastFetch 
+  } = useWeatherAPI();
 
-  // In a real application, you would fetch this data from a weather API
-  useEffect(() => {
-    // Simulated weather data
-    const fetchWeather = () => {
-      // This would be replaced with actual API call
-      setWeather({
-        temperature: 27,
-        humidity: 65,
-        windSpeed: 12,
-        condition: "Partly Cloudy",
-      });
-    };
+  const oahuWeather = weatherData["Oahu"];
 
-    fetchWeather();
-    const interval = setInterval(fetchWeather, 1800000); // Update every 30 minutes
+  // Get appropriate icon based on condition
+  const getConditionIcon = (condition: string) => {
+    const lowerCondition = condition.toLowerCase();
+    
+    if (lowerCondition.includes('sunny') || lowerCondition.includes('clear')) {
+      return <Sun className="w-5 h-5 text-yellow-500" />;
+    }
+    if (lowerCondition.includes('cloud')) {
+      return <Cloud className="w-5 h-5 text-gray-500" />;
+    }
+    if (lowerCondition.includes('rain') || lowerCondition.includes('shower')) {
+      return <Droplets className="w-5 h-5 text-blue-500" />;
+    }
+    
+    return <Sun className="w-5 h-5 text-yellow-500" />; // Default
+  };
 
-    return () => clearInterval(interval);
-  }, []);
+  if (loading && !oahuWeather) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-5 h-5 animate-spin rounded-full border-2 border-sunset-100 border-t-transparent"></div>
+            Loading Oahu Weather
+          </CardTitle>
+          <CardDescription>Getting live data from National Weather Service...</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 gap-4">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="space-y-2">
+                <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+                <div className="h-6 bg-gray-200 rounded animate-pulse"></div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (error.length > 0 && !oahuWeather) {
+    return (
+      <Card className="border-red-200 bg-red-50">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-red-700">
+            <Cloud className="w-5 h-5" />
+            Weather Unavailable
+          </CardTitle>
+          <CardDescription className="text-red-600">
+            Unable to load current weather data. Please try again later.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <button
+            onClick={refreshWeather}
+            className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            <RefreshCw className="w-4 h-4" />
+            Retry
+          </button>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
-    <Card>
+    <Card className="bg-gradient-to-br from-blue-50 via-white to-green-50 border-blue-200">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Sun className="w-5 h-5 text-sunset-100" />
-          Current Weather in Oahu
+        <CardTitle className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            {oahuWeather ? getConditionIcon(oahuWeather.condition) : <Sun className="w-5 h-5 text-sunset-100" />}
+            Current Weather in Oahu
+          </div>
+          <button
+            onClick={refreshWeather}
+            disabled={loading}
+            className="inline-flex items-center gap-1 bg-white hover:bg-gray-50 border border-gray-200 px-3 py-1 rounded-lg text-sm transition-colors disabled:opacity-50"
+          >
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+            Refresh
+          </button>
         </CardTitle>
-        <CardDescription>Updated every 30 minutes</CardDescription>
+        <CardDescription className="flex items-center gap-2">
+          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+          <span>Live from National Weather Service</span>
+          {oahuWeather && (
+            <>
+              <span>•</span>
+              <span>{oahuWeather.location}</span>
+            </>
+          )}
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <Sun className="w-4 h-4 text-sunset-100" />
-              <span>Temperature</span>
+        {oahuWeather ? (
+          <>
+            {/* Main Weather Display */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              {/* Temperature & Condition */}
+              <div className="text-center md:text-left">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="text-4xl">{getWeatherEmoji(oahuWeather.condition)}</span>
+                  <div>
+                    <div className="text-3xl font-bold text-gray-900">
+                      {oahuWeather.temperature}°F
+                    </div>
+                    <div className="text-lg text-gray-600">
+                      {oahuWeather.temperatureCelsius}°C
+                    </div>
+                  </div>
+                </div>
+                <div className="text-xl font-semibold text-gray-800 mb-1">
+                  {oahuWeather.condition}
+                </div>
+                <div className="text-sm text-gray-600">
+                  {oahuWeather.description}
+                </div>
+              </div>
+
+              {/* Quick Stats */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-gray-200">
+                  <div className="flex items-center gap-2 text-blue-600 mb-1">
+                    <Droplets className="w-4 h-4" />
+                    <span className="text-sm font-medium">Humidity</span>
+                  </div>
+                  <div className="text-lg font-bold text-gray-900">{oahuWeather.humidity}%</div>
+                </div>
+
+                <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-gray-200">
+                  <div className="flex items-center gap-2 text-green-600 mb-1">
+                    <Wind className="w-4 h-4" />
+                    <span className="text-sm font-medium">Wind</span>
+                  </div>
+                  <div className="text-lg font-bold text-gray-900">
+                    {oahuWeather.windSpeed} mph
+                  </div>
+                  <div className="text-xs text-gray-600">{oahuWeather.windDirection}</div>
+                </div>
+
+                <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-gray-200">
+                  <div className="flex items-center gap-2 text-purple-600 mb-1">
+                    <Gauge className="w-4 h-4" />
+                    <span className="text-sm font-medium">Pressure</span>
+                  </div>
+                  <div className="text-lg font-bold text-gray-900">{oahuWeather.pressure}"</div>
+                  <div className="text-xs text-gray-600">inHg</div>
+                </div>
+
+                <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-gray-200">
+                  <div className="flex items-center gap-2 text-orange-600 mb-1">
+                    <Eye className="w-4 h-4" />
+                    <span className="text-sm font-medium">Visibility</span>
+                  </div>
+                  <div className="text-lg font-bold text-gray-900">{oahuWeather.visibility}</div>
+                  <div className="text-xs text-gray-600">miles</div>
+                </div>
+              </div>
             </div>
-            <p className="text-2xl font-bold">{weather.temperature}°C</p>
-          </div>
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <Cloud className="w-4 h-4 text-ocean-100" />
-              <span>Condition</span>
+
+            {/* Additional Details */}
+            <div className="border-t border-gray-200 pt-4">
+              <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                <Thermometer className="w-4 h-4" />
+                Additional Details
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                <div>
+                  <span className="text-gray-600">Dew Point:</span>
+                  <span className="font-semibold ml-2">{oahuWeather.dewPoint}°F</span>
+                </div>
+                {oahuWeather.heatIndex && (
+                  <div>
+                    <span className="text-gray-600">Heat Index:</span>
+                    <span className="font-semibold ml-2">{oahuWeather.heatIndex}°F</span>
+                  </div>
+                )}
+                <div>
+                  <span className="text-gray-600">Updated:</span>
+                  <span className="font-semibold ml-2">
+                    {oahuWeather.lastUpdated.toLocaleTimeString()}
+                  </span>
+                </div>
+              </div>
             </div>
-            <p className="text-2xl font-bold">{weather.condition}</p>
-          </div>
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <Droplets className="w-4 h-4 text-ocean-100" />
-              <span>Humidity</span>
+
+            {/* Location & Source */}
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <div className="flex items-center justify-between text-xs text-gray-500">
+                <div className="flex items-center gap-1">
+                  <MapPin className="w-3 h-3" />
+                  <span>Weather Station: {oahuWeather.location}</span>
+                </div>
+                <div>
+                  <span>Source: National Weather Service</span>
+                </div>
+              </div>
             </div>
-            <p className="text-2xl font-bold">{weather.humidity}%</p>
+          </>
+        ) : (
+          // Fallback content
+          <div className="text-center py-8">
+            <Cloud className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+            <div className="text-gray-600">Weather data is loading...</div>
           </div>
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <Wind className="w-4 h-4 text-ocean-100" />
-              <span>Wind Speed</span>
-            </div>
-            <p className="text-2xl font-bold">{weather.windSpeed} km/h</p>
-          </div>
-        </div>
+        )}
       </CardContent>
     </Card>
   );

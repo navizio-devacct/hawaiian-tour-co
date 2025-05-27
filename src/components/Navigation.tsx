@@ -1,10 +1,15 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+
+  // Pages that need dark text from the start (light backgrounds)
+  const lightBackgroundPages = ['/privacy-policy', '/terms-and-conditions', '/cancellation-policy'];
+  const isLightBackground = lightBackgroundPages.includes(location.pathname);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,28 +19,41 @@ export const Navigation = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Determine text color based on page and scroll state
+  const getTextColor = () => {
+    if (isScrolled) return 'text-palm-100'; // Always dark when scrolled
+    if (isLightBackground) return 'text-palm-100'; // Dark on light background pages
+    return 'text-white'; // White on dark hero pages
+  };
+
+  // Determine background - keep transparent unless scrolled
+  const getBackground = () => {
+    if (isScrolled) return "bg-white/95 backdrop-blur-md shadow-sm py-4";
+    return "bg-transparent py-6"; // Always transparent when not scrolled
+  };
+
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${
-      isScrolled ? "bg-white/95 backdrop-blur-md shadow-sm py-4" : "bg-transparent py-6"
-    }`}>
+    <nav className={`fixed w-full z-50 transition-all duration-300 ${getBackground()}`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           <Link 
             to="/" 
-            className={`text-2xl font-bold transition-colors duration-300 ${
-              isScrolled ? 'text-palm-100' : 'text-white'
-            }`}
+            className={`text-2xl font-bold transition-colors duration-300 ${getTextColor()}`}
           >
-            Four Winds Travel Group
+            Hawaiian Tour Co
           </Link>
 
-          {/* Desktop Navigation 
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
+            <Link 
+              to="/"
+              className={`transition-colors duration-300 ${getTextColor()} hover:text-ocean-100`}
+            >
+              Home
+            </Link>
             <div className="relative group">
               <span 
-                className={`transition-colors duration-300 cursor-pointer ${
-                  isScrolled ? 'text-palm-100' : 'text-white'
-                } hover:text-ocean-100`}
+                className={`transition-colors duration-300 cursor-pointer ${getTextColor()} hover:text-ocean-100`}
               >
                 Islands
               </span>
@@ -48,94 +66,84 @@ export const Navigation = () => {
             </div>
             <Link 
               to="/about"
-              className={`transition-colors duration-300 ${
-                isScrolled ? 'text-palm-100' : 'text-white'
-              } hover:text-ocean-100`}
+              className={`transition-colors duration-300 ${getTextColor()} hover:text-ocean-100`}
             >
               About
             </Link>
             <Link 
-              to="/testimonials"
-              className={`transition-colors duration-300 ${
-                isScrolled ? 'text-palm-100' : 'text-white'
-              } hover:text-ocean-100`}
-            >
-              Testimonials
-            </Link>
-            <Link 
               to="/contact"
-              className={`transition-colors duration-300 ${
-                isScrolled ? 'text-palm-100' : 'text-white'
-              } hover:text-ocean-100`}
+              className={`transition-colors duration-300 ${getTextColor()} hover:text-ocean-100`}
             >
               Contact
             </Link>
             <Link 
-              to="/book-now"
-              className={`transition-colors duration-300 ${
-                isScrolled ? 'text-palm-100' : 'text-white'
-              } hover:text-ocean-100`}
-            >
-              Book Now
-            </Link>
-          </div> */} 
+  to="/booknow"  
+  className={`bg-sunset-100 hover:bg-sunset-200 text-white px-6 py-2 rounded-full transition-all duration-300 ${
+    isScrolled ? 'shadow-md' : ''
+  }`}
+>
+  Book Now
+</Link>
+          </div>
 
           {/* Mobile Menu Button */}
-         {/* <button
-            className={`md:hidden transition-colors duration-300 ${
-              isScrolled ? 'text-palm-100' : 'text-white'
-            }`}
+          <button
+            className={`md:hidden transition-colors duration-300 ${getTextColor()}`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button> */}
+          </button>
         </div>
 
         {/* Mobile Navigation */}
-       {/* {isMenuOpen && (
+        {isMenuOpen && (
           <div className="md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-md shadow-lg py-4 animate-fade-down">
             <div className="flex flex-col space-y-4 px-4">
               <Link
-                to="/oahu"
+                to="/"
                 className="text-palm-100 hover:text-ocean-100 transition-colors duration-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Home
+              </Link>
+              <div className="border-b border-gray-200 pb-2 mb-2">
+                <span className="text-palm-100 font-semibold text-sm">Islands</span>
+              </div>
+              <Link
+                to="/oahu"
+                className="text-palm-100 hover:text-ocean-100 transition-colors duration-300 pl-4"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Oahu
               </Link>
               <Link
                 to="/maui"
-                className="text-palm-100 hover:text-ocean-100 transition-colors duration-300"
+                className="text-palm-100 hover:text-ocean-100 transition-colors duration-300 pl-4"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Maui
               </Link>
               <Link
                 to="/big-island"
-                className="text-palm-100 hover:text-ocean-100 transition-colors duration-300"
+                className="text-palm-100 hover:text-ocean-100 transition-colors duration-300 pl-4"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Big Island
               </Link>
               <Link
                 to="/kauai"
-                className="text-palm-100 hover:text-ocean-100 transition-colors duration-300"
+                className="text-palm-100 hover:text-ocean-100 transition-colors duration-300 pl-4"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Kauai
               </Link>
+              <div className="border-b border-gray-200 my-2"></div>
               <Link
                 to="/about"
                 className="text-palm-100 hover:text-ocean-100 transition-colors duration-300"
                 onClick={() => setIsMenuOpen(false)}
               >
                 About
-              </Link>
-              <Link
-                to="/testimonials"
-                className="text-palm-100 hover:text-ocean-100 transition-colors duration-300"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Testimonials
               </Link>
               <Link
                 to="/contact"
@@ -145,53 +153,16 @@ export const Navigation = () => {
                 Contact
               </Link>
               <Link
-                to="/book-now"
-                className="text-palm-100 hover:text-ocean-100 transition-colors duration-300"
+                to="/booknow"  
+                className="bg-sunset-100 hover:bg-sunset-200 text-white px-6 py-2 rounded-full text-center transition-colors duration-300"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Book Now
+              Book Now
               </Link>
             </div>
           </div>
-        )} */}
+        )}
       </div>
     </nav> 
   );
 };
-
-const NavLink = ({
-  href,
-  children,
-  isScrolled,
-}: {
-  href: string;
-  children: React.ReactNode;
-  isScrolled: boolean;
-}) => (
-  <a
-    href={href}
-    className={`transition-colors duration-300 ${
-      isScrolled ? 'text-palm-100' : 'text-white'
-    } hover:text-ocean-100`}
-  >
-    {children}
-  </a>
-);
-
-const MobileNavLink = ({
-  href,
-  onClick,
-  children,
-}: {
-  href: string;
-  onClick: () => void;
-  children: React.ReactNode;
-}) => (
-  <a
-    href={href}
-    onClick={onClick}
-    className="text-palm-100 hover:text-ocean-100 transition-colors duration-300 text-center"
-  >
-    {children}
-  </a>
-);
