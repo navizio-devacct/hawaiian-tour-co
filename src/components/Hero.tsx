@@ -209,7 +209,7 @@ export const Hero = () => {
           </p>
 
           {/* Enhanced Search Interface */}
-          <div className="w-full max-w-xl mx-auto bg-white/95 backdrop-blur-xl rounded-3xl p-6 md:p-8 shadow-2xl mb-12 border border-white/30">
+          <div className="max-w-6xl mx-auto bg-white/95 backdrop-blur-xl rounded-3xl p-6 md:p-8 shadow-2xl mb-12 border border-white/30">
             {/* Main Search Row */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 mb-8">
               {/* Search Input */}
