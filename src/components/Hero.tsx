@@ -130,7 +130,7 @@ export const Hero = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden">
+    <div className="relative min-h-screen w-full overflow-x-hidden">
       {/* Dynamic Background with Island Showcase */}
       <div className="absolute inset-0">
         {islands.map((island, index) => (
