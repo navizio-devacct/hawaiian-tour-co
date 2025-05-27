@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { ChevronRight, Search, X } from "lucide-react";
 import { tours } from "@/data/tours";
 import { TourCard } from "@/components/TourCard";
-import { Section, Container } from "@/components/layout/AppLayout";
+import { Section, Container } from "@/components/layouts/AppLayout";
 import {
   Select,
   SelectContent,

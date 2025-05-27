@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Link } from "react-router-dom";
-import { Section, Container } from "./layout/AppLayout";
+import { Section, Container } from "./layouts/AppLayout";
 
 export const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
