@@ -24,7 +24,7 @@ const ISLAND_COORDINATES = {
     lon: -156.0456, 
     name: "Kona International Airport",
     stationId: "PHKO", // Kona Airport - primary
-    fallbacks: ["PHTO", "PHSF", "PWAV"] // Hilo Airport, Bradshaw AAF, Volcano Observatory
+    fallbacks: ["PHTO", "PHSF", "PHMU"] // Hilo Airport, Bradshaw AAF, Volcano Observatory
   },
   "Kauai": { 
     lat: 21.98, 

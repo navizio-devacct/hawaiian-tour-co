@@ -84,7 +84,7 @@ export const HawaiiNews = () => {
   };
 
   // CORS Proxy for RSS feeds
-  const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+  const CORS_PROXY = 'https://api.rss2json.com/v1/api.json?rss_url=';
 
   // Categories remain the same
   const categories = [
