@@ -65,7 +65,7 @@ export const Hero = () => {
       image: "https://images.unsplash.com/photo-1545251142-f32339076e6d?q=80&w=2070",
       gradient: "from-blue-500/30 via-teal-400/20 to-green-400/30",
       tours: "150+",
-      link: "/book-now"
+      link: "/booknow"
     },
     {
       name: "Big Island", 
@@ -126,7 +126,7 @@ export const Hero = () => {
     if (selectedGuests) params.set('guests', selectedGuests);
     if (selectedIsland) params.set('island', selectedIsland);
     
-    window.location.href = `/book-now?${params.toString()}`;
+    window.location.href = `/booknow${params.toString()}`;
   };
 
   return (
@@ -278,7 +278,7 @@ export const Hero = () => {
               </Button>
               
               <Link 
-                to="/book-now"
+                to="/booknow"
                 className="text-gray-600 hover:text-gray-800 text-lg font-medium hover:underline transition-colors"
               >
                 Browse All 150+ Tours →

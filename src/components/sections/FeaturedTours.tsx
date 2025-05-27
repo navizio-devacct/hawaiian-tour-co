@@ -114,7 +114,7 @@ export const FeaturedTours = () => {
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
-                  to="/book-now"
+                  to="/booknow"
                   className="inline-flex items-center bg-gradient-to-r from-sunset-100 to-sunset-200 hover:from-sunset-200 hover:to-sunset-300 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg transform hover:scale-105 transition-all duration-300"
                 >
                   <Filter className="w-5 h-5 mr-2" />

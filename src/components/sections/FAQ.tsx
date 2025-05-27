@@ -130,7 +130,7 @@ export const FAQ = () => {
                 </button>
                 
                 <Link
-                  to="/faq"
+                  to="#"
                   className="inline-flex items-center bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 hover:border-blue-300 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300"
                 >
                   View All FAQs

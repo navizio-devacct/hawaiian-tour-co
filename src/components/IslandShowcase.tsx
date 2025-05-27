@@ -298,7 +298,7 @@ export const IslandShowcase = () => {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link
-                    to="/book-now"
+                    to="/booknow"
                     className="inline-flex items-center bg-white text-sunset-100 hover:bg-gray-50 px-6 py-3 rounded-xl font-semibold shadow-lg transform hover:scale-105 transition-all duration-300"
                   >
                     Browse All {totalTours} Experiences

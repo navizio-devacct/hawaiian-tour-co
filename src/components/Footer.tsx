@@ -181,7 +181,6 @@ export const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-300">
             <div className="text-center md:text-left">
               <p>&copy; {new Date().getFullYear()} Hawaiian Tour Co. All rights reserved.</p>
-              <p>Licensed Tour Operator • Hawaii State License #12345</p>
             </div>
             <div className="flex gap-6 text-center">
               <Link to="/sitemap" className="hover:text-white transition-colors">Sitemap</Link>
@@ -195,4 +194,3 @@ export const Footer = () => {
   
   );
 };
-<script type="text/javascript" src="https://fareharbor.com/embeds/api/v1/?autolightframe=yes"></script>
