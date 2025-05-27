@@ -1,4 +1,4 @@
-// Fixed Hero.tsx - No more horizontal scroll!
+// components/Hero.tsx - Properly Structured
 import { useEffect, useState } from "react";
 import { ChevronDown, Search, Calendar, MapPin, Users, Star, Shield, Zap, Award, Sparkles, Flame, TrendingUp, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Link } from "react-router-dom";
+import { Section, Container } from "./layout/AppLayout";
 
 export const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -40,7 +41,7 @@ export const Hero = () => {
     setIsNotificationDismissed(true);
   };
 
-  // Island showcase data - PROPER HAWAIIAN IMAGES
+  // Island showcase data
   const islands = [
     {
       name: "All Islands",
@@ -102,7 +103,6 @@ export const Hero = () => {
   ];
 
   const handleSearch = () => {
-    // Navigate to search results
     const params = new URLSearchParams();
     if (searchQuery) params.set('search', searchQuery);
     if (selectedDate) params.set('date', selectedDate);
@@ -113,8 +113,8 @@ export const Hero = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden">
-      {/* Dynamic Background with Island Showcase */}
+    <Section fullWidth className="relative min-h-screen overflow-hidden">
+      {/* Full-width background - no container constraints */}
       <div className="absolute inset-0">
         {islands.map((island, index) => (
           <div
@@ -129,21 +129,18 @@ export const Hero = () => {
         ))}
       </div>
 
-      {/* Content */}
-      <div className="relative min-h-screen flex flex-col items-center justify-center text-white px-4 py-20">
-        {/* FIXED: Notification Bar - Now Properly Contained */}
-        <div className={`fixed top-16 left-0 right-0 z-40 px-4 transition-all duration-500 ease-out ${
-          showNotification ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
-        }`}>
-          <div className="max-w-6xl mx-auto bg-gradient-to-r from-red-500/95 via-orange-500/95 to-red-500/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-red-400/30 overflow-hidden">
+      {/* Notification Bar - Full Width */}
+      <div className={`fixed top-16 left-0 right-0 z-40 px-4 transition-all duration-500 ease-out ${
+        showNotification ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+      }`}>
+        <Container size="wide">
+          <div className="bg-gradient-to-r from-red-500/95 via-orange-500/95 to-red-500/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-red-400/30 overflow-hidden">
             <div className="flex items-center px-4 sm:px-6 py-3 sm:py-4">
-              {/* Live Badge */}
               <div className="flex items-center bg-white/20 px-2 sm:px-3 py-1 rounded-full mr-3 sm:mr-4 flex-shrink-0">
                 <div className="w-2 h-2 bg-white rounded-full animate-pulse mr-1 sm:mr-2"></div>
                 <span className="text-white font-bold text-xs sm:text-sm">LIVE</span>
               </div>
               
-              {/* FIXED: Scrolling News Content - Properly Contained */}
               <div className="flex-1 overflow-hidden">
                 <div className="whitespace-nowrap text-white font-medium text-sm sm:text-base">
                   <div className="inline-block animate-pulse">
@@ -156,7 +153,6 @@ export const Hero = () => {
                 </div>
               </div>
               
-              {/* Dismiss Button */}
               <button 
                 onClick={dismissNotification}
                 className="flex-shrink-0 ml-3 sm:ml-4 w-6 h-6 sm:w-8 sm:h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors duration-200"
@@ -166,149 +162,153 @@ export const Hero = () => {
               </button>
             </div>
           </div>
-        </div>
+        </Container>
+      </div>
 
-        <div className={`text-center max-w-6xl mx-auto transform transition-all duration-700 ${
-          isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-        }`}>
-          {/* Dynamic Badge */}
-          <span className="inline-flex items-center bg-white/10 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm mb-8 backdrop-blur-md shadow-lg border border-white/20">
-            <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-            {currentIsland.subtitle}
-          </span>
-          
-          {/* Dynamic Heading */}
-          <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
-            <span className="bg-gradient-to-r from-white via-white/90 to-white bg-clip-text text-transparent">
-              Discover
+      {/* Main Hero Content - Properly Contained */}
+      <div className="relative min-h-screen flex flex-col items-center justify-center text-white">
+        <Container size="wide" className="text-center">
+          <div className={`transform transition-all duration-700 ${
+            isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+          }`}>
+            {/* Dynamic Badge */}
+            <span className="inline-flex items-center bg-white/10 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm mb-8 backdrop-blur-md shadow-lg border border-white/20">
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+              {currentIsland.subtitle}
             </span>
-            <br />
-            <span className="bg-gradient-to-r from-yellow-200 via-white to-yellow-200 bg-clip-text text-transparent">
-              {currentIsland.name}
-            </span>
-          </h1>
-          
-          <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-4 max-w-4xl mx-auto text-white/90 leading-relaxed">
-            {currentIsland.tours} authentic Hawaiian adventures waiting for you.
-          </p>
-          <p className="text-base sm:text-lg md:text-xl mb-12 max-w-3xl mx-auto text-white/80">
-            Expert guides • Instant booking • Best prices guaranteed • 10% supports local communities
-          </p>
+            
+            {/* Dynamic Heading */}
+            <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
+              <span className="bg-gradient-to-r from-white via-white/90 to-white bg-clip-text text-transparent">
+                Discover
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-yellow-200 via-white to-yellow-200 bg-clip-text text-transparent">
+                {currentIsland.name}
+              </span>
+            </h1>
+            
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-4 max-w-4xl mx-auto text-white/90 leading-relaxed">
+              {currentIsland.tours} authentic Hawaiian adventures waiting for you.
+            </p>
+            <p className="text-base sm:text-lg md:text-xl mb-12 max-w-3xl mx-auto text-white/80">
+              Expert guides • Instant booking • Best prices guaranteed • 10% supports local communities
+            </p>
 
-          {/* Enhanced Search Interface */}
-          <div className="max-w-6xl mx-auto bg-white/95 backdrop-blur-xl rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl mb-12 border border-white/30">
-            {/* Main Search Row */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
-              {/* Search Input */}
-              <div className="relative sm:col-span-2">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 sm:h-5 sm:w-5" />
-                <Input
-                  placeholder="Search volcano tours, snorkeling..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 sm:pl-12 h-12 sm:h-14 md:h-16 border-gray-200 text-gray-800 rounded-xl text-base sm:text-lg shadow-sm focus:shadow-md transition-shadow"
-                />
-              </div>
+            {/* Search Interface - Contained but Spacious */}
+            <div className="max-w-6xl mx-auto bg-white/95 backdrop-blur-xl rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl mb-12 border border-white/30">
+              {/* Main Search Row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+                {/* Search Input */}
+                <div className="relative sm:col-span-2">
+                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 sm:h-5 sm:w-5" />
+                  <Input
+                    placeholder="Search volcano tours, snorkeling..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10 sm:pl-12 h-12 sm:h-14 md:h-16 border-gray-200 text-gray-800 rounded-xl text-base sm:text-lg shadow-sm focus:shadow-md transition-shadow"
+                  />
+                </div>
 
-              {/* Island Selector */}
-              <Select value={selectedIsland} onValueChange={setSelectedIsland}>
-                <SelectTrigger className="h-12 sm:h-14 md:h-16 border-gray-200 text-gray-800 rounded-xl text-base sm:text-lg shadow-sm">
-                  <div className="flex items-center">
-                    <MapPin className="mr-2 sm:mr-3 h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
-                    <SelectValue placeholder="Choose Island" />
-                  </div>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Islands</SelectItem>
-                  <SelectItem value="Big Island">🌋 Big Island</SelectItem>
-                  <SelectItem value="Maui">🌺 Maui</SelectItem>
-                  <SelectItem value="Oahu">🏖️ Oahu</SelectItem>
-                  <SelectItem value="Kauai">🌿 Kauai</SelectItem>
-                </SelectContent>
-              </Select>
-
-              {/* Date Picker */}
-              <div className="relative">
-                <Calendar className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 sm:h-5 sm:w-5" />
-                <Input
-                  type="date"
-                  value={selectedDate}
-                  onChange={(e) => setSelectedDate(e.target.value)}
-                  className="pl-10 sm:pl-12 h-12 sm:h-14 md:h-16 border-gray-200 text-gray-800 rounded-xl text-base sm:text-lg shadow-sm"
-                  min={new Date().toISOString().split('T')[0]}
-                />
-              </div>
-            </div>
-
-            {/* Trust Signals - Enhanced */}
-            <div className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl p-4 sm:p-6 mb-8 border border-gray-100">
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                {trustSignals.map((signal, index) => (
-                  <div key={index} className="flex items-center gap-2 sm:gap-3 text-gray-700">
-                    <div className={`p-1.5 sm:p-2 rounded-xl bg-white shadow-sm ${signal.color}`}>
-                      {signal.icon}
+                {/* Island Selector */}
+                <Select value={selectedIsland} onValueChange={setSelectedIsland}>
+                  <SelectTrigger className="h-12 sm:h-14 md:h-16 border-gray-200 text-gray-800 rounded-xl text-base sm:text-lg shadow-sm">
+                    <div className="flex items-center">
+                      <MapPin className="mr-2 sm:mr-3 h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
+                      <SelectValue placeholder="Choose Island" />
                     </div>
-                    <span className="text-xs sm:text-sm font-medium text-gray-700 leading-tight">{signal.text}</span>
-                  </div>
-                ))}
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Islands</SelectItem>
+                    <SelectItem value="Big Island">🌋 Big Island</SelectItem>
+                    <SelectItem value="Maui">🌺 Maui</SelectItem>
+                    <SelectItem value="Oahu">🏖️ Oahu</SelectItem>
+                    <SelectItem value="Kauai">🌿 Kauai</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {/* Date Picker */}
+                <div className="relative">
+                  <Calendar className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 sm:h-5 sm:w-5" />
+                  <Input
+                    type="date"
+                    value={selectedDate}
+                    onChange={(e) => setSelectedDate(e.target.value)}
+                    className="pl-10 sm:pl-12 h-12 sm:h-14 md:h-16 border-gray-200 text-gray-800 rounded-xl text-base sm:text-lg shadow-sm"
+                    min={new Date().toISOString().split('T')[0]}
+                  />
+                </div>
+              </div>
+
+              {/* Trust Signals */}
+              <div className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl p-4 sm:p-6 mb-8 border border-gray-100">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                  {trustSignals.map((signal, index) => (
+                    <div key={index} className="flex items-center gap-2 sm:gap-3 text-gray-700">
+                      <div className={`p-1.5 sm:p-2 rounded-xl bg-white shadow-sm ${signal.color}`}>
+                        {signal.icon}
+                      </div>
+                      <span className="text-xs sm:text-sm font-medium text-gray-700 leading-tight">{signal.text}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Search CTA */}
+              <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+                <Button
+                  onClick={handleSearch}
+                  className="w-full sm:w-auto bg-gradient-to-r from-sunset-100 to-sunset-200 hover:from-sunset-200 hover:to-sunset-300 text-white px-6 sm:px-10 py-3 sm:py-4 h-12 sm:h-14 text-base sm:text-lg font-semibold rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
+                >
+                  <Search className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                  Find Your Perfect Adventure
+                </Button>
+                
+                <Link 
+                  to="/booknow"
+                  className="text-gray-600 hover:text-gray-800 text-base sm:text-lg font-medium hover:underline transition-colors"
+                >
+                  Browse All 150+ Tours →
+                </Link>
               </div>
             </div>
 
-            {/* Search CTA */}
-            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
-              <Button
-                onClick={handleSearch}
-                className="w-full sm:w-auto bg-gradient-to-r from-sunset-100 to-sunset-200 hover:from-sunset-200 hover:to-sunset-300 text-white px-6 sm:px-10 py-3 sm:py-4 h-12 sm:h-14 text-base sm:text-lg font-semibold rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
-              >
-                <Search className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                Find Your Perfect Adventure
-              </Button>
-              
-              <Link 
-                to="/booknow"
-                className="text-gray-600 hover:text-gray-800 text-base sm:text-lg font-medium hover:underline transition-colors"
-              >
-                Browse All 150+ Tours →
-              </Link>
+            {/* Island Navigation & Quick Links */}
+            <div className="flex justify-center space-x-2 sm:space-x-3 mb-8">
+              {islands.map((island, index) => (
+                <button
+                  key={island.name}
+                  onClick={() => setCurrentSlide(index)}
+                  className={`w-8 sm:w-12 h-2 sm:h-3 rounded-full transition-all duration-300 ${
+                    index === currentSlide 
+                      ? 'bg-white shadow-lg' 
+                      : 'bg-white/40 hover:bg-white/60'
+                  }`}
+                  aria-label={`View ${island.name}`}
+                />
+              ))}
+            </div>
+
+            <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 sm:gap-4 max-w-4xl mx-auto">
+              {islands.map((island) => (
+                <Link
+                  key={island.name}
+                  to={island.link}
+                  className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl sm:rounded-2xl p-3 sm:p-4 text-center hover:bg-white/20 transition-all duration-300 transform hover:scale-105"
+                >
+                  <div className="text-lg sm:text-2xl font-bold mb-1">{island.tours}</div>
+                  <div className="text-xs sm:text-sm opacity-90">{island.name} Tours</div>
+                </Link>
+              ))}
             </div>
           </div>
-
-          {/* Island Navigation Dots */}
-          <div className="flex justify-center space-x-2 sm:space-x-3 mb-8">
-            {islands.map((island, index) => (
-              <button
-                key={island.name}
-                onClick={() => setCurrentSlide(index)}
-                className={`w-8 sm:w-12 h-2 sm:h-3 rounded-full transition-all duration-300 ${
-                  index === currentSlide 
-                    ? 'bg-white shadow-lg' 
-                    : 'bg-white/40 hover:bg-white/60'
-                }`}
-                aria-label={`View ${island.name}`}
-              />
-            ))}
-          </div>
-
-          {/* Island Quick Links */}
-          <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 sm:gap-4 max-w-4xl mx-auto">
-            {islands.map((island) => (
-              <Link
-                key={island.name}
-                to={island.link}
-                className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl sm:rounded-2xl p-3 sm:p-4 text-center hover:bg-white/20 transition-all duration-300 transform hover:scale-105"
-              >
-                <div className="text-lg sm:text-2xl font-bold mb-1">{island.tours}</div>
-                <div className="text-xs sm:text-sm opacity-90">{island.name} Tours</div>
-              </Link>
-            ))}
-          </div>
-        </div>
+        </Container>
 
         {/* Scroll Indicator */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce hidden md:block">
           <ChevronDown size={32} className="text-white opacity-80" />
         </div>
       </div>
-    </div>
+    </Section>
   );
 };
