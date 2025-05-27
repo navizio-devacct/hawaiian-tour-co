@@ -1,98 +1,148 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ScrollToTop } from "@/components/ScrollToTop";
-import { AppLayout } from "@/components/layout/AppLayout.tsx";
+/* App.css - Complete with Layout Classes */
 
-import Index from "./pages/Index";
-import Oahu from "./pages/Oahu";
-import Maui from "./pages/Maui";
-import BigIsland from "./pages/BigIsland";
-import Kauai from "./pages/Kauai";
-import Contact from "./pages/Contact";
-import TermsAndConditions from "./pages/TermsAndConditions";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import CancellationPolicy from "./pages/CancellationPolicy";
-import AboutUs from "./pages/AboutUs";
-import BookNow from "./pages/BookNow/BookNow.tsx";
+/* Root should NEVER constrain width - let components decide */
+#root {
+  /* Remove all width constraints */
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  text-align: left; /* Reset from center */
+}
 
-// Activity Pages
-import Snorkeling from "./pages/activities/Snorkeling";
-import Hiking from "./pages/activities/Hiking";
-import NatureTours from "./pages/activities/NatureTours";
-import Photography from "./pages/activities/Photography";
-import SunsetCruises from "./pages/activities/Sunset";
-import Adventure from "./pages/activities/Adventure";
-import BoatTours from "./pages/activities/BoatTours";
-import WaterActivities from "./pages/activities/WaterActivities";
-import Surf from "./pages/activities/Surf";
-import Scuba from "./pages/activities/Scuba";
-import PrivateTours from "./pages/activities/PrivateTours";
-import Rentals from "./pages/activities/Rentals";
-import GuidedTours from "./pages/activities/GuidedTours";
-import Sightseeing from "./pages/activities/Sightseeing";
-import SUP from "./pages/activities/SUP";
-import BusTours from "./pages/activities/BusTours";
-import WhaleWatch from "./pages/activities/WhaleWatch";
-import Kayaking from "./pages/activities/Kayaking";
-import Transportation from "./pages/activities/Transportation";
-import WalkingTours from "./pages/activities/WalkingTours";
-import Sailing from "./pages/activities/Sailing";
+/* Container system for proper content width management */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
 
-const queryClient = new QueryClient();
+/* Responsive container max-widths */
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <ScrollToTop />
-        <AppLayout>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/oahu" element={<Oahu />} />
-            <Route path="/maui" element={<Maui />} />
-            <Route path="/big-island" element={<BigIsland />} />
-            <Route path="/kauai" element={<Kauai />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/about" element={<AboutUs />} />
-            <Route path="/booknow" element={<BookNow />} />
-            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/cancellation-policy" element={<CancellationPolicy />} />
-            
-            {/* Activity Routes */}
-            <Route path="/activities/snorkeling" element={<Snorkeling />} />
-            <Route path="/activities/hiking" element={<Hiking />} />
-            <Route path="/activities/nature-tours" element={<NatureTours />} />
-            <Route path="/activities/photography" element={<Photography />} />
-            <Route path="/activities/sunset" element={<SunsetCruises />} />
-            <Route path="/activities/adventure" element={<Adventure />} />
-            
-            {/* New Activity Routes */}
-            <Route path="/activities/boat-tours" element={<BoatTours />} />
-            <Route path="/activities/water-activities" element={<WaterActivities />} />
-            <Route path="/activities/surf" element={<Surf />} />
-            <Route path="/activities/scuba" element={<Scuba />} />
-            <Route path="/activities/private-tours" element={<PrivateTours />} />
-            <Route path="/activities/rentals" element={<Rentals />} />
-            <Route path="/activities/guided-tours" element={<GuidedTours />} />
-            <Route path="/activities/sightseeing" element={<Sightseeing />} />
-            <Route path="/activities/sup" element={<SUP />} />
-            <Route path="/activities/bus-tours" element={<BusTours />} />
-            <Route path="/activities/whale-watch" element={<WhaleWatch />} />
-            <Route path="/activities/kayaking" element={<Kayaking />} />
-            <Route path="/activities/transportation" element={<Transportation />} />
-            <Route path="/activities/walking-tours" element={<WalkingTours />} />
-            <Route path="/activities/sailing" element={<Sailing />} />
-          </Routes>
-        </AppLayout>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
 
-export default App;
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+  }
+}
+
+/* Full-width sections that should never be constrained */
+.section-full {
+  width: 100%;
+  position: relative;
+}
+
+/* Content within full-width sections that should be contained */
+.section-content {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: 1280px; /* Default content max-width */
+}
+
+@media (min-width: 640px) {
+  .section-content {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-content {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Wide content for sections that need more space */
+.section-content-wide {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: 1536px; /* Wider for things like grids */
+}
+
+@media (min-width: 640px) {
+  .section-content-wide {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-content-wide {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Legacy support - keep existing styles for non-breaking changes */
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
