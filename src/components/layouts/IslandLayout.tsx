@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { ChevronRight, Search, X } from "lucide-react";
 import { tours } from "@/data/tours";
 import { TourCard } from "@/components/TourCard";
+import { Section, Container } from "@/components/layout/AppLayout";
 import {
   Select,
   SelectContent,
@@ -43,7 +44,7 @@ export const IslandLayout = ({
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
-  const [toursToShow, setToursToShow] = useState(12); // Show only 12 initially
+  const [toursToShow, setToursToShow] = useState(12);
 
   // Get all featured tours for this island
   const islandTours = tours.filter(
@@ -57,10 +58,7 @@ export const IslandLayout = ({
 
   // Enhanced filtering with search functionality
   const filteredTours = islandTours.filter((tour) => {
-    // Category filter
     const matchesCategory = selectedCategory === "all" || tour.category === selectedCategory;
-    
-    // Search filter
     const matchesSearch = searchQuery === "" || 
       tour.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       tour.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -69,16 +67,13 @@ export const IslandLayout = ({
     return matchesCategory && matchesSearch;
   });
 
-  // Get tours to display (limited by toursToShow)
   const toursToDisplay = filteredTours.slice(0, toursToShow);
   const hasMoreTours = filteredTours.length > toursToShow;
 
-  // Helper function to create unique keys
   const createUniqueKey = (tour: any, section: string, index?: number) => {
     return `${section}-${tour.title}-${tour.location}-${index || 0}`;
   };
 
-  // Listen for search events from hero section
   useEffect(() => {
     const handleHeroSearch = (event: CustomEvent) => {
       const { searchQuery: heroQuery, selectedCategory: heroCategory } = event.detail;
@@ -95,7 +90,7 @@ export const IslandLayout = ({
     setSearchQuery("");
     setSelectedCategory("all");
     setShowSearch(false);
-    setToursToShow(12); // Reset to initial count
+    setToursToShow(12);
   };
 
   const loadMoreTours = () => {
@@ -103,14 +98,22 @@ export const IslandLayout = ({
   };
 
   return (
-    <div className="min-h-screen bg-sand-50">
+    <div className="w-full bg-sand-50">
       <Navigation />
-      {hero}
-      <WeatherTicker location={name} />
+      
+      {/* Hero Section - Full Width */}
+      <Section fullWidth>
+        {hero}
+      </Section>
+      
+      {/* Weather Ticker - Full Width */}
+      <Section fullWidth background="white">
+        <WeatherTicker location={name} />
+      </Section>
 
-      {/* Quick Actions */}
-      <div className="bg-white py-8 shadow-sm">
-        <div className="container mx-auto px-4">
+      {/* Quick Actions - Contained */}
+      <Section background="white" className="py-8 shadow-sm">
+        <Container>
           <div className="flex flex-wrap justify-center gap-4">
             <Button className="bg-sunset-100 hover:bg-sunset-200">
               Book a Tour <ChevronRight className="ml-2 h-4 w-4" />
@@ -119,10 +122,11 @@ export const IslandLayout = ({
               Download Guide
             </Button>
           </div>
-        </div>
-      </div>
+        </Container>
+      </Section>
 
-      <div className="container mx-auto px-4 py-12 space-y-20">
+      {/* Main Content Sections */}
+      <Container className="py-12 space-y-20">
         {/* Map Section */}
         <section className="space-y-6">
           <div className="text-center">
@@ -163,7 +167,7 @@ export const IslandLayout = ({
           </section>
         )}
 
-        {/* Highlights Section */}
+        {/* Dynamic Sections */}
         {highlights && <section className="space-y-6">{highlights}</section>}
         {activities && <section className="space-y-6">{activities}</section>}
         {history && <section className="space-y-6">{history}</section>}
@@ -180,7 +184,7 @@ export const IslandLayout = ({
           </div>
 
           {/* Enhanced Search Bar */}
-          <div className="bg-white rounded-2xl p-6 shadow-lg border">
+          <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border">
             <div className="flex flex-col md:flex-row gap-4 mb-4">
               {/* Search Input */}
               <div className="relative flex-1">
@@ -309,11 +313,15 @@ export const IslandLayout = ({
             </>
           )}
         </section>
+      </Container>
 
-        <div className="bg-ocean-100/5 rounded-2xl p-8">
+      {/* Newsletter Section - Full Width */}
+      <Section background="gradient" className="py-16">
+        <Container>
           <Newsletter />
-        </div>
-      </div>
+        </Container>
+      </Section>
+      
       <Footer />
     </div>
   );
