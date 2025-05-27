@@ -29,7 +29,7 @@ const AboutUs = () => {
   ];
 
   const stats = [
-    { number: "25K+", label: "Happy Travelers" },
+    { number: "10K+", label: "Happy Travelers" },
     { number: "150+", label: "Authentic Experiences" },
     { number: "10%", label: "Profits to Community" },
     { number: "4.8★", label: "Average Rating" }

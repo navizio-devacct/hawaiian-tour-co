@@ -384,7 +384,7 @@ export const HawaiiNews = () => {
           isHawaiiRelevant(item.title, item.excerpt)
         );
         setNewsItems(hawaiiRelevantFallback);
-        setRssError('Filtering for Hawaii-relevant content only');
+        setRssError('');
       }
     } catch (error) {
       console.error('RSS fetch error:', error);

@@ -129,7 +129,7 @@ export const Newsletter = () => {
                   <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-white/20">
                     <h4 className="font-bold mb-2">This Month's Drawing:</h4>
                     <p className="text-white/90 text-sm">
-                      Drawing: January 31st, 2025<br/>
+                      Drawing: May 31st, 2025<br/>
                       Prize: $25 Virtual Gift Card<br/>
                       Entries so far: 347 people
                     </p>

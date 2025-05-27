@@ -96,7 +96,7 @@ export const Hero = () => {
   const trustSignals = [
     { icon: <Shield className="w-5 h-5" />, text: "Secure Booking", color: "text-emerald-600" },
     { icon: <Zap className="w-5 h-5" />, text: "Instant Confirmation", color: "text-blue-600" },
-    { icon: <Award className="w-5 h-5" />, text: "Best Price Guarantee", color: "text-amber-600" },
+    { icon: <Award className="w-5 h-5" />, text: "Competitive Pricing", color: "text-amber-600" },
     { icon: <Star className="w-5 h-5" />, text: "4.8★ Rated Tours", color: "text-orange-600" }
   ];
 
@@ -191,9 +191,9 @@ export const Hero = () => {
           <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-3 sm:mb-4 max-w-4xl mx-auto text-white/90 leading-relaxed px-4">
             {currentIsland.tours} authentic Hawaiian adventures waiting for you.
           </p>
-          <p className="text-base sm:text-lg md:text-xl mb-8 sm:mb-12 max-w-3xl mx-auto text-white/80 px-4">
-            Expert guides • Instant booking • Best prices guaranteed • 10% supports local communities
-          </p>
+          <p className="text-base sm:text-lg mb-8 sm:mb-12 max-w-3xl mx-auto text-white/80 px-4">
+              15+ years experience • Expert guides • Instant booking • Competitive pricing • 10% supports communities
+          </p>    
 
           {/* Enhanced Search Interface - Better Mobile Layout */}
           <div className="max-w-6xl mx-auto bg-white/95 backdrop-blur-xl rounded-3xl p-4 sm:p-6 lg:p-8 shadow-2xl mb-8 sm:mb-12 border border-white/30">

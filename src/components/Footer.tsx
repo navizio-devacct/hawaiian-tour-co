@@ -14,13 +14,13 @@ export const Footer = () => {
               Your trusted partner for unforgettable Hawaiian adventures. Discover the magic of the islands with expert guides and authentic experiences.
             </p>
             <div className="space-y-3 text-sm">
-              <div className="flex items-start gap-3">
+            {/*  <div className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-sunset-100 mt-0.5 flex-shrink-0" />
                 <div>
                   <p>801 Kakala St #1903</p>
                   <p>Kapolei, HI 96707</p>
-                </div>
-              </div>
+                </div> 
+              </div> */}
               <div className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-sunset-100 flex-shrink-0" />
                 <p>1-888-411-9121</p>
@@ -123,7 +123,7 @@ export const Footer = () => {
               </div>
               <div className="flex items-center justify-center md:justify-start gap-2">
                 <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                <span className="text-sm">4.8/5 from 18,000+ reviews</span>
+                <span className="text-sm">4.8/5 from 10,000+ customers</span>
               </div>
             </div>
 
@@ -132,7 +132,7 @@ export const Footer = () => {
               <h4 className="font-semibold mb-3">Follow Our Adventures</h4>
               <div className="flex justify-center gap-4">
                 <a 
-                  href="https://facebook.com/hawaiiantourco" 
+                  href="https://facebook.com/#" 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-sunset-100 transition-colors"
@@ -141,7 +141,7 @@ export const Footer = () => {
                   <Facebook className="w-6 h-6" />
                 </a>
                 <a 
-                  href="https://instagram.com/hawaiiantourco" 
+                  href="https://instagram.com/#" 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-sunset-100 transition-colors"
@@ -150,7 +150,7 @@ export const Footer = () => {
                   <Instagram className="w-6 h-6" />
                 </a>
                 <a 
-                  href="https://youtube.com/hawaiiantourco" 
+                  href="https://youtube.com/#" 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-sunset-100 transition-colors"

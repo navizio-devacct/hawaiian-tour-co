@@ -3,14 +3,14 @@ import { Award, Users, Clock, MapPin, Heart, Shield, Star, Compass } from "lucid
 export const AboutUs = () => {
   const stats = [
     {
-      value: "20+",
+      value: "15+",
       label: "Years of Aloha",
       icon: Clock,
       color: "text-blue-600",
       bgColor: "bg-blue-50"
     },
     {
-      value: "50k+",
+      value: "10k+",
       label: "Happy Guests",
       icon: Users,
       color: "text-green-600", 
@@ -51,7 +51,7 @@ export const AboutUs = () => {
     {
       icon: <Award className="w-6 h-6" />,
       title: "Exceptional Value",
-      description: "Best price guarantee with instant confirmation and free cancellation."
+      description: "Super competitive pricing with instant confirmation and free cancellation."
     }
   ];
 
@@ -75,7 +75,7 @@ export const AboutUs = () => {
                 </span>
               </h2>
               <p className="text-xl text-gray-600 leading-relaxed mb-8">
-                Since 2004, we've been creating unforgettable Hawaiian experiences with deep 
+                For over 15 years, we've been creating unforgettable Hawaiian experiences with deep 
                 respect for local culture, communities, and the natural beauty of these sacred islands.
               </p>
             </div>

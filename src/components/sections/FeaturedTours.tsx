@@ -138,7 +138,7 @@ export const FeaturedTours = () => {
             <div className="text-gray-600 text-sm">Average rating on featured tours</div>
           </div>
           <div className="text-center p-4">
-            <div className="text-2xl font-bold text-ocean-100 mb-2">25,000+</div>
+            <div className="text-2xl font-bold text-ocean-100 mb-2">10,000+</div>
             <div className="text-gray-600 text-sm">Guests on featured experiences</div>
           </div>
           <div className="text-center p-4">

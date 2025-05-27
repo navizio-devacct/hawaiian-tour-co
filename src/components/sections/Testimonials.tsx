@@ -262,7 +262,7 @@ export const Testimonials = () => {
           <div className="text-center bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
             <div className="text-3xl font-bold text-blue-600 mb-2">4.9★</div>
             <div className="text-gray-600">Average Rating</div>
-            <div className="text-sm text-gray-500 mt-1">Based on 2,847 reviews</div>
+            <div className="text-sm text-gray-500 mt-1">Based on thousands of reviews</div>
           </div>
           <div className="text-center bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
             <div className="text-3xl font-bold text-green-600 mb-2">98%</div>
@@ -270,9 +270,9 @@ export const Testimonials = () => {
             <div className="text-sm text-gray-500 mt-1">To friends and family</div>
           </div>
           <div className="text-center bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-            <div className="text-3xl font-bold text-purple-600 mb-2">50K+</div>
+            <div className="text-3xl font-bold text-purple-600 mb-2">10K+</div>
             <div className="text-gray-600">Happy Guests</div>
-            <div className="text-sm text-gray-500 mt-1">Since 2004</div>
+            <div className="text-sm text-gray-500 mt-1">and Travelers</div>
           </div>
         </div>
       </div>

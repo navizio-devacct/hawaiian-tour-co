@@ -14,7 +14,7 @@ export const LiveStats = () => {
   ];
 
   const trustStats = [
-    { icon: <Users className="w-6 h-6" />, value: "50,000+", label: "Happy Travelers", color: "text-blue-600" },
+    { icon: <Users className="w-6 h-6" />, value: "10K+", label: "Happy Travelers", color: "text-blue-600" },
     { icon: <Star className="w-6 h-6" />, value: "4.8/5", label: "Average Rating", color: "text-yellow-600" },
     { icon: <Shield className="w-6 h-6" />, value: "100%", label: "Secure Booking", color: "text-green-600" },
     { icon: <Heart className="w-6 h-6" />, value: "10%", label: "Supports Communities", color: "text-red-600" }
