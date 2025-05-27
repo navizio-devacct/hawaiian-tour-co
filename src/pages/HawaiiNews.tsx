@@ -47,10 +47,11 @@ export const HawaiiNews = () => {
       priority: 'high'
     },
     {
-      url: 'https://hawaii.com/feed',
-      source: 'Hawaii.com',
+      url: 'https://hnnrss.s3.amazonaws.com/rss.xml',
+      source: 'Hawaii News Now',
       priority: 'medium'
     }
+    
   ];
 
   // HAWAII RELEVANCE FILTER - Only show Hawaii-related content!
