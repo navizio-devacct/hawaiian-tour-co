@@ -112,7 +112,7 @@ export const Hero = () => {
   };
 
   return (
-    <div className="relative w-screen min-h-screen overflow-hidden">
+    <div className="hero-full-viewport relative overflow-hidden">
       {/* Full Screen Background with Island Showcase */}
       <div className="absolute inset-0 w-full h-full">
         {islands.map((island, index) => (

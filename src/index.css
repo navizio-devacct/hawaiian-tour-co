@@ -129,4 +129,30 @@
     overflow-wrap: break-word;
     hyphens: auto;
   }
+
+@layer utilities {
+  /* Force true full viewport width - overrides any parent constraints */
+  .hero-full-viewport {
+    position: relative;
+    width: 100vw;
+    min-height: 100vh;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    left: 50%;
+    right: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Landscape mobile specific fixes */
+  @media screen and (orientation: landscape) and (max-height: 500px) {
+    .hero-full-viewport {
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      margin: 0;
+      transform: none;
+    }
+  }
 }
