@@ -59,8 +59,8 @@ export const BigIslandHero = () => {
         </div>
       </div>
 
-      <div className="relative w-full min-h-screen flex flex-col items-center justify-center text-white px-4 py-20">
-        <div className="text-center max-w-7xl mx-auto w-full">
+      <div className="relative w-full min-h-screen flex flex-col items-center justify-center text-white px-4 py-24 sm:py-32">
+        <div className="text-center max-w-7xl mx-auto w-full mt-16 sm:mt-20">
           <div
             className={`transform transition-all duration-700 ${
               isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
