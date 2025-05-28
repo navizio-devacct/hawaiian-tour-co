@@ -1,87 +1,23 @@
-
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BookOpen, Calendar, ArrowRight, Clock } from "lucide-react";
+import { Link } from "react-router-dom";
+import { blogPosts, getFeaturedPost, getRecentPosts } from "@/data/blogPosts";
 
 const Blog = () => {
-  const featuredPost = {
-    title: "Ultimate Guide to Island Hopping in Hawaii",
-    excerpt: "Discover the perfect itinerary for exploring all four major Hawaiian islands, from Oahu's vibrant culture to Kauai's natural wonders.",
-    date: "March 20, 2024",
-    readTime: "8 min read",
-    category: "Travel Guides",
-    image: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?q=80&w=2070",
-    author: "Sarah Mitchell",
-    featured: true
-  };
-
-  const blogPosts = [
-    {
-      title: "Best Snorkeling Spots in Maui",
-      excerpt: "Explore the underwater paradise of Maui with our guide to the most spectacular snorkeling locations.",
-      date: "March 18, 2024",
-      readTime: "5 min read",
-      category: "Activities",
-      image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?q=80",
-      author: "Mike Johnson"
-    },
-    {
-      title: "Hawaiian Cultural Experiences You Can't Miss",
-      excerpt: "Immerse yourself in authentic Hawaiian culture through traditional ceremonies, music, and local customs.",
-      date: "March 15, 2024",
-      readTime: "6 min read",
-      category: "Culture",
-      image: "https://images.unsplash.com/photo-1533130061792-64b345e4a833?q=80",
-      author: "Leilani Torres"
-    },
-    {
-      title: "Planning Your Perfect Hawaii Vacation",
-      excerpt: "From choosing the right island to packing essentials, here's everything you need to know for your trip.",
-      date: "March 12, 2024",
-      readTime: "7 min read",
-      category: "Planning",
-      image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80",
-      author: "David Chen"
-    },
-    {
-      title: "Hidden Waterfalls of the Big Island",
-      excerpt: "Venture off the beaten path to discover some of Hawaii's most secluded and breathtaking waterfalls.",
-      date: "March 10, 2024",
-      readTime: "4 min read",
-      category: "Nature",
-      image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80",
-      author: "Amanda Rodriguez"
-    },
-    {
-      title: "Best Local Restaurants in Honolulu",
-      excerpt: "Taste the authentic flavors of Hawaii at these local favorites recommended by island residents.",
-      date: "March 8, 2024",
-      readTime: "5 min read",
-      category: "Food & Dining",
-      image: "https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80",
-      author: "Chef Marcus Kim"
-    },
-    {
-      title: "Sunrise at Haleakala: A Complete Guide",
-      excerpt: "Everything you need to know about witnessing one of the world's most spectacular sunrises.",
-      date: "March 5, 2024",
-      readTime: "6 min read",
-      category: "Nature",
-      image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80",
-      author: "Jennifer Walsh"
-    }
-  ];
+  const featuredPost = getFeaturedPost();
+  const recentPosts = getRecentPosts(6);
 
   const categories = [
-    { name: "All Posts", count: 25 },
-    { name: "Travel Guides", count: 8 },
-    { name: "Activities", count: 6 },
-    { name: "Culture", count: 4 },
-    { name: "Planning", count: 3 },
-    { name: "Nature", count: 2 },
-    { name: "Food & Dining", count: 2 }
+    { name: "All Posts", count: blogPosts.length },
+    { name: "Travel Guides", count: blogPosts.filter(p => p.category === "Travel Guides").length },
+    { name: "Activities", count: blogPosts.filter(p => p.category === "Activities").length },
+    { name: "Culture", count: blogPosts.filter(p => p.category === "Culture").length },
+    { name: "Planning", count: blogPosts.filter(p => p.category === "Planning").length },
+    { name: "Nature", count: blogPosts.filter(p => p.category === "Nature").length },
+    { name: "Food & Dining", count: blogPosts.filter(p => p.category === "Food & Dining").length }
   ];
 
   return (
@@ -116,53 +52,57 @@ const Blog = () => {
 
       <div className="container mx-auto px-4 py-16">
         {/* Featured Post */}
-        <section className="mb-16">
-          <div className="flex items-center mb-8">
-            <BookOpen className="w-6 h-6 text-sunset-100 mr-3" />
-            <h2 className="text-3xl font-bold text-palm-100">Featured Article</h2>
-          </div>
-          
-          <Card className="overflow-hidden border-0 shadow-xl">
-            <div className="grid lg:grid-cols-2 gap-0">
-              <div className="relative h-64 lg:h-full">
-                <img
-                  src={featuredPost.image}
-                  alt={featuredPost.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute top-4 left-4">
-                  <span className="bg-sunset-100 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    Featured
-                  </span>
-                </div>
-              </div>
-              <CardContent className="p-8 flex flex-col justify-center">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-sm text-ocean-100 font-medium">{featuredPost.category}</span>
-                  <span className="text-gray-400">•</span>
-                  <span className="text-sm text-gray-600">{featuredPost.readTime}</span>
-                </div>
-                <h3 className="text-2xl lg:text-3xl font-bold text-palm-100 mb-4">
-                  {featuredPost.title}
-                </h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
-                  {featuredPost.excerpt}
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-sm text-gray-500">
-                    <Calendar className="w-4 h-4" />
-                    <span>{featuredPost.date}</span>
-                    <span>•</span>
-                    <span>By {featuredPost.author}</span>
-                  </div>
-                  <Button className="bg-sunset-100 hover:bg-sunset-200 text-white">
-                    Read Article <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
-                </div>
-              </CardContent>
+        {featuredPost && (
+          <section className="mb-16">
+            <div className="flex items-center mb-8">
+              <BookOpen className="w-6 h-6 text-sunset-100 mr-3" />
+              <h2 className="text-3xl font-bold text-palm-100">Featured Article</h2>
             </div>
-          </Card>
-        </section>
+            
+            <Card className="overflow-hidden border-0 shadow-xl">
+              <div className="grid lg:grid-cols-2 gap-0">
+                <div className="relative h-64 lg:h-full">
+                  <img
+                    src={featuredPost.image}
+                    alt={featuredPost.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute top-4 left-4">
+                    <span className="bg-sunset-100 text-white px-3 py-1 rounded-full text-sm font-medium">
+                      Featured
+                    </span>
+                  </div>
+                </div>
+                <CardContent className="p-8 flex flex-col justify-center">
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="text-sm text-ocean-100 font-medium">{featuredPost.category}</span>
+                    <span className="text-gray-400">•</span>
+                    <span className="text-sm text-gray-600">{featuredPost.readTime}</span>
+                  </div>
+                  <h3 className="text-2xl lg:text-3xl font-bold text-palm-100 mb-4">
+                    {featuredPost.title}
+                  </h3>
+                  <p className="text-gray-600 mb-6 leading-relaxed">
+                    {featuredPost.excerpt}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <Calendar className="w-4 h-4" />
+                      <span>{featuredPost.date}</span>
+                      <span>•</span>
+                      <span>By {featuredPost.author}</span>
+                    </div>
+                    <Link to={`/blog/${featuredPost.slug}`}>
+                      <Button className="bg-sunset-100 hover:bg-sunset-200 text-white">
+                        Read Article <ArrowRight className="ml-2 w-4 h-4" />
+                      </Button>
+                    </Link>
+                  </div>
+                </CardContent>
+              </div>
+            </Card>
+          </section>
+        )}
 
         {/* Main Content */}
         <div className="grid lg:grid-cols-4 gap-12">
@@ -170,11 +110,11 @@ const Blog = () => {
           <div className="lg:col-span-3">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-3xl font-bold text-palm-100">Latest Articles</h2>
-              <span className="text-gray-600">{blogPosts.length} articles</span>
+              <span className="text-gray-600">{recentPosts.length} articles</span>
             </div>
             
             <div className="grid md:grid-cols-2 gap-8">
-              {blogPosts.map((post, index) => (
+              {recentPosts.map((post, index) => (
                 <Card key={index} className="overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                   <div className="relative h-48">
                     <img
@@ -203,9 +143,11 @@ const Blog = () => {
                         <Calendar className="w-3 h-3" />
                         <span>{post.date}</span>
                       </div>
-                      <Button variant="ghost" size="sm" className="text-sunset-100 hover:text-sunset-200 p-0">
-                        Read More <ArrowRight className="ml-1 w-3 h-3" />
-                      </Button>
+                      <Link to={`/blog/${post.slug}`}>
+                        <Button variant="ghost" size="sm" className="text-sunset-100 hover:text-sunset-200 p-0">
+                          Read More <ArrowRight className="ml-1 w-3 h-3" />
+                        </Button>
+                      </Link>
                     </div>
                     <div className="mt-3 pt-3 border-t border-gray-100">
                       <span className="text-xs text-gray-500">By {post.author}</span>

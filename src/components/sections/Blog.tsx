@@ -2,31 +2,10 @@
 import { ArrowRight, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { getRecentPosts } from "@/data/blogPosts";
 
 export const Blog = () => {
-  const blogPosts = [
-    {
-      title: "Top 10 Must-Visit Spots in Hawaii",
-      excerpt: "Discover the hidden gems and popular attractions that make Hawaii a paradise on Earth.",
-      date: "March 15, 2024",
-      category: "Travel Tips",
-      image: "https://images.unsplash.com/photo-1542259009477-d625272157b7?q=80"
-    },
-    {
-      title: "Best Time to Visit Hawaii",
-      excerpt: "Learn about the perfect seasons to plan your Hawaiian vacation for the best experience.",
-      date: "March 10, 2024",
-      category: "Planning",
-      image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80"
-    },
-    {
-      title: "Hawaiian Culture Guide",
-      excerpt: "Immerse yourself in the rich traditions and customs of Hawaiian culture.",
-      date: "March 5, 2024",
-      category: "Culture",
-      image: "https://images.unsplash.com/photo-1533130061792-64b345e4a833?q=80"
-    }
-  ];
+  const blogPosts = getRecentPosts(3);
 
   return (
     <section id="blog" className="py-20 bg-sand-50">
@@ -64,7 +43,7 @@ export const Blog = () => {
                 <p className="text-gray-600 mb-4">{post.excerpt}</p>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-500">{post.date}</span>
-                  <Link to="/blog">
+                  <Link to={`/blog/${post.slug}`}>
                     <Button variant="ghost" className="text-ocean-100 hover:text-ocean-200">
                       Read More <ArrowRight className="ml-2 w-4 h-4" />
                     </Button>

@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -52,6 +51,15 @@ import HawaiiVolcanoes from "./pages/attractions/HawaiiVolcanoes";
 import NaPaliCoast from "./pages/attractions/NaPaliCoast";
 import WaimeaCanyon from "./pages/attractions/WaimeaCanyon";
 import Haleakala from "./pages/attractions/Haleakala";
+
+// Add blog post imports
+import UltimateGuideIslandHopping from "./pages/blog/UltimateGuideIslandHopping";
+import BestSnorkelingSpotsMaui from "./pages/blog/BestSnorkelingSpotsMaui";
+import HawaiianCulturalExperiences from "./pages/blog/HawaiianCulturalExperiences";
+import PlanningPerfectHawaiiVacation from "./pages/blog/PlanningPerfectHawaiiVacation";
+import HiddenWaterfallsBigIsland from "./pages/blog/HiddenWaterfallsBigIsland";
+import BestLocalRestaurantsHonolulu from "./pages/blog/BestLocalRestaurantsHonolulu";
+import SunriseHaleakalaGuide from "./pages/blog/SunriseHaleakalaGuide";
 
 const queryClient = new QueryClient();
 
@@ -111,6 +119,15 @@ const App = () => (
             <Route path="/attractions/na-pali-coast" element={<NaPaliCoast />} />
             <Route path="/attractions/waimea-canyon" element={<WaimeaCanyon />} />
             <Route path="/attractions/haleakala" element={<Haleakala />} />
+            
+            {/* Blog Post Routes */}
+            <Route path="/blog/ultimate-guide-island-hopping" element={<UltimateGuideIslandHopping />} />
+            <Route path="/blog/best-snorkeling-spots-maui" element={<BestSnorkelingSpotsMaui />} />
+            <Route path="/blog/hawaiian-cultural-experiences" element={<HawaiianCulturalExperiences />} />
+            <Route path="/blog/planning-perfect-hawaii-vacation" element={<PlanningPerfectHawaiiVacation />} />
+            <Route path="/blog/hidden-waterfalls-big-island" element={<HiddenWaterfallsBigIsland />} />
+            <Route path="/blog/best-local-restaurants-honolulu" element={<BestLocalRestaurantsHonolulu />} />
+            <Route path="/blog/sunrise-haleakala-complete-guide" element={<SunriseHaleakalaGuide />} />
           </Routes>
         </AppLayout>
       </BrowserRouter>
