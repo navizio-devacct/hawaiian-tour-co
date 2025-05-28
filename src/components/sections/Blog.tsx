@@ -53,11 +53,7 @@ export const Blog = () => {
             </div>
           ))}
         </div>
-<<<<<<< HEAD
         
-=======
-
->>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
         {/* View All Articles Button */}
         <div className="text-center mt-12">
           <Link to="/blog">

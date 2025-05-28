@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -175,11 +171,7 @@ const FAQ = () => {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-<<<<<<< HEAD
             backgroundImage: 'url("https://images.unsplash.com/photo-1495822892661-2ead864e1c7b")'
-=======
-            backgroundImage: 'url("https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?q=80")'
->>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
           }}
         >
           <div className="absolute inset-0 bg-black/40" />
@@ -220,11 +212,7 @@ const FAQ = () => {
           <Card className="text-center border-0 shadow-lg">
             <CardContent className="p-6">
               <Users className="w-8 h-8 text-sunset-100 mx-auto mb-3" />
-<<<<<<< HEAD
               <div className="text-2xl font-bold text-palm-100 mb-1">10K+</div>
-=======
-              <div className="text-2xl font-bold text-palm-100 mb-1">50K+</div>
->>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
               <div className="text-sm text-gray-600">Happy Guests</div>
             </CardContent>
           </Card>
@@ -327,8 +315,4 @@ const FAQ = () => {
   );
 };
 
-<<<<<<< HEAD
 export default FAQ;
-=======
-export default FAQ;
->>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2

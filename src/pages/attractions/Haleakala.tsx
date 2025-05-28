@@ -6,11 +6,7 @@ const Haleakala = () => {
     <AttractionPage
       name="Haleakala Crater"
       location="Maui"
-<<<<<<< HEAD
-      heroImage="https://images.unsplash.com/photo-1523296004693-49fb425078b4"
-=======
       heroImage="https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?q=80&w=2070"
->>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
       overview="A massive volcanic crater offering otherworldly landscapes and legendary sunrise views from 10,000+ feet."
       history="Haleakala, meaning 'House of the Sun,' is a massive shield volcano that forms more than 75% of Maui. According to Hawaiian legend, the demigod Maui lassoed the sun from this crater to slow its journey across the sky. The crater itself is about 2.5 miles wide and 2,600 feet deep, created by erosion rather than volcanic collapse. The summit offers views of an alien-like landscape that NASA has used for astronaut training."
       whyVisit={[

@@ -6,11 +6,7 @@ const RoadToHana = () => {
     <AttractionPage
       name="Road to Hana"
       location="Maui"
-<<<<<<< HEAD
       heroImage="https://images.unsplash.com/photo-1616483093193-c15fcff2de11"
-=======
-      heroImage="https://images.unsplash.com/photo-1542259009477-d625272157b7?q=80&w=2070"
->>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
       overview="A legendary 64-mile journey through Maui's most pristine rainforests, waterfalls, and coastal views."
       history="The Road to Hana was built in 1926 and winds through what was once an ancient Hawaiian foot path. This remote highway connects the town of Hana with the rest of Maui, passing through areas that have remained largely unchanged for centuries. The road crosses 59 bridges and navigates 620 curves, making it one of the world's most scenic drives."
       whyVisit={[
