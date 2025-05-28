@@ -68,7 +68,7 @@ export const IslandShowcase = () => {
       name: "Big Island",
       subtitle: "Volcanic Wonders",
       description: "Witness active volcanoes, black sand beaches, and diverse landscapes on Hawaii's largest island.",
-      image: "https://images.unsplash.com/photo-1733711603118-eadcdd85bd25?q=80&w=2070",
+      image: "https://images.unsplash.com/photo-1576941026827-bccc82341bdd",
       tourCount: 35,
       highlights: ["Active Kilauea Volcano", "Manta Ray Night Dives", "Mauna Kea Stargazing"],
       topActivity: "Volcano Tours",
