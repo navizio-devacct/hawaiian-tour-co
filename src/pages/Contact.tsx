@@ -336,7 +336,7 @@ const EnhancedContact = () => {
                       id="sms-consent"
                       checked={formData.smsConsent}
                       onCheckedChange={(checked) => 
-                        setFormData({ ...formData, smsConsent: checked })
+                        setFormData({ ...formData, smsConsent: checked === true })
                       }
                       required
                     />
