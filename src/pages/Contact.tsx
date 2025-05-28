@@ -18,6 +18,7 @@ import {
 import { useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { useToast } from "@/hooks/use-toast";
 
 const EnhancedContact = () => {
   const [formData, setFormData] = useState({
@@ -27,11 +28,50 @@ const EnhancedContact = () => {
     message: "",
     smsConsent: false
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setFormData({ name: "", email: "", phone: "", message: "", smsConsent: false });
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('https://hook.us2.make.com/qb9s1v7rhy2wwlw16bkclsh8c6x71h7v', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+          smsConsent: formData.smsConsent,
+          formSource: 'Contact Page',
+          submittedAt: new Date().toISOString(),
+          userAgent: navigator.userAgent,
+          referrer: document.referrer || 'Direct'
+        }),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Message Sent Successfully!",
+          description: "We'll get back to you within 24 hours. Mahalo!",
+        });
+        setFormData({ name: "", email: "", phone: "", message: "", smsConsent: false });
+      } else {
+        throw new Error('Failed to send message');
+      }
+    } catch (error) {
+      toast({
+        title: "Message Failed to Send",
+        description: "Please try again or call us directly at 1-888-411-9121",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactMethods = [
@@ -56,13 +96,6 @@ const EnhancedContact = () => {
       detail: "Available during business hours",
       subDetail: "Chat widget on bottom right"
     },
-//    {
-//      icon: <MapPin className="w-6 h-6 text-ocean-100" />,
-//      title: "Visit Our Office",
-//      subtitle: "Meet us in person in beautiful Hawaii",
-//      detail: "801 Kakala St #1903, Kapolei, HI 96707",
-//      subDetail: "By appointment only"
-//    }
   ];
 
   const trustSignals = [
@@ -278,7 +311,7 @@ const EnhancedContact = () => {
                   </p>
                 </div>
 
-                <div className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -289,6 +322,7 @@ const EnhancedContact = () => {
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         required
+                        disabled={isSubmitting}
                       />
                     </div>
                     <div>
@@ -301,6 +335,7 @@ const EnhancedContact = () => {
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         required
+                        disabled={isSubmitting}
                       />
                     </div>
                   </div>
@@ -315,6 +350,7 @@ const EnhancedContact = () => {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       required
+                      disabled={isSubmitting}
                     />
                   </div>
                   
@@ -327,6 +363,7 @@ const EnhancedContact = () => {
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       required
+                      disabled={isSubmitting}
                       className="min-h-[120px]"
                     />
                   </div>
@@ -339,6 +376,7 @@ const EnhancedContact = () => {
                         setFormData({ ...formData, smsConsent: checked === true })
                       }
                       required
+                      disabled={isSubmitting}
                     />
                     <label
                       htmlFor="sms-consent"
@@ -352,12 +390,13 @@ const EnhancedContact = () => {
                   </div>
                   
                   <Button 
-                    onClick={handleSubmit}
-                    className="w-full bg-sunset-100 hover:bg-sunset-200 text-white py-3 text-lg font-semibold"
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-sunset-100 hover:bg-sunset-200 text-white py-3 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Send Message
+                    {isSubmitting ? "Sending..." : "Send Message"}
                   </Button>
-                </div>
+                </form>
               </div>
             </div>
           </div>

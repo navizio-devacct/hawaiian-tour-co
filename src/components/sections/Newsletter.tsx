@@ -3,6 +3,7 @@ import { Mail, Gift, Phone, CheckCircle, Sparkles, Trophy, Calendar, ArrowRight 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useToast } from "@/hooks/use-toast";
 
 export const Newsletter = () => {
   const [email, setEmail] = useState("");
@@ -11,6 +12,7 @@ export const Newsletter = () => {
   const [smsOptIn, setSmsOptIn] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,35 +20,51 @@ export const Newsletter = () => {
 
     setIsSubmitting(true);
     
-    // TODO: Replace with actual GHL/Make.com integration
     const formData = {
       email,
       phone: smsOptIn ? phone : '',
       firstName,
       smsOptIn,
       source: 'newsletter_giveaway',
-      timestamp: new Date().toISOString(),
-      giveawayEntry: true
+      submittedAt: new Date().toISOString(),
+      giveawayEntry: true,
+      userAgent: navigator.userAgent,
+      referrer: document.referrer || 'Direct',
+      formSource: 'Newsletter Giveaway'
     };
 
     try {
-      // Simulate API call - replace with actual endpoint
-      // await fetch('/api/newsletter-signup', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData)
-      // });
+      const response = await fetch('https://hook.us2.make.com/2u0qb7p0nqi06yjeusl57akmevsapaek', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-      console.log('Newsletter signup data:', formData);
-      
-      // Simulate success delay
-      setTimeout(() => {
+      if (response.ok) {
         setIsSubmitted(true);
-        setIsSubmitting(false);
-      }, 1500);
-      
+        toast({
+          title: "You're Entered! 🎉",
+          description: "Welcome to our Hawaii community! You're now in this month's giveaway.",
+        });
+        
+        // Reset form data
+        setEmail("");
+        setPhone("");
+        setFirstName("");
+        setSmsOptIn(false);
+      } else {
+        throw new Error('Failed to submit entry');
+      }
     } catch (error) {
       console.error('Newsletter signup error:', error);
+      toast({
+        title: "Entry Failed",
+        description: "Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    } finally {
       setIsSubmitting(false);
     }
   };
@@ -160,6 +178,7 @@ export const Newsletter = () => {
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         className="w-full h-12 border-gray-300 rounded-xl"
+                        disabled={isSubmitting}
                         required
                       />
                     </div>
@@ -176,6 +195,7 @@ export const Newsletter = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="w-full h-12 border-gray-300 rounded-xl"
+                        disabled={isSubmitting}
                         required
                       />
                     </div>
@@ -188,6 +208,7 @@ export const Newsletter = () => {
                           checked={smsOptIn}
                           onCheckedChange={(checked) => setSmsOptIn(checked as boolean)}
                           className="mt-1"
+                          disabled={isSubmitting}
                         />
                         <div className="flex-1">
                           <label htmlFor="smsOptIn" className="text-sm font-medium text-gray-700 cursor-pointer">
@@ -207,6 +228,7 @@ export const Newsletter = () => {
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
                             className="w-full h-10 border-gray-300 rounded-lg text-sm"
+                            disabled={isSubmitting}
                           />
                           <p className="text-xs text-gray-500 mt-1">
                             Standard message rates apply. Text STOP to opt out anytime.

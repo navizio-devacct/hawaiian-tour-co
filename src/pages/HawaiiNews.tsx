@@ -3,6 +3,7 @@ import { ArrowRight, BookOpen, TrendingUp, Clock, MapPin, Flame, Waves, Sun, Cal
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useToast } from "@/hooks/use-toast"; 
 
 interface NewsItem {
   id: number;
@@ -33,6 +34,7 @@ export const HawaiiNews = () => {
   const [newsletterSmsOptIn, setNewsletterSmsOptIn] = useState(false);
   const [newsletterSubmitting, setNewsletterSubmitting] = useState(false);
   const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
+  const { toast } = useToast();
 
   // RSS Feed URLs - Expanded list
   const RSS_FEEDS = [
@@ -418,21 +420,46 @@ export const HawaiiNews = () => {
       phone: newsletterSmsOptIn ? newsletterPhone : '',
       firstName: newsletterFirstName,
       smsOptIn: newsletterSmsOptIn,
-      source: 'hawaii_news_newsletter',
-      timestamp: new Date().toISOString(),
-      newsUpdates: true
+      source: 'news_modal_newsletter',
+      submittedAt: new Date().toISOString(),
+      giveawayEntry: false,
+      userAgent: navigator.userAgent,
+      referrer: document.referrer || 'Direct',
+      formSource: 'News Modal Newsletter',
+      subscriptionType: 'Hawaii News Updates'
     };
-
+    
     try {
-      console.log('Newsletter signup from Hawaii News:', formData);
-      
-      setTimeout(() => {
+      const response = await fetch('https://hook.us2.make.com/uapliw871s3ssm1g55d9yhfhbtp3wpyq', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+    
+      if (response.ok) {
         setNewsletterSubmitted(true);
-        setNewsletterSubmitting(false);
-      }, 1500);
-      
+        toast({
+          title: "Subscribed Successfully! 📰",
+          description: "You'll now receive Hawaii news updates and travel alerts.",
+        });
+        
+        setNewsletterEmail("");
+        setNewsletterPhone("");
+        setNewsletterFirstName("");
+        setNewsletterSmsOptIn(false);
+      } else {
+        throw new Error('Failed to subscribe');
+      }
     } catch (error) {
-      console.error('Newsletter signup error:', error);
+      console.error('Newsletter subscription error:', error);
+      toast({
+        title: "Subscription Failed",
+        description: "Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    } finally {
       setNewsletterSubmitting(false);
     }
   };
@@ -672,169 +699,174 @@ export const HawaiiNews = () => {
       </div>
 
       {/* Newsletter Modal */}
-      {showNewsletterModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-            {newsletterSubmitted ? (
-              <div className="p-8 text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <CheckCircle className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                  You're Subscribed! ð��º
-                </h3>
-                <p className="text-gray-600 mb-6">
-                  You'll now receive the latest Hawaii travel updates, news, and insider tips directly in your inbox.
-                </p>
-                <Button 
-                  onClick={closeNewsletterModal}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl"
-                >
-                  Continue Reading News
-                </Button>
-              </div>
-            ) : (
-              <div className="p-8">
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-green-500 rounded-full flex items-center justify-center">
-                      <Mail className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-gray-900">Hawaii News Updates</h3>
-                      <p className="text-sm text-gray-600">Stay informed about paradise</p>
-                    </div>
-                  </div>
-                  <button 
-                    onClick={closeNewsletterModal}
-                    className="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
-                  >
-                    <X className="w-4 h-4 text-gray-600" />
-                  </button>
-                </div>
-
-                <form onSubmit={handleNewsletterSubmit} className="space-y-4">
-                  {/* First Name */}
-                  <div>
-                    <label htmlFor="newsletter-firstName" className="block text-sm font-medium text-gray-700 mb-2">
-                      First Name *
-                    </label>
-                    <Input
-                      id="newsletter-firstName"
-                      type="text"
-                      placeholder="Enter your first name"
-                      value={newsletterFirstName}
-                      onChange={(e) => setNewsletterFirstName(e.target.value)}
-                      className="w-full h-11 border-gray-300 rounded-xl"
-                      required
-                    />
-                  </div>
-
-                  {/* Email */}
-                  <div>
-                    <label htmlFor="newsletter-email" className="block text-sm font-medium text-gray-700 mb-2">
-                      Email Address *
-                    </label>
-                    <Input
-                      id="newsletter-email"
-                      type="email"
-                      placeholder="Enter your email"
-                      value={newsletterEmail}
-                      onChange={(e) => setNewsletterEmail(e.target.value)}
-                      className="w-full h-11 border-gray-300 rounded-xl"
-                      required
-                    />
-                  </div>
-
-                  {/* SMS Opt-in */}
-                  <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
-                    <div className="flex items-start space-x-3">
-                      <Checkbox
-                        id="newsletter-smsOptIn"
-                        checked={newsletterSmsOptIn}
-                        onCheckedChange={(checked) => setNewsletterSmsOptIn(checked as boolean)}
-                        className="mt-1"
-                      />
-                      <div className="flex-1">
-                        <label htmlFor="newsletter-smsOptIn" className="text-sm font-medium text-gray-700 cursor-pointer">
-                          ð��± Also send me SMS updates (optional)
-                        </label>
-                        <p className="text-xs text-gray-600 mt-1">
-                          Get instant volcano alerts, weather updates, and breaking Hawaii news
-                        </p>
-                      </div>
-                    </div>
-                    
-                    {newsletterSmsOptIn && (
-                      <div className="mt-3">
-                        <Input
-                          type="tel"
-                          placeholder="Phone number (optional)"
-                          value={newsletterPhone}
-                          onChange={(e) => setNewsletterPhone(e.target.value)}
-                          className="w-full h-10 border-gray-300 rounded-lg text-sm"
-                        />
-                        <p className="text-xs text-gray-500 mt-1">
-                          Standard message rates apply. Text STOP to opt out anytime.
-                        </p>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Benefits */}
-                  <div className="bg-gray-50 rounded-xl p-4">
-                    <h4 className="font-semibold text-gray-900 mb-3">You'll receive:</h4>
-                    <div className="space-y-2 text-sm text-gray-600">
-                      <div className="flex items-center gap-2">
-                        <Flame className="w-4 h-4 text-red-500" />
-                        <span>Volcano activity alerts</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Sun className="w-4 h-4 text-yellow-500" />
-                        <span>Weather & ocean conditions</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <TrendingUp className="w-4 h-4 text-blue-500" />
-                        <span>Tourism & travel updates</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-green-500" />
-                        <span>Cultural events & festivals</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Submit Button */}
-                  <Button
-                    type="submit"
-                    disabled={newsletterSubmitting || !newsletterEmail || !newsletterFirstName}
-                    className="w-full bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white h-12 text-lg font-semibold rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 disabled:transform-none disabled:opacity-50"
-                  >
-                    {newsletterSubmitting ? (
-                      <div className="flex items-center">
-                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                        Subscribing...
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-center">
-                        <Mail className="w-5 h-5 mr-2" />
-                        Subscribe to Hawaii News
-                        <ArrowRight className="w-5 h-5 ml-2" />
-                      </div>
-                    )}
-                  </Button>
-
-                  {/* Legal Text */}
-                  <p className="text-xs text-gray-500 text-center leading-relaxed">
-                    By subscribing, you agree to receive emails about Hawaii news and travel updates. 
-                    Unsubscribe anytime. Privacy policy protected.
-                  </p>
-                </form>
-              </div>
-            )}
+{showNewsletterModal && (
+  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+      {newsletterSubmitted ? (
+        <div className="p-8 text-center">
+          <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+            <CheckCircle className="w-8 h-8 text-white" />
           </div>
+          <h3 className="text-2xl font-bold text-gray-900 mb-4">
+            You're Subscribed!
+          </h3>
+          <p className="text-gray-600 mb-6">
+            You'll now receive the latest Hawaii travel updates, news, and insider tips directly in your inbox.
+          </p>
+          <Button 
+            onClick={closeNewsletterModal}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl"
+          >
+            Continue Reading News
+          </Button>
+        </div>
+      ) : (
+        <div className="p-8">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-green-500 rounded-full flex items-center justify-center">
+                <Mail className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-gray-900">Hawaii News Updates</h3>
+                <p className="text-sm text-gray-600">Stay informed about paradise</p>
+              </div>
+            </div>
+            <button 
+              onClick={closeNewsletterModal}
+              className="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+              disabled={newsletterSubmitting}
+            >
+              <X className="w-4 h-4 text-gray-600" />
+            </button>
+          </div>
+
+          <form onSubmit={handleNewsletterSubmit} className="space-y-4">
+            {/* First Name */}
+            <div>
+              <label htmlFor="newsletter-firstName" className="block text-sm font-medium text-gray-700 mb-2">
+                First Name *
+              </label>
+              <Input
+                id="newsletter-firstName"
+                type="text"
+                placeholder="Enter your first name"
+                value={newsletterFirstName}
+                onChange={(e) => setNewsletterFirstName(e.target.value)}
+                className="w-full h-11 border-gray-300 rounded-xl"
+                disabled={newsletterSubmitting}
+                required
+              />
+            </div>
+
+            {/* Email */}
+            <div>
+              <label htmlFor="newsletter-email" className="block text-sm font-medium text-gray-700 mb-2">
+                Email Address *
+              </label>
+              <Input
+                id="newsletter-email"
+                type="email"
+                placeholder="Enter your email"
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
+                className="w-full h-11 border-gray-300 rounded-xl"
+                disabled={newsletterSubmitting}
+                required
+              />
+            </div>
+
+            {/* SMS Opt-in */}
+            <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
+              <div className="flex items-start space-x-3">
+                <Checkbox
+                  id="newsletter-smsOptIn"
+                  checked={newsletterSmsOptIn}
+                  onCheckedChange={(checked) => setNewsletterSmsOptIn(checked as boolean)}
+                  className="mt-1"
+                  disabled={newsletterSubmitting}
+                />
+                <div className="flex-1">
+                  <label htmlFor="newsletter-smsOptIn" className="text-sm font-medium text-gray-700 cursor-pointer">
+                    📱 Also send me SMS updates (optional)
+                  </label>
+                  <p className="text-xs text-gray-600 mt-1">
+                    Get instant volcano alerts, weather updates, and breaking Hawaii news
+                  </p>
+                </div>
+              </div>
+              
+              {newsletterSmsOptIn && (
+                <div className="mt-3">
+                  <Input
+                    type="tel"
+                    placeholder="Phone number (optional)"
+                    value={newsletterPhone}
+                    onChange={(e) => setNewsletterPhone(e.target.value)}
+                    className="w-full h-10 border-gray-300 rounded-lg text-sm"
+                    disabled={newsletterSubmitting}
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Standard message rates apply. Text STOP to opt out anytime.
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Benefits */}
+            <div className="bg-gray-50 rounded-xl p-4">
+              <h4 className="font-semibold text-gray-900 mb-3">You'll receive:</h4>
+              <div className="space-y-2 text-sm text-gray-600">
+                <div className="flex items-center gap-2">
+                  <Flame className="w-4 h-4 text-red-500" />
+                  <span>Volcano activity alerts</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Sun className="w-4 h-4 text-yellow-500" />
+                  <span>Weather & ocean conditions</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4 text-blue-500" />
+                  <span>Tourism & travel updates</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-green-500" />
+                  <span>Cultural events & festivals</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <Button
+              type="submit"
+              disabled={newsletterSubmitting || !newsletterEmail || !newsletterFirstName}
+              className="w-full bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white h-12 text-lg font-semibold rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 disabled:transform-none disabled:opacity-50"
+            >
+              {newsletterSubmitting ? (
+                <div className="flex items-center">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                  Subscribing...
+                </div>
+              ) : (
+                <div className="flex items-center justify-center">
+                  <Mail className="w-5 h-5 mr-2" />
+                  Subscribe to Hawaii News
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </div>
+              )}
+            </Button>
+
+            {/* Legal Text */}
+            <p className="text-xs text-gray-500 text-center leading-relaxed">
+              By subscribing, you agree to receive emails about Hawaii news and travel updates. 
+              Unsubscribe anytime. Privacy policy protected.
+            </p>
+          </form>
         </div>
       )}
+    </div>
+  </div>
+)}
     </section>
   );
 };
