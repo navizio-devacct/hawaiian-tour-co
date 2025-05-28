@@ -40,7 +40,7 @@ const EnhancedContact = () => {
       title: "Call Us",
       subtitle: "Speak with our travel experts",
       detail: "1-888-411-9121",
-      subDetail: "Available 7 days a week, 8am-6pm HST"
+      subDetail: "Available 7 days a week, 5am-9pm HST"
     },
     {
       icon: <Mail className="w-6 h-6 text-ocean-100" />,
@@ -222,15 +222,15 @@ const EnhancedContact = () => {
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-gray-600">Monday - Friday</span>
-                      <span className="font-medium">8:00 AM - 6:00 PM HST</span>
+                      <span className="font-medium">5:00 AM - 9:00 PM HST</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Saturday</span>
-                      <span className="font-medium">9:00 AM - 5:00 PM HST</span>
+                      <span className="font-medium">5:00 AM - 9:00 PM HST</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Sunday</span>
-                      <span className="font-medium">10:00 AM - 4:00 PM HST</span>
+                      <span className="font-medium">5:00 AM - 9:00 PM HST</span>
                     </div>
                     <div className="mt-4 p-3 bg-ocean-100/10 rounded-lg">
                       <p className="text-xs text-gray-600">

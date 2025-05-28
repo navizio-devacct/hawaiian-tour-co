@@ -47,14 +47,14 @@ export const Footer = () => {
               <li><Link to="/maui" className="hover:text-sunset-100 transition-colors">Maui Tours</Link></li>
               <li><Link to="/big-island" className="hover:text-sunset-100 transition-colors">Big Island Tours</Link></li>
               <li><Link to="/kauai" className="hover:text-sunset-100 transition-colors">Kauai Tours</Link></li>
-              <li><Link to="/molokai" className="hover:text-sunset-100 transition-colors">Molokai Tours</Link></li>
+             {/* <li><Link to="/molokai" className="hover:text-sunset-100 transition-colors">Molokai Tours</Link></li>
               <li><Link to="/lanai" className="hover:text-sunset-100 transition-colors">Lanai Tours</Link></li>
-              <li><Link to="/island-hopping" className="hover:text-sunset-100 transition-colors">Island Hopping</Link></li>
+              <li><Link to="/island-hopping" className="hover:text-sunset-100 transition-colors">Island Hopping</Link></li> */}
             </ul>
           </div>
 
           {/* Tour Categories */}
-          <div>
+        {/*  <div>
             <h3 className="text-lg font-bold mb-4">Tour Categories</h3>
             <ul className="space-y-2 text-sm">
               <li><Link to="/tours/snorkeling" className="hover:text-sunset-100 transition-colors">Snorkeling Adventures</Link></li>
@@ -66,7 +66,7 @@ export const Footer = () => {
               <li><Link to="/tours/luau" className="hover:text-sunset-100 transition-colors">Luaus & Dining</Link></li>
               <li><Link to="/tours/all" className="hover:text-sunset-100 transition-colors">View All Tours</Link></li>
             </ul>
-          </div>
+          </div> */}
 
           {/* Popular Attractions */}
           <div>
@@ -94,8 +94,11 @@ export const Footer = () => {
               <li><Link to="/group-bookings" className="hover:text-sunset-100 transition-colors">Group Bookings</Link></li>
               <li><Link to="/faq" className="hover:text-sunset-100 transition-colors">FAQ</Link></li>
             </ul>
-            
-            <h4 className="text-sm font-bold mt-6 mb-3">Policies</h4>
+            </div>
+
+            <div>
+            <h3 className="text-lg font-bold mb-4">Policies</h3>
+            {/* <h4 className="text-sm font-bold mt-6 mb-3">Policies</h4> */}
             <ul className="space-y-2 text-sm">
               <li><Link to="/privacy-policy" className="hover:text-sunset-100 transition-colors">Privacy Policy</Link></li>
               <li><Link to="/terms" className="hover:text-sunset-100 transition-colors">Terms & Conditions</Link></li>

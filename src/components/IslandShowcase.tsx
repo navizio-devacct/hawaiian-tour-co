@@ -278,41 +278,45 @@ export const IslandShowcase = () => {
           })}
         </div>
 
-        {/* Call to Action */}
-        <div className="text-center mt-16">
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-gradient-to-r from-sunset-100 via-sunset-200 to-sunset-100 rounded-3xl p-8 text-white relative overflow-hidden">
-              {/* Subtle pattern overlay */}
-              <div className="absolute inset-0 opacity-10">
-                <div className="absolute top-0 left-0 w-32 h-32 bg-white rounded-full -translate-x-16 -translate-y-16"></div>
-                <div className="absolute bottom-0 right-0 w-48 h-48 bg-white rounded-full translate-x-24 translate-y-24"></div>
-              </div>
-              
-              <div className="relative z-10">
-                <Camera className="w-12 h-12 mx-auto mb-4 text-white" />
-                <h3 className="text-2xl md:text-3xl font-bold mb-4">
-                  Can't Decide? Let Our Experts Help!
-                </h3>
-                <p className="text-white/90 mb-6 text-lg max-w-2xl mx-auto">
-                  Get personalized island recommendations based on your interests, travel dates, and group size.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link
-                    to="/booknow"
-                    className="inline-flex items-center bg-white text-sunset-100 hover:bg-gray-50 px-6 py-3 rounded-xl font-semibold shadow-lg transform hover:scale-105 transition-all duration-300"
-                  >
-                    Browse All {totalTours} Experiences
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </Link>
-                  <button className="inline-flex items-center bg-white/20 hover:bg-white/30 text-white border border-white/30 px-6 py-3 rounded-xl font-semibold transition-all duration-300">
-                    <Users className="w-5 h-5 mr-2" />
-                    Talk to an Expert
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+{/* Call to Action */}
+<div className="text-center mt-16">
+  <div className="max-w-4xl mx-auto">
+    <div className="bg-gradient-to-r from-sunset-100 via-sunset-200 to-sunset-100 rounded-3xl p-8 text-white relative overflow-hidden">
+      {/* Subtle pattern overlay */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-0 left-0 w-32 h-32 bg-white rounded-full -translate-x-16 -translate-y-16"></div>
+        <div className="absolute bottom-0 right-0 w-48 h-48 bg-white rounded-full translate-x-24 translate-y-24"></div>
+      </div>
+
+      <div className="relative z-10">
+        <Camera className="w-12 h-12 mx-auto mb-4 text-white" />
+        <h3 className="text-2xl md:text-3xl font-bold mb-4">
+          Can't Decide? Let Our Experts Help!
+        </h3>
+        <p className="text-white/90 mb-6 text-lg max-w-2xl mx-auto">
+          Get personalized island recommendations based on your interests, travel dates, and group size.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link
+            to="/booknow"
+            className="inline-flex items-center bg-white text-sunset-100 hover:bg-gray-50 px-6 py-3 rounded-xl font-semibold shadow-lg transform hover:scale-105 transition-all duration-300"
+          >
+            Browse All {totalTours} Experiences
+            <ArrowRight className="w-5 h-5 ml-2" />
+          </Link>
+          <a
+            href="tel:18884119121"
+            className="inline-flex items-center bg-white/20 hover:bg-white/30 text-white border border-white/30 px-6 py-3 rounded-xl font-semibold transition-all duration-300"
+          >
+            <Users className="w-5 h-5 mr-2" />
+            Talk to an Expert
+          </a>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
       </div>
     </section>
   );

@@ -158,9 +158,7 @@ export const Hero = () => {
     </div>
   </div>
 </div>
-
-
-              
+        
               {/* Dismiss Button */}
               <button 
                 onClick={dismissNotification}
