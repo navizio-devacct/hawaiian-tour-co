@@ -116,7 +116,8 @@ export default {
         "fade-down": "fadeDown 0.5s ease-out forwards",
         "fade-in": "fadeIn 0.5s ease-out forwards",
         float: "float 6s ease-in-out infinite",
-        scroll: "scroll 20s linear infinite",
+        scroll: "scroll 40s linear infinite",
+        marquee: "marquee 45s linear infinite"
       },
       keyframes: {
         fadeUp: {
@@ -139,12 +140,16 @@ export default {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-50%)" },
         },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)'
-      },
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],

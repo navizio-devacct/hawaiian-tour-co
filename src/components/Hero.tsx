@@ -144,16 +144,22 @@ export const Hero = () => {
               
               {/* FIXED: Scrolling News Content - Properly Contained */}
               <div className="flex-1 overflow-hidden">
-                <div className="whitespace-nowrap text-white font-medium text-sm sm:text-base">
-                  <div className="inline-block animate-pulse">
-                    <span className="inline-block">🌋 <strong>Kilauea erupting!</strong> Spectacular tours available</span>
-                    <span className="mx-4 sm:mx-8">•</span>
-                    <span className="inline-block">🌊 <strong>Perfect conditions</strong> for snorkeling today</span>
-                    <span className="mx-4 sm:mx-8">•</span>
-                    <span className="inline-block">⭐ <strong>Clear skies</strong> for stargazing tours</span>
-                  </div>
-                </div>
-              </div>
+  <div className="whitespace-nowrap">
+    <div
+      className="inline-block animate-marquee will-change-transform"
+      style={{ minWidth: '200%', display: 'inline-block' }}
+    >
+      <span className="inline-block mr-8">🌋 <strong>Kilauea erupting!</strong> Spectacular tours available</span>
+      <span className="inline-block mr-8">🌊 <strong>Perfect conditions</strong> for snorkeling today</span>
+      <span className="inline-block mr-8">⭐ <strong>Clear skies</strong> for stargazing tours</span>
+      <span className="inline-block mr-8">🌋 <strong>Kilauea erupting!</strong> Spectacular tours available</span>
+      <span className="inline-block mr-8">🌊 <strong>Perfect conditions</strong> for snorkeling today</span>
+      <span className="inline-block mr-8">⭐ <strong>Clear skies</strong> for stargazing tours</span>
+    </div>
+  </div>
+</div>
+
+
               
               {/* Dismiss Button */}
               <button 
