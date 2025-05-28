@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -139,4 +143,8 @@ export const BlogPost = ({ post }: BlogPostProps) => {
       <Footer />
     </div>
   );
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2

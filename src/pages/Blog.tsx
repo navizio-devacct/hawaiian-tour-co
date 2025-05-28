@@ -3,8 +3,11 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BookOpen, Calendar, ArrowRight, Clock } from "lucide-react";
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
 import { Link } from "react-router-dom";
 import { blogPosts, getFeaturedPost, getRecentPosts } from "@/data/blogPosts";
 
@@ -21,6 +24,10 @@ const Blog = () => {
     { name: "Nature", count: blogPosts.filter(p => p.category === "Nature").length },
     { name: "Food & Dining", count: blogPosts.filter(p => p.category === "Food & Dining").length }
   ];
+<<<<<<< HEAD
+=======
+
+>>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
   return (
     <div className="min-h-screen bg-sand-50">
       <Navigation />
@@ -115,7 +122,11 @@ const Blog = () => {
             </div>
             
             <div className="grid md:grid-cols-2 gap-8">
+<<<<<<< HEAD
             {recentPosts.map((post, index) => (
+=======
+              {recentPosts.map((post, index) => (
+>>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
                 <Card key={index} className="overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                   <div className="relative h-48">
                     <img
@@ -215,4 +226,8 @@ const Blog = () => {
   );
 };
 
+<<<<<<< HEAD
 export default Blog;
+=======
+export default Blog;
+>>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2

@@ -6,7 +6,11 @@ const WaimeaCanyon = () => {
     <AttractionPage
       name="Waimea Canyon"
       location="Kauai"
+<<<<<<< HEAD
       heroImage="https://images.unsplash.com/photo-1573003019795-5df15c155335"
+=======
+      heroImage="https://images.unsplash.com/photo-1426604966848-d7adac402bff?q=80&w=2070"
+>>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
       overview="Known as the 'Grand Canyon of the Pacific,' this spectacular gorge showcases millions of years of geological history."
       history="Waimea Canyon was formed by the collapse of the volcano that created Kauai, followed by millions of years of erosion from the Waimea River and rainfall. The canyon's colorful layers reveal the geological history of the island, with each stratum representing different volcanic eruptions and erosion periods. Mark Twain famously called it the 'Grand Canyon of the Pacific.'"
       whyVisit={[

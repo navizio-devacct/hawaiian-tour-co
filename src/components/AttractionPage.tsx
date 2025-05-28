@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
 import { ReactNode } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -178,4 +182,8 @@ export const AttractionPage = ({
       <Footer />
     </div>
   );
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2

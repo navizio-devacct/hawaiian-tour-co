@@ -60,9 +60,12 @@ import PlanningPerfectHawaiiVacation from "./pages/blog/PlanningPerfectHawaiiVac
 import HiddenWaterfallsBigIsland from "./pages/blog/HiddenWaterfallsBigIsland";
 import BestLocalRestaurantsHonolulu from "./pages/blog/BestLocalRestaurantsHonolulu";
 import SunriseHaleakalaGuide from "./pages/blog/SunriseHaleakalaGuide";
+<<<<<<< HEAD
 import Top10MustVisitSpotsHawaii from "./pages/blog/Top10MustVisitSpotsHawaii";
 import BestTimeVisitHawaii from "./pages/blog/BestTimeVisitHawaii";
 import HawaiianCultureGuide from "./pages/blog/HawaiianCultureGuide";
+=======
+>>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
 
 const queryClient = new QueryClient();
 
@@ -113,7 +116,11 @@ const App = () => (
             <Route path="/activities/transportation" element={<Transportation />} />
             <Route path="/activities/walking-tours" element={<WalkingTours />} />
             <Route path="/activities/sailing" element={<Sailing />} />
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
             {/* Attraction Routes */}
             <Route path="/attractions/pearl-harbor" element={<PearlHarbor />} />
             <Route path="/attractions/diamond-head" element={<DiamondHead />} />
@@ -122,7 +129,11 @@ const App = () => (
             <Route path="/attractions/na-pali-coast" element={<NaPaliCoast />} />
             <Route path="/attractions/waimea-canyon" element={<WaimeaCanyon />} />
             <Route path="/attractions/haleakala" element={<Haleakala />} />
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
             {/* Blog Post Routes */}
             <Route path="/blog/ultimate-guide-island-hopping" element={<UltimateGuideIslandHopping />} />
             <Route path="/blog/best-snorkeling-spots-maui" element={<BestSnorkelingSpotsMaui />} />
@@ -131,9 +142,12 @@ const App = () => (
             <Route path="/blog/hidden-waterfalls-big-island" element={<HiddenWaterfallsBigIsland />} />
             <Route path="/blog/best-local-restaurants-honolulu" element={<BestLocalRestaurantsHonolulu />} />
             <Route path="/blog/sunrise-haleakala-complete-guide" element={<SunriseHaleakalaGuide />} />
+<<<<<<< HEAD
             <Route path="/blog/top-10-must-visit-spots-hawaii" element={<Top10MustVisitSpotsHawaii />} />
 <Route path="/blog/best-time-visit-hawaii" element={<BestTimeVisitHawaii />} />
 <Route path="/blog/hawaiian-culture-guide" element={<HawaiianCultureGuide />} />
+=======
+>>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
           </Routes>
         </AppLayout>
       </BrowserRouter>

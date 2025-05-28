@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
 export interface BlogPost {
   slug: string;
   title: string;
@@ -37,6 +41,7 @@ export const blogPosts: BlogPost[] = [
     date: "March 20, 2024",
     readTime: "8 min read",
     category: "Travel Guides",
+<<<<<<< HEAD
     image: "https://images.unsplash.com/photo-1598135753163-6167c1a1ad65",
     author: "Sarah Mitchell",
     featured: true
@@ -204,6 +209,12 @@ export const blogPosts: BlogPost[] = [
   },
 
   // ALL YOUR EXISTING BLOG POSTS (unchanged)
+=======
+    image: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?q=80&w=2070",
+    author: "Sarah Mitchell",
+    featured: true
+  },
+>>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
   {
     slug: "best-snorkeling-spots-maui",
     title: "Best Snorkeling Spots in Maui",
@@ -262,7 +273,11 @@ export const blogPosts: BlogPost[] = [
     date: "March 15, 2024",
     readTime: "6 min read",
     category: "Culture",
+<<<<<<< HEAD
     image: "https://images.unsplash.com/photo-1569873166246-04be2236bc6f",
+=======
+    image: "https://images.unsplash.com/photo-1533130061792-64b345e4a833?q=80",
+>>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
     author: "Leilani Torres"
   },
   {
@@ -309,7 +324,11 @@ export const blogPosts: BlogPost[] = [
     date: "March 12, 2024",
     readTime: "7 min read",
     category: "Planning",
+<<<<<<< HEAD
     image: "https://images.unsplash.com/photo-1599027619757-d2a6c129e388",
+=======
+    image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80",
+>>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
     author: "David Chen"
   },
   {
@@ -457,4 +476,8 @@ export const getFeaturedPost = (): BlogPost | undefined => {
 
 export const getRecentPosts = (limit: number = 6): BlogPost[] => {
   return blogPosts.filter(post => !post.featured).slice(0, limit);
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> d2ef9f4e48c057783b453f5a40b10a5dc58a18a2
