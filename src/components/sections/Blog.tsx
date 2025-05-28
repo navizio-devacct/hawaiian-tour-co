@@ -1,5 +1,7 @@
+
 import { ArrowRight, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 export const Blog = () => {
   const blogPosts = [
@@ -62,13 +64,24 @@ export const Blog = () => {
                 <p className="text-gray-600 mb-4">{post.excerpt}</p>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-500">{post.date}</span>
-                  <Button variant="ghost" className="text-ocean-100 hover:text-ocean-200">
-                    Read More <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
+                  <Link to="/blog">
+                    <Button variant="ghost" className="text-ocean-100 hover:text-ocean-200">
+                      Read More <ArrowRight className="ml-2 w-4 h-4" />
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>
           ))}
+        </div>
+
+        {/* View All Articles Button */}
+        <div className="text-center mt-12">
+          <Link to="/blog">
+            <Button className="bg-sunset-100 hover:bg-sunset-200 text-white px-8 py-3 text-lg">
+              View All Articles <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
