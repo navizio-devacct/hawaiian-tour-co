@@ -41,6 +41,15 @@ import Transportation from "./pages/activities/Transportation";
 import WalkingTours from "./pages/activities/WalkingTours";
 import Sailing from "./pages/activities/Sailing";
 
+// Add attraction page imports
+import PearlHarbor from "./pages/attractions/PearlHarbor";
+import DiamondHead from "./pages/attractions/DiamondHead";
+import RoadToHana from "./pages/attractions/RoadToHana";
+import HawaiiVolcanoes from "./pages/attractions/HawaiiVolcanoes";
+import NaPaliCoast from "./pages/attractions/NaPaliCoast";
+import WaimeaCanyon from "./pages/attractions/WaimeaCanyon";
+import Haleakala from "./pages/attractions/Haleakala";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -88,6 +97,15 @@ const App = () => (
             <Route path="/activities/transportation" element={<Transportation />} />
             <Route path="/activities/walking-tours" element={<WalkingTours />} />
             <Route path="/activities/sailing" element={<Sailing />} />
+            
+            {/* Attraction Routes */}
+            <Route path="/attractions/pearl-harbor" element={<PearlHarbor />} />
+            <Route path="/attractions/diamond-head" element={<DiamondHead />} />
+            <Route path="/attractions/road-to-hana" element={<RoadToHana />} />
+            <Route path="/attractions/volcanoes-national-park" element={<HawaiiVolcanoes />} />
+            <Route path="/attractions/na-pali-coast" element={<NaPaliCoast />} />
+            <Route path="/attractions/waimea-canyon" element={<WaimeaCanyon />} />
+            <Route path="/attractions/haleakala" element={<Haleakala />} />
           </Routes>
         </AppLayout>
       </BrowserRouter>
