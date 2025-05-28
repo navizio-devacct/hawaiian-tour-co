@@ -8,9 +8,9 @@ const ISLAND_COORDINATES = {
   "Oahu": { 
     lat: 21.48, 
     lon: -158.03, 
-    name: "Wheeler Air Force Base",
-    stationId: "PHHI", // Wheeler AFB - matches NWS Oahu page
-    fallbacks: ["PHNL"] // Honolulu Airport
+    name: "Honolulu Airport",
+    stationId: "PHNL", // Honolulu Airport - most reliable for Oahu
+    fallbacks: ["PHHI"] // Wheeler AFB as fallback
   },
   "Maui": { 
     lat: 20.8893, 
@@ -130,10 +130,10 @@ export const useWeatherAPI = () => {
     return directions[index];
   };
 
-  // Extract temperature from NWS value object
-  const extractTemperature = (tempValue: any): number => {
+  // Extract temperature from NWS value object - FIXED VERSION
+  const extractTemperature = (tempValue: any): number | null => {
     if (!tempValue || tempValue.value === null || tempValue.value === undefined) {
-      return 80; // Default fallback for Hawaii
+      return null; // Return null instead of fallback
     }
     
     // NWS returns temperature in Celsius
@@ -260,28 +260,28 @@ export const useWeatherAPI = () => {
 
       const { observations } = result;
 
-      // Get current temperature and other data
+      // Get current temperature - FIXED: Use actual NWS data
       const currentTemp = extractTemperature(observations.temperature);
       
-      // Sanity check - Hawaii should be 65-95°F
-      const fallbackTemps = { "Oahu": 80, "Maui": 79, "Big Island": 82, "Kauai": 75 };
-      const finalTemp = (currentTemp < 50 || currentTemp > 100) 
-        ? fallbackTemps[island as keyof typeof fallbackTemps] || 80
-        : currentTemp;
+      // ONLY reject if temp is null or completely unreasonable (below 40 or above 110)
+      // Hawaii can actually get into the 60s at elevation and 90s+ in summer
+      if (currentTemp === null || currentTemp < 40 || currentTemp > 110) {
+        throw new Error(`Invalid temperature data for ${island}: ${currentTemp}`);
+      }
 
-      // Build weather data object with better fallbacks for missing data
+      // Build weather data object - Use REAL data only
       const result_data: WeatherData = {
         island,
-        temperature: finalTemp,
-        temperatureCelsius: Math.round((finalTemp - 32) * 5/9),
+        temperature: currentTemp,
+        temperatureCelsius: Math.round((currentTemp - 32) * 5/9),
         condition: simplifyCondition(observations.textDescription || 'Partly Cloudy'),
         description: observations.textDescription || 'Current conditions',
-        humidity: observations.relativeHumidity?.value ? extractValue(observations.relativeHumidity) : 65,
-        windSpeed: convertWindToMph(observations.windSpeed) || 12, // Default 12 mph if no wind data
+        humidity: observations.relativeHumidity?.value ? extractValue(observations.relativeHumidity) : 70,
+        windSpeed: convertWindToMph(observations.windSpeed) || 12,
         windDirection: observations.windDirection ? getWindDirection(observations.windDirection.value) : 'NE',
         pressure: observations.barometricPressure ? Math.round(observations.barometricPressure.value * 0.02953) : 30,
         visibility: observations.visibility ? Math.round(observations.visibility.value * 0.000621371) : 10,
-        dewPoint: observations.dewpoint ? extractTemperature(observations.dewpoint) : finalTemp - 10,
+        dewPoint: observations.dewpoint ? extractTemperature(observations.dewpoint) || currentTemp - 10 : currentTemp - 10,
         heatIndex: observations.heatIndex ? extractTemperature(observations.heatIndex) : undefined,
         windChill: observations.windChill ? extractTemperature(observations.windChill) : undefined,
         lastUpdated: new Date(observations.timestamp || Date.now()),
@@ -291,9 +291,12 @@ export const useWeatherAPI = () => {
         isDay: new Date().getHours() >= 6 && new Date().getHours() <= 18
       };
 
+      console.log(`${island} Weather - Station: ${actualStationName}, Temp: ${currentTemp}°F (Raw: ${observations.temperature?.value}${observations.temperature?.unitCode})`);
+
       return result_data;
     } catch (error) {
-      return null;
+      console.error(`Failed to fetch weather for ${island}:`, error);
+      return null; // Return null instead of fallback data
     }
   };
 
@@ -320,29 +323,7 @@ export const useWeatherAPI = () => {
             island,
             message: 'Failed to fetch weather data'
           });
-          
-          // Provide realistic fallback data for Hawaii
-          const fallbackTemps = { "Oahu": 80, "Maui": 79, "Big Island": 82, "Kauai": 75 };
-          const fallbackConditions = { "Oahu": "Sunny", "Maui": "Partly Cloudy", "Big Island": "Sunny", "Kauai": "Light Showers" };
-          
-          newWeatherData[island] = {
-            island,
-            temperature: fallbackTemps[island as keyof typeof fallbackTemps] || 80,
-            temperatureCelsius: Math.round((fallbackTemps[island as keyof typeof fallbackTemps] - 32) * 5/9),
-            condition: fallbackConditions[island as keyof typeof fallbackConditions] || 'Partly Cloudy',
-            description: 'Current conditions unavailable',
-            humidity: 65,
-            windSpeed: 12,
-            windDirection: 'NE',
-            pressure: 30,
-            visibility: 10,
-            dewPoint: 70,
-            lastUpdated: new Date(),
-            location: ISLAND_COORDINATES[island as keyof typeof ISLAND_COORDINATES].name,
-            detailedForecast: 'Weather data temporarily unavailable',
-            icon: '',
-            isDay: true
-          };
+          // DO NOT provide fallback data - let WeatherTicker handle the null case
         }
       });
 
