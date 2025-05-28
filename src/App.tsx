@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -17,6 +18,8 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CancellationPolicy from "./pages/CancellationPolicy";
 import AboutUs from "./pages/AboutUs";
 import BookNow from "./pages/BookNow/BookNow.tsx";
+import Blog from "./pages/Blog";
+import FAQ from "./pages/FAQ";
 
 // Activity Pages
 import Snorkeling from "./pages/activities/Snorkeling";
@@ -49,7 +52,6 @@ import HawaiiVolcanoes from "./pages/attractions/HawaiiVolcanoes";
 import NaPaliCoast from "./pages/attractions/NaPaliCoast";
 import WaimeaCanyon from "./pages/attractions/WaimeaCanyon";
 import Haleakala from "./pages/attractions/Haleakala";
-import Blog from "./pages/Blog";
 
 const queryClient = new QueryClient();
 
@@ -70,6 +72,7 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/faq" element={<FAQ />} />
             <Route path="/booknow" element={<BookNow />} />
             <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
