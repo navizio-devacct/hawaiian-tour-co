@@ -5,7 +5,7 @@ const PearlHarbor = () => {
     <AttractionPage
       name="Pearl Harbor National Memorial"
       location="Oahu"
-      heroImage="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2070"
+      heroImage="https://images.unsplash.com/photo-1733712058043-c2fe8d8c935e"
       overview="A solemn memorial commemorating the December 7, 1941 attack that launched America into World War II, featuring historic sites and preserved warships."
       history="On December 7, 1941, the Imperial Japanese Navy launched a surprise attack on Pearl Harbor, sinking or damaging 18 U.S. warships and killing over 2,400 Americans. This 'date which will live in infamy' led to America's entry into World War II. The memorial was established to honor those who served and died, preserving the USS Arizona, USS Missouri, USS Bowfin, and USS Oklahoma for future generations. The site serves as both a grave site and a symbol of American resilience."
       whyVisit={[

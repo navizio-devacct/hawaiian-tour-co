@@ -21,10 +21,10 @@ const TermsAndConditions = () => {
   return (
     <div className="min-h-screen bg-sand-50">
       <Navigation />
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-24">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold text-palm-100 mb-8">Terms and Conditions</h1>
-          <div className="prose prose-lg max-w-none space-y-6 text-gray-600">
+          <h1 className="text-4xl font-bold text-palm-100 mb-8">Terms & Conditions</h1>
+          <div className="prose prose-lg max-w-none">
             <section>
               <h2 className="text-2xl font-semibold text-palm-100">OVERVIEW</h2>
               <p>

@@ -103,9 +103,9 @@ export const Footer = () => {
             {/* <h4 className="text-sm font-bold mt-6 mb-3">Policies</h4> */}
             <ul className="space-y-2 text-sm">
               <li><Link to="/privacy-policy" className="hover:text-sunset-100 transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/terms" className="hover:text-sunset-100 transition-colors">Terms & Conditions</Link></li>
+              <li><Link to="/terms-and-conditions" className="hover:text-sunset-100 transition-colors">Terms & Conditions</Link></li>
               <li><Link to="/cancellation-policy" className="hover:text-sunset-100 transition-colors">Cancellation Policy</Link></li>
-              <li><Link to="/refund-policy" className="hover:text-sunset-100 transition-colors">Refund Policy</Link></li>
+            {/*  <li><Link to="/refund-policy" className="hover:text-sunset-100 transition-colors">Refund Policy</Link></li> */}
             </ul>
           </div>
         </div>

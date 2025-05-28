@@ -5,7 +5,7 @@ const DiamondHead = () => {
     <AttractionPage
       name="Diamond Head State Monument"
       location="Oahu"
-      heroImage="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070"
+      heroImage="https://images.unsplash.com/photo-1581720488341-a02fe8d6575d"
       overview="An iconic volcanic crater offering one of Hawaii's most rewarding hikes with panoramic views of Waikiki and Honolulu."
       history="Diamond Head, known as Leahi in Hawaiian (meaning 'brow of the yellowfin tuna'), was formed about 300,000 years ago during a single explosive eruption. British sailors in the 19th century mistook calcite crystals in the rock for diamonds, giving it its English name. The U.S. military fortified the crater in the early 1900s as part of Oahu's coastal defense system, building tunnels, bunkers, and observation stations that hikers pass through today."
       whyVisit={[
