@@ -23,6 +23,7 @@ export const MauiTours = () => {
             image={tour.image}
             rating={tour.rating || 4.5}
             location={tour.location}
+            category={tour.category}
             affiliateUrl={tour.affiliateUrl}
           />
         ))}

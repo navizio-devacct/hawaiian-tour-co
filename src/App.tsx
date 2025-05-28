@@ -17,6 +17,8 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CancellationPolicy from "./pages/CancellationPolicy";
 import AboutUs from "./pages/AboutUs";
 import BookNow from "./pages/BookNow/BookNow.tsx";
+import Blog from "./pages/Blog";
+import FAQ from "./pages/FAQ";
 
 // Activity Pages
 import Snorkeling from "./pages/activities/Snorkeling";
@@ -41,6 +43,27 @@ import Transportation from "./pages/activities/Transportation";
 import WalkingTours from "./pages/activities/WalkingTours";
 import Sailing from "./pages/activities/Sailing";
 
+// Add attraction page imports
+import PearlHarbor from "./pages/attractions/PearlHarbor";
+import DiamondHead from "./pages/attractions/DiamondHead";
+import RoadToHana from "./pages/attractions/RoadToHana";
+import HawaiiVolcanoes from "./pages/attractions/HawaiiVolcanoes";
+import NaPaliCoast from "./pages/attractions/NaPaliCoast";
+import WaimeaCanyon from "./pages/attractions/WaimeaCanyon";
+import Haleakala from "./pages/attractions/Haleakala";
+
+// Add blog post imports
+import UltimateGuideIslandHopping from "./pages/blog/UltimateGuideIslandHopping";
+import BestSnorkelingSpotsMaui from "./pages/blog/BestSnorkelingSpotsMaui";
+import HawaiianCulturalExperiences from "./pages/blog/HawaiianCulturalExperiences";
+import PlanningPerfectHawaiiVacation from "./pages/blog/PlanningPerfectHawaiiVacation";
+import HiddenWaterfallsBigIsland from "./pages/blog/HiddenWaterfallsBigIsland";
+import BestLocalRestaurantsHonolulu from "./pages/blog/BestLocalRestaurantsHonolulu";
+import SunriseHaleakalaGuide from "./pages/blog/SunriseHaleakalaGuide";
+import Top10MustVisitSpotsHawaii from "./pages/blog/Top10MustVisitSpotsHawaii";
+import BestTimeVisitHawaii from "./pages/blog/BestTimeVisitHawaii";
+import HawaiianCultureGuide from "./pages/blog/HawaiianCultureGuide";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -59,6 +82,8 @@ const App = () => (
             <Route path="/kauai" element={<Kauai />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<AboutUs />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/faq" element={<FAQ />} />
             <Route path="/booknow" element={<BookNow />} />
             <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
@@ -88,6 +113,27 @@ const App = () => (
             <Route path="/activities/transportation" element={<Transportation />} />
             <Route path="/activities/walking-tours" element={<WalkingTours />} />
             <Route path="/activities/sailing" element={<Sailing />} />
+
+            {/* Attraction Routes */}
+            <Route path="/attractions/pearl-harbor" element={<PearlHarbor />} />
+            <Route path="/attractions/diamond-head" element={<DiamondHead />} />
+            <Route path="/attractions/road-to-hana" element={<RoadToHana />} />
+            <Route path="/attractions/volcanoes-national-park" element={<HawaiiVolcanoes />} />
+            <Route path="/attractions/na-pali-coast" element={<NaPaliCoast />} />
+            <Route path="/attractions/waimea-canyon" element={<WaimeaCanyon />} />
+            <Route path="/attractions/haleakala" element={<Haleakala />} />
+
+            {/* Blog Post Routes */}
+            <Route path="/blog/ultimate-guide-island-hopping" element={<UltimateGuideIslandHopping />} />
+            <Route path="/blog/best-snorkeling-spots-maui" element={<BestSnorkelingSpotsMaui />} />
+            <Route path="/blog/hawaiian-cultural-experiences" element={<HawaiianCulturalExperiences />} />
+            <Route path="/blog/planning-perfect-hawaii-vacation" element={<PlanningPerfectHawaiiVacation />} />
+            <Route path="/blog/hidden-waterfalls-big-island" element={<HiddenWaterfallsBigIsland />} />
+            <Route path="/blog/best-local-restaurants-honolulu" element={<BestLocalRestaurantsHonolulu />} />
+            <Route path="/blog/sunrise-haleakala-complete-guide" element={<SunriseHaleakalaGuide />} />
+            <Route path="/blog/top-10-must-visit-spots-hawaii" element={<Top10MustVisitSpotsHawaii />} />
+<Route path="/blog/best-time-visit-hawaii" element={<BestTimeVisitHawaii />} />
+<Route path="/blog/hawaiian-culture-guide" element={<HawaiianCultureGuide />} />
           </Routes>
         </AppLayout>
       </BrowserRouter>

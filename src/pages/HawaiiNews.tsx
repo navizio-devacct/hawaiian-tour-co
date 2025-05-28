@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowRight, BookOpen, TrendingUp, Clock, MapPin, Flame, Waves, Sun, Calendar, RefreshCw, AlertCircle, X, Mail, Phone, Gift, CheckCircle } from "lucide-react";
+import { ArrowRight, BookOpen, TrendingUp, Clock, MapPin, Flame, Waves, Sun, Calendar, RefreshCw, X, Mail, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -34,7 +34,7 @@ export const HawaiiNews = () => {
   const [newsletterSubmitting, setNewsletterSubmitting] = useState(false);
   const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
 
-  // RSS Feed URLs - Adding KHON2 and Hawaii.com
+  // RSS Feed URLs - Expanded list
   const RSS_FEEDS = [
     {
       url: 'https://www.staradvertiser.com/feed/',
@@ -50,11 +50,38 @@ export const HawaiiNews = () => {
       url: 'https://hnnrss.s3.amazonaws.com/rss.xml',
       source: 'Hawaii News Now',
       priority: 'medium'
+    },
+    {
+      url: 'https://www.civilbeat.org/feed/',
+      source: 'Honolulu Civil Beat',
+      priority: 'high'
+    },
+    {
+      url: 'https://www.kitv.com/content/rss.xml',
+      source: 'KITV4 Island News',
+      priority: 'medium'
+    },
+    {
+      url: 'https://bigislandnow.com/feed/',
+      source: 'Big Island Now',
+      priority: 'medium'
     }
-    
   ];
 
-  // HAWAII RELEVANCE FILTER - Only show Hawaii-related content!
+  // CORS Proxy for RSS feeds
+  const CORS_PROXY = 'https://api.rss2json.com/v1/api.json?rss_url=';
+
+  // Categories
+  const categories = [
+    { id: "all", label: "All Updates", icon: <BookOpen className="w-4 h-4" /> },
+    { id: "Volcano Updates", label: "Volcano", icon: <Flame className="w-4 h-4" /> },
+    { id: "Ocean Conditions", label: "Ocean", icon: <Waves className="w-4 h-4" /> },
+    { id: "Weather & Activities", label: "Weather", icon: <Sun className="w-4 h-4" /> },
+    { id: "Travel Updates", label: "Travel", icon: <TrendingUp className="w-4 h-4" /> },
+    { id: "Cultural News", label: "Culture", icon: <MapPin className="w-4 h-4" /> }
+  ];
+
+  // HAWAII RELEVANCE FILTER
   const isHawaiiRelevant = (title: string, description: string): boolean => {
     const text = (title + ' ' + description).toLowerCase();
     
@@ -69,10 +96,28 @@ export const HawaiiNews = () => {
     
     const hasHawaiiContent = hawaiiTerms.some(term => text.includes(term));
     
-    // EXCLUDE non-Hawaii topics
+    // EXCLUDE negative/crime content - EXPANDED LIST
     const excludeTerms = [
-      'music awards', 'grammy', 'oscar', 'emmys', 'super bowl', 'nfl', 'nba',
+      // Crime & Safety Issues
+      'murder', 'killed', 'shooting', 'robbery', 'assault', 'attack', 'stabbing',
+      'arrest', 'arrested', 'police', 'crime', 'criminal', 'suspect', 'stolen',
+      'theft', 'burglary', 'vandalism', 'drugs', 'dui', 'drunk driving',
+      'accident', 'crash', 'collision', 'injured', 'death', 'died', 'fatal',
+      'emergency', 'rescue', 'missing person', 'search and rescue', 'drowning',
+      'fire department', 'ambulance', 'hospitalized', 'overdose',
+      
+      // Natural Disasters & Emergencies  
+      'hurricane warning', 'tsunami', 'earthquake damage', 'flash flood',
+      'wildfire', 'evacuation', 'emergency shelter', 'power outage',
+      'road closure', 'bridge collapse', 'landslide',
+      
+      // Political/Controversial
+      'protest', 'demonstration', 'lawsuit', 'court case', 'controversy',
+      'scandal', 'investigation', 'corruption', 'fraud',
       'trump', 'biden', 'congress', 'senate', 'washington dc', 'white house',
+      
+      // Non-Hawaii Topics
+      'music awards', 'grammy', 'oscar', 'emmys', 'super bowl', 'nfl', 'nba',
       'celebrity', 'hollywood', 'broadway', 'netflix', 'disney', 'marvel',
       'stock market', 'wall street', 'crypto', 'bitcoin', 'tesla', 'apple inc',
       'amazon', 'google', 'microsoft', 'facebook', 'twitter', 'instagram',
@@ -81,106 +126,56 @@ export const HawaiiNews = () => {
     
     const hasExcludedContent = excludeTerms.some(term => text.includes(term));
     
+    // POSITIVE CONTENT BOOST - Prioritize uplifting Hawaii stories
+    const positiveTerms = [
+      'festival', 'celebration', 'cultural event', 'new attraction', 'grand opening',
+      'conservation', 'preservation', 'sustainability', 'eco-friendly',
+      'whale watching', 'turtle nesting', 'coral restoration', 'marine sanctuary',
+      'stargazing', 'astronomy', 'observatory', 'clear skies', 'perfect weather',
+      'record visitor numbers', 'tourism growth', 'new flights', 'airline service',
+      'hotel opening', 'resort', 'luxury', 'award winning', 'best destination',
+      'food festival', 'chef', 'restaurant opening', 'local cuisine', 'farmers market',
+      'art gallery', 'museum', 'cultural center', 'traditional crafts',
+      'hiking trail', 'scenic drive', 'adventure tour', 'zipline', 'helicopter tour',
+      'snorkeling', 'diving', 'surfing', 'paddleboard', 'kayaking',
+      'sunset', 'sunrise', 'rainbow', 'scenic beauty', 'panoramic views'
+    ];
+    
+    const hasPositiveContent = positiveTerms.some(term => text.includes(term));
+    
+    // Only include if Hawaii-related, no negative content, and bonus for positive content
     return hasHawaiiContent && !hasExcludedContent;
   };
-
-  // CORS Proxy for RSS feeds
-  const CORS_PROXY = 'https://api.rss2json.com/v1/api.json?rss_url=';
-
-  // Categories remain the same
-  const categories = [
-    { id: "all", label: "All Updates", icon: <BookOpen className="w-4 h-4" /> },
-    { id: "Volcano Updates", label: "Volcano", icon: <Flame className="w-4 h-4" /> },
-    { id: "Ocean Conditions", label: "Ocean", icon: <Waves className="w-4 h-4" /> },
-    { id: "Weather & Activities", label: "Weather", icon: <Sun className="w-4 h-4" /> },
-    { id: "Travel Updates", label: "Travel", icon: <TrendingUp className="w-4 h-4" /> },
-    { id: "Cultural News", label: "Culture", icon: <MapPin className="w-4 h-4" /> }
-  ];
-
-  // Fallback news items with REAL LINKS to tour pages
-  const fallbackNews: NewsItem[] = [
-    {
-      id: 1,
-      title: "Kilauea Volcano Shows Increased Activity",
-      excerpt: "Scientists report new lava fountains reaching 800 feet, creating spectacular viewing opportunities for volcano tours.",
-      date: "2 hours ago",
-      category: "Volcano Updates",
-      source: "USGS Hawaiian Volcano Observatory",
-      image: "https://images.unsplash.com/photo-1540979388789-6cee28a1cdc9?q=80&w=400",
-      icon: <Flame className="w-4 h-4" />,
-      priority: "high",
-      location: "Big Island",
-      link: "/big-island/volcano-tours" // Real link to volcano tours
-    },
-    {
-      id: 2,
-      title: "Perfect Snorkeling Conditions Across All Islands",
-      excerpt: "Crystal clear waters and calm seas make this week ideal for underwater adventures. Visibility exceeds 100 feet.",
-      date: "4 hours ago", 
-      category: "Ocean Conditions",
-      source: "NOAA Ocean Service",
-      image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=400",
-      icon: <Waves className="w-4 h-4" />,
-      priority: "medium",
-      location: "All Islands",
-      link: "/tours/snorkeling" // Real link to snorkeling tours
-    },
-    {
-      id: 3,
-      title: "Mauna Kea Stargazing Tours Resume",
-      excerpt: "Clear skies return to Mauna Kea summit after weather clearing. Stargazing tours operating with exceptional visibility.",
-      date: "6 hours ago",
-      category: "Weather & Activities", 
-      source: "Mauna Kea Observatories",
-      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=400",
-      icon: <Sun className="w-4 h-4" />,
-      priority: "medium",
-      location: "Big Island",
-      link: "/big-island/stargazing-tours" // Real link to stargazing tours
-    },
-    {
-      id: 4,
-      title: "New Cultural Heritage Site Opens on Kauai",
-      excerpt: "Ancient Hawaiian archaeological site now accessible to visitors, offering insights into native Hawaiian history and traditions.",
-      date: "1 day ago",
-      category: "Cultural News",
-      source: "Hawaii Tourism Authority",
-      image: "https://images.unsplash.com/photo-1505852679233-d9fd70aff56d?q=80&w=400",
-      icon: <MapPin className="w-4 h-4" />,
-      priority: "low",
-      location: "Kauai",
-      link: "/kauai/cultural-tours" // Real link to cultural tours
-    },
-    {
-      id: 5,
-      title: "Helicopter Tours Report Best Visibility in Months",
-      excerpt: "Aerial tour operators across Hawaii report exceptional flying conditions with crystal clear skies and minimal trade winds.",
-      date: "1 day ago",
-      category: "Travel Updates",
-      source: "Hawaii Aviation Weather",
-      image: "https://images.unsplash.com/photo-1598135753163-6167c1a1ad65?q=80&w=400", 
-      icon: <TrendingUp className="w-4 h-4" />,
-      priority: "medium",
-      location: "All Islands",
-      link: "/tours/helicopter" // Real link to helicopter tours
-    },
-    {
-      id: 6,
-      title: "Humpback Whale Season Begins Early",
-      excerpt: "First humpback whale sightings of the season reported off Maui coast, signaling early start to whale watching season.",
-      date: "2 days ago",
-      category: "Wildlife Updates",
-      source: "Pacific Whale Foundation", 
-      image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=400",
-      icon: <Waves className="w-4 h-4" />,
-      priority: "medium",
-      location: "Maui",
-      link: "/maui/whale-watching" // Real link to whale watching tours
+  
+  // ALSO ADD this new function to further filter by category:
+  const isPositiveTourismContent = (title: string, description: string, category: string): boolean => {
+    // These categories are perfect for tour companies
+    const tourismFriendlyCategories = [
+      "Ocean Conditions",      // Great for water activities
+      "Weather & Activities",  // Perfect for planning
+      "Travel Updates",        // Direct tourism relevance  
+      "Cultural News",         // Showcases Hawaiian culture
+      "Volcano Updates"        // Only if it's about viewing opportunities
+    ];
+    
+    // For volcano updates, make sure it's about tourism/viewing, not danger
+    if (category === "Volcano Updates") {
+      const text = (title + ' ' + description).toLowerCase();
+      const dangerTerms = ['evacuation', 'danger', 'warning', 'hazard', 'threat', 'emergency'];
+      const viewingTerms = ['viewing', 'spectacular', 'tours', 'visitors', 'sightseeing', 'amazing'];
+      
+      const hasDanger = dangerTerms.some(term => text.includes(term));
+      const hasViewing = viewingTerms.some(term => text.includes(term));
+      
+      // Only include volcano news if it's about viewing opportunities, not dangers
+      return !hasDanger && hasViewing;
     }
-  ];
+    
+    return tourismFriendlyCategories.includes(category);
+  };
 
   // Smart categorization based on keywords
-  const categorizeNews = (title: string, description: string): { category: string; icon: React.ReactNode; location: string; priority: string } => {
+  const categorizeNews = (title: string, description: string) => {
     const text = (title + ' ' + description).toLowerCase();
     
     if (text.includes('volcano') || text.includes('eruption') || text.includes('lava') || text.includes('kilauea')) {
@@ -199,7 +194,6 @@ export const HawaiiNews = () => {
       return { category: "Cultural News", icon: <MapPin className="w-4 h-4" />, location: "All Islands", priority: "low" };
     }
     
-    // Default categorization
     return { category: "Travel Updates", icon: <TrendingUp className="w-4 h-4" />, location: "All Islands", priority: "medium" };
   };
 
@@ -209,80 +203,12 @@ export const HawaiiNews = () => {
       "Volcano Updates": "https://images.unsplash.com/photo-1540979388789-6cee28a1cdc9?q=80&w=400",
       "Ocean Conditions": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=400",
       "Weather & Activities": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=400",
-      "Travel Updates": "https://images.unsplash.com/photo-1598135753163-6167c1a1ad65?q=80&w=400",
+      "Travel Updates": "https://images.unsplash.com/photo-1598135753163-d9fd70aff56d?q=80&w=400",
       "Cultural News": "https://images.unsplash.com/photo-1505852679233-d9fd70aff56d?q=80&w=400"
     };
     return images[category as keyof typeof images] || "https://images.unsplash.com/photo-1542259009477-d625272157b7?q=80&w=400";
   };
 
-  // Newsletter Modal Functions
-  const handleNewsletterSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newsletterEmail || !newsletterFirstName) return;
-
-    setNewsletterSubmitting(true);
-    
-    // TODO: Replace with actual GHL/Make.com integration
-    const formData = {
-      email: newsletterEmail,
-      phone: newsletterSmsOptIn ? newsletterPhone : '',
-      firstName: newsletterFirstName,
-      smsOptIn: newsletterSmsOptIn,
-      source: 'hawaii_news_newsletter',
-      timestamp: new Date().toISOString(),
-      newsUpdates: true
-    };
-
-    try {
-      // Simulate API call - replace with actual endpoint
-      // await fetch('/api/newsletter-signup', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData)
-      // });
-
-      console.log('Newsletter signup from Hawaii News:', formData);
-      
-      // Simulate success delay
-      setTimeout(() => {
-        setNewsletterSubmitted(true);
-        setNewsletterSubmitting(false);
-      }, 1500);
-      
-    } catch (error) {
-      console.error('Newsletter signup error:', error);
-      setNewsletterSubmitting(false);
-    }
-  };
-
-  const closeNewsletterModal = () => {
-    setShowNewsletterModal(false);
-    // Reset form after a delay
-    setTimeout(() => {
-      setNewsletterSubmitted(false);
-      setNewsletterEmail("");
-      setNewsletterPhone("");
-      setNewsletterFirstName("");
-      setNewsletterSmsOptIn(false);
-    }, 300);
-  };
-
-  // Close modal on Escape key
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeNewsletterModal();
-    };
-    
-    if (showNewsletterModal) {
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden'; // Prevent background scroll
-    }
-    
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'auto';
-    };
-  }, [showNewsletterModal]);
   // Format relative time
   const formatDate = (dateString: string): string => {
     try {
@@ -301,9 +227,48 @@ export const HawaiiNews = () => {
     }
   };
 
+  // Validate and clean image URL
+  const validateAndCleanImageUrl = (imageUrl: string): string => {
+    if (!imageUrl || imageUrl.trim() === '') {
+      return "https://images.unsplash.com/photo-1542259009477-d625272157b7?q=80&w=400";
+    }
+    
+    let cleanUrl = imageUrl.trim();
+    cleanUrl = cleanUrl.replace(/^["']|["']$/g, '');
+    
+    if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
+      return "https://images.unsplash.com/photo-1542259009477-d625272157b7?q=80&w=400";
+    }
+    
+    const hasImageExtension = /\.(jpg|jpeg|png|gif|webp)($|\?)/i.test(cleanUrl);
+    
+    if (!hasImageExtension && !cleanUrl.includes('unsplash') && !cleanUrl.includes('imgur')) {
+      return "https://images.unsplash.com/photo-1542259009477-d625272157b7?q=80&w=400";
+    }
+    
+    return cleanUrl;
+  };
+
+  // Helper function for deduplication
+  const calculateSimilarity = (str1: string, str2: string): number => {
+    const words1 = str1.split(/\s+/);
+    const words2 = str2.split(/\s+/);
+    
+    const commonWords = words1.filter(word => 
+      word.length > 3 && words2.includes(word)
+    ).length;
+    
+    const totalWords = Math.max(words1.length, words2.length);
+    return totalWords > 0 ? commonWords / totalWords : 0;
+  };
+
   // Fetch RSS feeds
-  const fetchRSSFeeds = async () => {
+  const fetchRSSFeeds = async (isManualRefresh = false) => {
     try {
+      if (isManualRefresh) {
+        setIsLoading(true);
+      }
+      
       setRssError(null);
       const allNewsItems: NewsItem[] = [];
       
@@ -313,92 +278,197 @@ export const HawaiiNews = () => {
           
           if (!response.ok) continue;
           
-          const xmlText = await response.text();
-          const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+          const data = await response.json();
           
-          const items = xmlDoc.querySelectorAll('item');
-          
-          for (let i = 0; i < Math.min(items.length, 8); i++) { // Increased to 8 per feed
-            const item = items[i];
-            
-            const title = item.querySelector('title')?.textContent?.trim() || '';
-            const description = item.querySelector('description')?.textContent?.trim() || '';
-            const link = item.querySelector('link')?.textContent?.trim() || '';
-            const pubDate = item.querySelector('pubDate')?.textContent?.trim() || '';
-            
-            // HAWAII RELEVANCE CHECK - Only include Hawaii-related articles
-            if (title && description && isHawaiiRelevant(title, description)) {
-              // Smart categorization
-              const { category, icon, location, priority } = categorizeNews(title, description);
+          if (data.status === 'ok' && data.items) {
+            for (let i = 0; i < Math.min(data.items.length, 10); i++) {
+              const item = data.items[i];
               
-              allNewsItems.push({
-                id: Date.now() + i + Math.random(), // More unique ID
-                title,
-                excerpt: description.replace(/<[^>]*>/g, '').slice(0, 150) + '...', // Clean HTML, truncate
-                date: formatDate(pubDate),
-                category,
-                source: feed.source,
-                image: getImageForCategory(category),
-                icon,
-                priority,
-                location,
-                link
-              });
-            }
-          }
+              const title = item.title?.trim() || '';
+              const description = item.description?.trim() || '';
+              const link = item.link?.trim() || '';
+              const pubDate = item.pubDate?.trim() || '';
+              
+              if (title && description && isHawaiiRelevant(title, description)) {
+                const { category, icon, location, priority } = categorizeNews(title, description);
+                
+                // NEW: Additional positive tourism filter
+                if (isPositiveTourismContent(title, description, category)) {
+                  // Dynamic image extraction
+                  let articleImage = '';
+                  let hasRealImage = false;
+                  
+                  if (item.thumbnail && item.thumbnail.trim()) {
+                    articleImage = item.thumbnail;
+                    hasRealImage = true;
+                  } else if (item.enclosure && item.enclosure.link && item.enclosure.type?.includes('image')) {
+                    articleImage = item.enclosure.link;
+                    hasRealImage = true;
+                  } else if (item.content || item.description) {
+                    const contentToSearch = item.content || item.description;
+                    const imgMatch = contentToSearch.match(/<img[^>]+src="([^">]+)"/i);
+                    if (imgMatch && imgMatch[1]) {
+                      articleImage = imgMatch[1];
+                      hasRealImage = true;
+                    }
+                  } else if (item['media:content']?.url) {
+                    articleImage = item['media:content'].url;
+                    hasRealImage = true;
+                  } else if (item['media:thumbnail']?.url) {
+                    articleImage = item['media:thumbnail'].url;
+                    hasRealImage = true;
+                  } else {
+                    const urlPattern = /(https?:\/\/[^\s]+\.(?:jpg|jpeg|png|gif|webp))/i;
+                    const urlMatch = description.match(urlPattern);
+                    if (urlMatch && urlMatch[1]) {
+                      articleImage = urlMatch[1];
+                      hasRealImage = true;
+                    }
+                  }
+                  
+                  // Only add articles with real images
+                  if (hasRealImage) {
+                    articleImage = validateAndCleanImageUrl(articleImage);
+                    
+                    allNewsItems.push({
+                      id: Date.now() + i + Math.random(),
+                      title,
+                      excerpt: description.replace(/<[^>]*>/g, '').slice(0, 150) + '...',
+                      date: formatDate(pubDate),
+                      category,
+                      source: feed.source,
+                      image: articleImage,
+                      icon,
+                      priority,
+                      location,
+                      link
+                    });
+                  }
+                } // End isPositiveTourismContent check
+              } // End isHawaiiRelevant check
+            } // End for loop (items)
+          } // End if (data.status === 'ok')
         } catch (feedError) {
           console.error(`Error fetching ${feed.source}:`, feedError);
         }
-      }
+      } // End for loop (feeds)
       
-      if (allNewsItems.length > 0) {
-        // Sort by publication date and source priority
-        allNewsItems.sort((a, b) => {
-          // First sort by source priority (Star Advertiser & KHON2 first)
+      // Remove duplicates based on title similarity
+      const deduplicatedItems = allNewsItems.filter((item, index, array) => {
+        // Keep the first occurrence of articles with similar titles
+        return index === array.findIndex(otherItem => {
+          // Compare titles - remove common words and check similarity
+          const cleanTitle1 = item.title.toLowerCase()
+            .replace(/[^\w\s]/g, '') // Remove punctuation
+            .replace(/\b(the|a|an|in|on|at|to|for|of|with|by)\b/g, '') // Remove common words
+            .trim();
+          
+          const cleanTitle2 = otherItem.title.toLowerCase()
+            .replace(/[^\w\s]/g, '')
+            .replace(/\b(the|a|an|in|on|at|to|for|of|with|by)\b/g, '')
+            .trim();
+          
+          // Check if titles are very similar (80% match)
+          const similarity = calculateSimilarity(cleanTitle1, cleanTitle2);
+          return similarity > 0.8;
+        });
+      });
+      
+      if (deduplicatedItems.length > 0) {
+        deduplicatedItems.sort((a, b) => {
           const priorityA = a.source.includes('Star-Advertiser') || a.source.includes('KHON2') ? 1 : 2;
           const priorityB = b.source.includes('Star-Advertiser') || b.source.includes('KHON2') ? 1 : 2;
           
           if (priorityA !== priorityB) return priorityA - priorityB;
-          
-          // Then by date (newest first)
           return new Date(b.date).getTime() - new Date(a.date).getTime();
         });
         
-        // Mix RSS content with select fallback content for variety
-        const hawaiiRelevantFallback = fallbackNews.filter(item => 
-          isHawaiiRelevant(item.title, item.excerpt)
-        );
-        
-        const mixedNews = [
-          ...allNewsItems.slice(0, 5), // Top 5 RSS articles
-          ...hawaiiRelevantFallback.slice(0, 1) // Add 1 curated item
-        ].slice(0, 6); // Limit to 6 total items for 2x3 grid
-        
-        setNewsItems(mixedNews);
+        setNewsItems(deduplicatedItems.slice(0, 3)); // 3 unique cards
         setLastUpdated(new Date());
         setRssError(null);
       } else {
-        // Use filtered fallback content if no Hawaii-relevant RSS found
-        const hawaiiRelevantFallback = fallbackNews.filter(item => 
-          isHawaiiRelevant(item.title, item.excerpt)
-        );
-        setNewsItems(hawaiiRelevantFallback);
-        setRssError('');
+        setNewsItems([]);
+        setRssError('No unique positive Hawaii news with images currently available. Try refreshing in a few minutes.');
       }
     } catch (error) {
       console.error('RSS fetch error:', error);
-      setNewsItems(fallbackNews);
-      setRssError('Using cached content - RSS temporarily unavailable');
+      setNewsItems([]);
+      setRssError('Unable to load Hawaii news feeds. Please try refreshing.');
+    } finally {
+      if (isManualRefresh) {
+        setIsLoading(false);
+      }
     }
   };
 
+  // Manual refresh handler
+  const handleManualRefresh = () => {
+    fetchRSSFeeds(true);
+  };
+
+  // Newsletter functions
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newsletterEmail || !newsletterFirstName) return;
+
+    setNewsletterSubmitting(true);
+    
+    const formData = {
+      email: newsletterEmail,
+      phone: newsletterSmsOptIn ? newsletterPhone : '',
+      firstName: newsletterFirstName,
+      smsOptIn: newsletterSmsOptIn,
+      source: 'hawaii_news_newsletter',
+      timestamp: new Date().toISOString(),
+      newsUpdates: true
+    };
+
+    try {
+      console.log('Newsletter signup from Hawaii News:', formData);
+      
+      setTimeout(() => {
+        setNewsletterSubmitted(true);
+        setNewsletterSubmitting(false);
+      }, 1500);
+      
+    } catch (error) {
+      console.error('Newsletter signup error:', error);
+      setNewsletterSubmitting(false);
+    }
+  };
+
+  const closeNewsletterModal = () => {
+    setShowNewsletterModal(false);
+    setTimeout(() => {
+      setNewsletterSubmitted(false);
+      setNewsletterEmail("");
+      setNewsletterPhone("");
+      setNewsletterFirstName("");
+      setNewsletterSmsOptIn(false);
+    }, 300);
+  };
+
+  // Close modal on Escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeNewsletterModal();
+    };
+    
+    if (showNewsletterModal) {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden';
+    }
+    
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'auto';
+    };
+  }, [showNewsletterModal]);
+
   // Initial load and auto-refresh
   useEffect(() => {
-    setNewsItems(fallbackNews); // Show fallback immediately
-    fetchRSSFeeds(); // Then try to load RSS
-    
-    const interval = setInterval(fetchRSSFeeds, 30 * 60 * 1000); // 30 minutes
+    fetchRSSFeeds();
+    const interval = setInterval(fetchRSSFeeds, 15 * 60 * 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -409,7 +479,6 @@ export const HawaiiNews = () => {
   const handleCategoryChange = (categoryId: string) => {
     setIsLoading(true);
     setActiveCategory(categoryId);
-    // Simulate loading delay for smooth UX
     setTimeout(() => setIsLoading(false), 300);
   };
 
@@ -425,7 +494,7 @@ export const HawaiiNews = () => {
   return (
     <section id="news" className="py-20 bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
       <div className="container mx-auto px-4">
-        {/* Enhanced Section Header */}
+        {/* Section Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center bg-gradient-to-r from-blue-100 to-green-100 text-blue-700 px-6 py-2 rounded-full text-sm mb-6 backdrop-blur-sm border border-blue-200/50">
             <TrendingUp className="w-4 h-4 mr-2" />
@@ -462,12 +531,12 @@ export const HawaiiNews = () => {
           ))}
         </div>
 
-        {/* Live Indicator with Feed Sources */}
+        {/* Live Indicator */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center bg-green-50 px-4 py-2 rounded-full border border-green-200 mb-4">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-3"></div>
             <span className="text-green-700 font-medium text-sm">
-              Hawaii-focused content • Updated: {lastUpdated ? lastUpdated.toLocaleTimeString() : 'Just now'}
+              Hawaii-focused content Updated: {lastUpdated ? lastUpdated.toLocaleTimeString() : 'Just now'}
             </span>
             {rssError && (
               <span className="ml-2 text-orange-600 text-xs">({rssError})</span>
@@ -478,7 +547,8 @@ export const HawaiiNews = () => {
           <div className="flex justify-center gap-3 flex-wrap">
             {RSS_FEEDS.map((feed, index) => (
               <div key={index} className="bg-white px-3 py-1 rounded-full border border-gray-200 text-xs font-medium text-gray-700">
-                📰 {feed.source}
+                 {feed.source}
+
               </div>
             ))}
           </div>
@@ -487,65 +557,96 @@ export const HawaiiNews = () => {
         {/* Manual Refresh Button */}
         <div className="text-center mb-8">
           <button
-            onClick={fetchRSSFeeds}
-            className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 hover:border-blue-300 px-4 py-2 rounded-xl font-medium transition-all duration-300"
+            onClick={handleManualRefresh}
+            disabled={isLoading}
+            className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+              isLoading
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : 'bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 hover:border-blue-300 shadow-sm hover:shadow-md'
+            }`}
           >
-            <RefreshCw className="w-4 h-4" />
-            Refresh News
+            <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
+            {isLoading ? 'Refreshing News...' : 'Refresh News Feed'}
           </button>
+          
+          {isLoading && (
+            <div className="mt-2 text-sm text-gray-500">
+              Fetching latest Hawaii news updates...
+            </div>
+          )}
         </div>
 
         {/* News Grid */}
         <div className={`transition-opacity duration-300 ${isLoading ? 'opacity-50' : 'opacity-100'}`}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-            {filteredNews.map((item, index) => (
-              <article 
-                key={item.id} 
-                className={`bg-white rounded-2xl shadow-lg border-l-4 ${getPriorityColor(item.priority)} overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] group cursor-pointer`}
-                onClick={() => item.link && window.open(item.link, '_blank')}
-              >
-                {/* Image */}
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-2">
-                    <div className="text-gray-600">
-                      {item.icon}
-                    </div>
-                    <span className="text-xs font-medium text-gray-700">{item.category}</span>
-                  </div>
-                  <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white px-2 py-1 rounded text-xs font-medium">
-                    {item.location}
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Clock className="w-4 h-4 text-gray-400" />
-                    <span className="text-sm text-gray-500">{item.date}</span>
-                    <span className="text-gray-300">•</span>
-                    <span className="text-sm text-gray-500">{item.source}</span>
-                  </div>
-                  
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                    {item.title}
+            {filteredNews.length === 0 ? (
+              <div className="col-span-full text-center py-12">
+                <div className="bg-blue-50 rounded-2xl p-8 max-w-md mx-auto">
+                  <TrendingUp className="w-12 h-12 text-blue-600 mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">
+                    Loading Fresh Hawaii News
                   </h3>
-                  
-                  <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed">
-                    {item.excerpt}
+                  <p className="text-gray-600 mb-4">
+                    We're fetching the latest Hawaii news with images from our trusted sources.
                   </p>
-
-                  <div className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-colors group/btn">
-                    {item.link && item.link.startsWith('http') ? 'Read Full Article' : 'Book Related Tours'}
-                    <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover/btn:translate-x-1" />
-                  </div>
+                  <button
+                    onClick={handleManualRefresh}
+                    disabled={isLoading}
+                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                      isLoading 
+                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        : 'bg-blue-600 hover:bg-blue-700 text-white'
+                    }`}
+                  >
+                    {isLoading ? 'Refreshing...' : 'Refresh News Feed'}
+                  </button>
                 </div>
-              </article>
-            ))}
+              </div>
+            ) : (
+              filteredNews.map((item, index) => (
+                <article 
+                  key={item.id} 
+                  className={`bg-white rounded-2xl shadow-lg border-l-4 ${getPriorityColor(item.priority)} overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] group cursor-pointer`}
+                  onClick={() => item.link && window.open(item.link, '_blank')}
+                >
+                  <div className="relative h-48 overflow-hidden">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-2">
+                      <div className="text-gray-600">{item.icon}</div>
+                      <span className="text-xs font-medium text-gray-700">{item.category}</span>
+                    </div>
+                    <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white px-2 py-1 rounded text-xs font-medium">
+                      {item.location}
+                    </div>
+                  </div>
+
+                  <div className="p-6">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Clock className="w-4 h-4 text-gray-400" />
+                      <span className="text-sm text-gray-500">{item.date}</span>
+                      <span className="text-sm text-gray-500">{item.source}</span>
+                    </div>
+                    
+                    <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                      {item.title}
+                    </h3>
+                    
+                    <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed">
+                      {item.excerpt}
+                    </p>
+
+                    <div className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-colors group/btn">
+                      {item.link && item.link.startsWith('http') ? 'Read Full Article' : 'Book Related Tours'}
+                      <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover/btn:translate-x-1" />
+                    </div>
+                  </div>
+                </article>
+              ))
+            )}
           </div>
         </div>
 
@@ -575,13 +676,12 @@ export const HawaiiNews = () => {
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
             {newsletterSubmitted ? (
-              // Success State
               <div className="p-8 text-center">
                 <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
                   <CheckCircle className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                  You're Subscribed! 🌺
+                  You're Subscribed! ð��º
                 </h3>
                 <p className="text-gray-600 mb-6">
                   You'll now receive the latest Hawaii travel updates, news, and insider tips directly in your inbox.
@@ -594,7 +694,6 @@ export const HawaiiNews = () => {
                 </Button>
               </div>
             ) : (
-              // Newsletter Form
               <div className="p-8">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-3">
@@ -658,7 +757,7 @@ export const HawaiiNews = () => {
                       />
                       <div className="flex-1">
                         <label htmlFor="newsletter-smsOptIn" className="text-sm font-medium text-gray-700 cursor-pointer">
-                          📱 Also send me SMS updates (optional)
+                          ð��± Also send me SMS updates (optional)
                         </label>
                         <p className="text-xs text-gray-600 mt-1">
                           Get instant volcano alerts, weather updates, and breaking Hawaii news
@@ -739,3 +838,5 @@ export const HawaiiNews = () => {
     </section>
   );
 };
+
+export default HawaiiNews;

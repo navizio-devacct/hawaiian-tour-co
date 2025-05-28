@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -94,7 +95,33 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: "Inter", sans-serif;
   }
+}
+
+/* Blog Content Styles - Using your preferred colors */
+.blog-content h2 {
+  @apply text-2xl font-bold text-foreground mt-8 mb-4;
+}
+
+.blog-content h3 {
+  @apply text-xl font-semibold text-foreground mt-6 mb-3;
+}
+
+.blog-content p {
+  @apply text-muted-foreground leading-relaxed mb-4;
+}
+
+.blog-content ul {
+  @apply list-disc pl-6 mb-4 space-y-2;
+}
+
+.blog-content li {
+  @apply text-muted-foreground leading-relaxed;
+}
+
+.blog-content strong {
+  @apply font-semibold text-foreground;
 }
 
 /* Additional utility classes for mobile optimization */

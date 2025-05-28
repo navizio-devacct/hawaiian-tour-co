@@ -88,11 +88,13 @@ export const Footer = () => {
             <ul className="space-y-2 text-sm">
               <li><Link to="/contact" className="hover:text-sunset-100 transition-colors">Contact Us</Link></li>
               <li><Link to="/about" className="hover:text-sunset-100 transition-colors">About Us</Link></li>
-              <li><Link to="/reviews" className="hover:text-sunset-100 transition-colors">Customer Reviews</Link></li>
-              <li><Link to="/booking-help" className="hover:text-sunset-100 transition-colors">Booking Help</Link></li>
+              <li><Link to="/blog" className="hover:text-sunset-100 transition-colors">Our Blogs</Link></li>
+              <li><Link to="/faq" className="hover:text-sunset-100 transition-colors">Visit our FAQ</Link></li>
+             {/*  <li><Link to="/reviews" className="hover:text-sunset-100 transition-colors">Customer Reviews</Link></li>
+             <li><Link to="/booking-help" className="hover:text-sunset-100 transition-colors">Booking Help</Link></li>
               <li><Link to="/gift-cards" className="hover:text-sunset-100 transition-colors">Gift Cards</Link></li>
               <li><Link to="/group-bookings" className="hover:text-sunset-100 transition-colors">Group Bookings</Link></li>
-              <li><Link to="/faq" className="hover:text-sunset-100 transition-colors">FAQ</Link></li>
+              <li><Link to="/faq" className="hover:text-sunset-100 transition-colors">FAQ</Link></li> */}
             </ul>
             </div>
 

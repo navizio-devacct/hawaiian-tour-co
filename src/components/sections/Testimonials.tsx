@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Star, Quote, ChevronLeft, ChevronRight, MapPin, Calendar, Users, Play } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const Testimonials = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -11,12 +12,11 @@ export const Testimonials = () => {
       name: "Sarah & Mike Johnson",
       location: "Denver, Colorado",
       tour: "Big Island Volcano & Stargazing",
+      tourLink: "/big-island", // Link to Big Island page where this tour would be
       rating: 5,
       date: "March 2024",
       groupSize: "Family of 4",
       text: "Absolutely incredible experience! Our guide was so knowledgeable about Hawaiian culture and geology. Seeing the active lava and then stargazing on Mauna Kea was life-changing. Our kids are still talking about it months later. Worth every penny!",
-      // image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=150", // TODO: Add when we have real customer photos
-      // videoThumbnail: "volcano-testimonial-thumb.jpg", // TODO: Add when we have video testimonials
       verified: true,
       tourProvider: "Hawaii Forest & Trail"
     },
@@ -25,11 +25,11 @@ export const Testimonials = () => {
       name: "David Chen",
       location: "San Francisco, California", 
       tour: "Maui Road to Hana Adventure",
+      tourLink: "/maui", // Link to Maui page where Road to Hana tours are
       rating: 5,
       date: "February 2024",
       groupSize: "Solo traveler",
       text: "As a solo traveler, I was worried about feeling out of place, but the group was so welcoming and our guide made sure everyone felt included. The waterfalls, black sand beaches, and bamboo forest were absolutely magical. Best day of my Hawaii trip!",
-      // image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150", // TODO: Add when we have real customer photos
       verified: true,
       tourProvider: "Valley Isle Excursions"
     },
@@ -37,12 +37,12 @@ export const Testimonials = () => {
       id: 3,
       name: "Emily Rodriguez",
       location: "Austin, Texas",
-      tour: "Oahu Pearl Harbor & City Tour", 
+      tour: "Oahu Pearl Harbor & City Tour",
+      tourLink: "/oahu", // Link to Oahu page where Pearl Harbor tours are
       rating: 5,
       date: "January 2024",
       groupSize: "Couple",
       text: "The Pearl Harbor portion was incredibly moving and educational. Our guide shared stories that really brought the history to life. The combination with the Honolulu city tour was perfect - we got to see both the solemn history and vibrant culture of Oahu in one day.",
-      // image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?q=80&w=150", // TODO: Add when we have real customer photos  
       verified: true,
       tourProvider: "Polynesian Adventure Tours"
     },
@@ -51,12 +51,11 @@ export const Testimonials = () => {
       name: "The Williams Family",
       location: "Nashville, Tennessee",
       tour: "Kauai Na Pali Coast Helicopter Tour",
+      tourLink: "/kauai", // Link to Kauai page where helicopter tours are
       rating: 5,
       date: "April 2024", 
       groupSize: "Family of 6",
       text: "Words can't describe the beauty we saw from above! The Na Pali Coast cliffs are even more stunning from a helicopter. Our pilot was amazing - very safe and knowledgeable. Even our teenage kids were speechless (which never happens!). An absolute must-do experience.",
-      // image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=150", // TODO: Add when we have real customer photos
-      // videoThumbnail: "helicopter-testimonial-thumb.jpg", // TODO: Add when we have video testimonials
       verified: true,
       tourProvider: "Blue Hawaiian Helicopters"
     },
@@ -65,11 +64,11 @@ export const Testimonials = () => {
       name: "Jessica & Tom Anderson", 
       location: "Portland, Oregon",
       tour: "Maui Snorkeling & Whale Watching",
+      tourLink: "/maui", // Link to Maui page where snorkeling tours are
       rating: 5,
       date: "March 2024",
       groupSize: "Couple",
       text: "We saw so many sea turtles, tropical fish, and even some dolphins! The snorkeling spots were pristine and not crowded at all. On the way back, we spotted a mother humpback whale with her calf. The crew was fantastic - friendly, knowledgeable, and great photographers. Perfect honeymoon memory!",
-      // image: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?q=80&w=150", // TODO: Add when we have real customer photos
       verified: true,
       tourProvider: "Trilogy Excursions"
     }
@@ -131,13 +130,6 @@ export const Testimonials = () => {
               
               {/* Customer Info Side */}
               <div className="bg-gradient-to-br from-blue-600 to-green-600 p-8 text-white flex flex-col justify-center">
-                {/* TODO: Uncomment when we have real customer photos */}
-                {/* {current.image && (
-                  <div className="w-20 h-20 rounded-full overflow-hidden mb-6 mx-auto lg:mx-0 border-4 border-white/20">
-                    <img src={current.image} alt={current.name} className="w-full h-full object-cover" />
-                  </div>
-                )} */}
-                
                 {/* Placeholder avatar until we get real photos */}
                 <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm mb-6 mx-auto lg:mx-0 border-4 border-white/20 flex items-center justify-center">
                   <span className="text-2xl font-bold">{current.name.charAt(0)}</span>
@@ -178,14 +170,6 @@ export const Testimonials = () => {
                     </div>
                   )}
                 </div>
-
-                {/* TODO: Uncomment when we have video testimonials */}
-                {/* {current.videoThumbnail && (
-                  <button className="mt-6 inline-flex items-center bg-white/20 hover:bg-white/30 px-4 py-2 rounded-xl transition-colors">
-                    <Play className="w-4 h-4 mr-2" />
-                    Watch Video Review
-                  </button>
-                )} */}
               </div>
 
               {/* Testimonial Content - Fixed Height */}
@@ -224,15 +208,17 @@ export const Testimonials = () => {
                     </div>
                   </div>
 
-                  {/* Single Conversion CTA */}
+                  {/* Single Conversion CTA - Now with dynamic tour link */}
                   <div className="pt-6 border-t border-gray-100">
                     <p className="text-sm text-gray-600 mb-4">Experience this amazing tour yourself:</p>
-                    <button className="w-full bg-gradient-to-r from-sunset-100 to-sunset-200 hover:from-sunset-200 hover:to-sunset-300 text-white px-6 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
-                      Book "{current.tour}" Now
-                    </button>
+                    <Link to={current.tourLink}>
+                      <button className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        Book "{current.tour}" Now
+                      </button>
+                    </Link>
                     <div className="flex items-center justify-center gap-4 text-xs text-gray-500 mt-3">
                       <span>⚡ Instant confirmation</span>
-                      <span>💰 Best price guarantee</span>
+                      <span>💰 Competitive pricing</span>
                       <span>🔄 Free cancellation</span>
                     </div>
                   </div>
@@ -260,9 +246,9 @@ export const Testimonials = () => {
         {/* Trust Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
           <div className="text-center bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-            <div className="text-3xl font-bold text-blue-600 mb-2">4.9★</div>
+            <div className="text-3xl font-bold text-blue-600 mb-2">4.8★</div>
             <div className="text-gray-600">Average Rating</div>
-            <div className="text-sm text-gray-500 mt-1">Based on thousands of reviews</div>
+            <div className="text-sm text-gray-500 mt-1">Based on 10K+ reviews</div>
           </div>
           <div className="text-center bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
             <div className="text-3xl font-bold text-green-600 mb-2">98%</div>
@@ -271,8 +257,8 @@ export const Testimonials = () => {
           </div>
           <div className="text-center bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
             <div className="text-3xl font-bold text-purple-600 mb-2">10K+</div>
-            <div className="text-gray-600">Happy Guests</div>
-            <div className="text-sm text-gray-500 mt-1">and Travelers</div>
+            <div className="text-gray-600">Happy Travelers</div>
+            <div className="text-sm text-gray-500 mt-1">Satisfied customers</div>
           </div>
         </div>
       </div>
