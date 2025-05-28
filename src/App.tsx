@@ -49,6 +49,7 @@ import HawaiiVolcanoes from "./pages/attractions/HawaiiVolcanoes";
 import NaPaliCoast from "./pages/attractions/NaPaliCoast";
 import WaimeaCanyon from "./pages/attractions/WaimeaCanyon";
 import Haleakala from "./pages/attractions/Haleakala";
+import Blog from "./pages/Blog";
 
 const queryClient = new QueryClient();
 
@@ -68,6 +69,7 @@ const App = () => (
             <Route path="/kauai" element={<Kauai />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<AboutUs />} />
+            <Route path="/blog" element={<Blog />} />
             <Route path="/booknow" element={<BookNow />} />
             <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />

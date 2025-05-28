@@ -65,6 +65,12 @@ export const Navigation = () => {
               </div>
             </div>
             <Link 
+              to="/blog"
+              className={`transition-colors duration-300 ${getTextColor()} hover:text-ocean-100`}
+            >
+              Blog
+            </Link>
+            <Link 
               to="/about"
               className={`transition-colors duration-300 ${getTextColor()} hover:text-ocean-100`}
             >
@@ -77,13 +83,13 @@ export const Navigation = () => {
               Contact
             </Link>
             <Link 
-  to="/booknow"  
-  className={`bg-sunset-100 hover:bg-sunset-200 text-white px-6 py-2 rounded-full transition-all duration-300 ${
-    isScrolled ? 'shadow-md' : ''
-  }`}
->
-  Book Now
-</Link>
+              to="/booknow"  
+              className={`bg-sunset-100 hover:bg-sunset-200 text-white px-6 py-2 rounded-full transition-all duration-300 ${
+                isScrolled ? 'shadow-md' : ''
+              }`}
+            >
+              Book Now
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -138,6 +144,13 @@ export const Navigation = () => {
                 Kauai
               </Link>
               <div className="border-b border-gray-200 my-2"></div>
+              <Link
+                to="/blog"
+                className="text-palm-100 hover:text-ocean-100 transition-colors duration-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Blog
+              </Link>
               <Link
                 to="/about"
                 className="text-palm-100 hover:text-ocean-100 transition-colors duration-300"
