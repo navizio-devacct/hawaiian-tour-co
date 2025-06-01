@@ -16,6 +16,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useSearchParams } from "react-router-dom";
+
 
 interface IslandLayoutProps {
   name: string;
@@ -44,6 +46,8 @@ export const IslandLayout = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [toursToShow, setToursToShow] = useState(12);
+  const [searchParams] = useSearchParams();
+
 
   // Get all featured tours for this island
   const islandTours = tours.filter(
@@ -84,6 +88,14 @@ export const IslandLayout = ({
     window.addEventListener('heroSearch', handleHeroSearch as EventListener);
     return () => window.removeEventListener('heroSearch', handleHeroSearch as EventListener);
   }, []);
+
+  useEffect(() => {
+    const searchParam = searchParams.get("search");
+    if (searchParam) {
+      setSearchQuery(searchParam);
+      setShowSearch(true);
+    }
+  }, [searchParams]);
 
   const clearSearch = () => {
     setSearchQuery("");
