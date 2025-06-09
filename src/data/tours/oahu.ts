@@ -849,7 +849,7 @@ export const oahuTours: Tour[] = [
     affiliateUrl: "https://fareharbor.com/embeds/book/thesurfbus/items/24134/?asn=fhdn&asn-ref=hawaiiantourco&full-items=yes&flow=no&branding=yes&bookable-only=yes&ref=hawaiiantourco&back=BACKLINK",
     tags: ["featured"]
   },
-  {/* {
+  {
     title: "Full Day Custom Adventure (8 hours)",
     description: "Take a Hike Oahu - Bus Tour in Honolulu, Hawaii",
     price: null,
@@ -860,7 +860,7 @@ export const oahuTours: Tour[] = [
     category: "Bus Tours",
     affiliateUrl: "https://fareharbor.com/embeds/book/hawaiianshuttles/items/88844/?asn=fhdn&asn-ref=hawaiiantourco&full-items=yes&flow=no&branding=yes&bookable-only=yes&ref=hawaiiantourco&back=BACKLINK",
     tags: ["featured"]
-  },*/}
+  },
   {
     title: "Island and You",
     description: "And You Creations - Dolphin in Honolulu, Hawaii",
