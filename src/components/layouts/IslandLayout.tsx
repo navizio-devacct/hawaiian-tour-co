@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { ReactNode } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Newsletter } from "@/components/sections/Newsletter";
@@ -7,7 +6,6 @@ import { WeatherTicker } from "@/components/WeatherTicker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChevronRight, Search, X } from "lucide-react";
-import { tours } from "@/data/tours";
 import { TourCard } from "@/components/TourCard";
 import {
   Select,
@@ -17,7 +15,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useSearchParams } from "react-router-dom";
-
 
 interface IslandLayoutProps {
   name: string;
@@ -42,40 +39,29 @@ export const IslandLayout = ({
   activities,
   history,
 }: IslandLayoutProps) => {
+  const [fetchedTours, setFetchedTours] = useState<any[]>([]);
+  const [loadingTours, setLoadingTours] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [toursToShow, setToursToShow] = useState(12);
   const [searchParams] = useSearchParams();
 
+  useEffect(() => {
+    const fetchTours = async () => {
+      try {
+        const res = await fetch(`/.netlify/functions/get-tours?location=${encodeURIComponent(name)}`);
+        const data = await res.json();
+        setFetchedTours(data || []);
+      } catch (error) {
+        console.error("Error fetching tours:", error);
+      } finally {
+        setLoadingTours(false);
+      }
+    };
 
-  // Get all featured tours for this island
-  const islandTours = tours.filter(
-    (tour) => tour.location === name && tour.tags?.includes("featured")
-  );
-
-  // Build unique category list
-  const categories = Array.from(
-    new Set(islandTours.map((tour) => tour.category))
-  );
-
-  // Enhanced filtering with search functionality
-  const filteredTours = islandTours.filter((tour) => {
-    const matchesCategory = selectedCategory === "all" || tour.category === selectedCategory;
-    const matchesSearch = searchQuery === "" || 
-      tour.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      tour.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      tour.category.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    return matchesCategory && matchesSearch;
-  });
-
-  const toursToDisplay = filteredTours.slice(0, toursToShow);
-  const hasMoreTours = filteredTours.length > toursToShow;
-
-  const createUniqueKey = (tour: any, section: string, index?: number) => {
-    return `${section}-${tour.title}-${tour.location}-${index || 0}`;
-  };
+    fetchTours();
+  }, [name]);
 
   useEffect(() => {
     const handleHeroSearch = (event: CustomEvent) => {
@@ -108,21 +94,48 @@ export const IslandLayout = ({
     setToursToShow(prev => prev + 12);
   };
 
+  const createUniqueKey = (tour: any, section: string, index?: number) => {
+    return `${section}-${tour.title}-${tour.location}-${index || 0}`;
+  };
+
+  // FIX 1: Remove extra line break and fix tag parsing
+  const islandTours = fetchedTours.filter(
+    (tour) => tour.tags?.split(",").map(t => t.trim().toLowerCase()).includes("featured")
+  );
+
+  // FIX 2: Proper tag parsing for unforgettable tours
+  const unforgettableTours = fetchedTours.filter(
+    (tour) => tour.tags?.split(",").map(t => t.trim().toLowerCase()).includes("unforgettable")
+  );
+
+  // FIX 3: Categories from ALL tours, not just featured ones
+  const categories = Array.from(
+    new Set(fetchedTours.map((tour) => tour.category))
+  );
+
+  // FIX 4: Filter ALL tours, not just featured ones
+  const filteredTours = fetchedTours.filter((tour) => {
+    const matchesCategory = selectedCategory === "all" || tour.category === selectedCategory;
+    const matchesSearch = searchQuery === "" || 
+      tour.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      tour.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      tour.category.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+
+  const toursToDisplay = filteredTours.slice(0, toursToShow);
+  const hasMoreTours = filteredTours.length > toursToShow;
+
   return (
     <div className="w-full bg-sand-50">
       <Navigation />
       
-      {/* Hero Section - Full Width */}
-      <div className="w-full">
-        {hero}
-      </div>
-      
-      {/* Weather Ticker - Full Width */}
+      <div className="w-full">{hero}</div>
+
       <div className="w-full bg-white py-8 shadow-sm">
         <WeatherTicker location={name} />
       </div>
 
-      {/* Quick Actions - Contained */}
       <div className="w-full bg-white py-8 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-4">
@@ -136,9 +149,7 @@ export const IslandLayout = ({
         </div>
       </div>
 
-      {/* Main Content Sections */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
-        {/* Map Section */}
         <section className="space-y-6">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-palm-100">Explore {name}</h2>
@@ -147,13 +158,11 @@ export const IslandLayout = ({
           {map}
         </section>
 
-        {/* Weather and Culture Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {weather}
           {culture}
         </div>
 
-        {/* Unforgettable Experiences Section */}
         {!customTours && (
           <section className="space-y-6">
             <div className="text-center">
@@ -166,24 +175,17 @@ export const IslandLayout = ({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {tours
-                .filter(
-                  (tour) =>
-                    tour.location === name && tour.tags?.includes("unforgettable")
-                )
-                .map((tour, index) => (
-                  <TourCard key={createUniqueKey(tour, "unforgettable", index)} {...tour} />
-                ))}
+              {unforgettableTours.map((tour, index) => (
+                <TourCard key={createUniqueKey(tour, "unforgettable", index)} {...tour} />
+              ))}
             </div>
           </section>
         )}
 
-        {/* Dynamic Sections */}
         {highlights && <section className="space-y-6">{highlights}</section>}
         {activities && <section className="space-y-6">{activities}</section>}
         {history && <section className="space-y-6">{history}</section>}
 
-        {/* Featured Tours with Enhanced Search */}
         <section className="space-y-6" data-section="tours">
           <div className="text-center">
             <span className="inline-block bg-ocean-100/10 text-ocean-100 px-4 py-1 rounded-full text-sm">
@@ -194,10 +196,8 @@ export const IslandLayout = ({
             </h2>
           </div>
 
-          {/* Enhanced Search Bar */}
           <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border">
             <div className="flex flex-col md:flex-row gap-4 mb-4">
-              {/* Search Input */}
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <Input
@@ -208,7 +208,6 @@ export const IslandLayout = ({
                 />
               </div>
 
-              {/* Category Filter */}
               <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                 <SelectTrigger className="w-full md:w-48">
                   <SelectValue placeholder="All Categories" />
@@ -223,7 +222,6 @@ export const IslandLayout = ({
                 </SelectContent>
               </Select>
 
-              {/* Clear Button */}
               {(searchQuery || selectedCategory !== "all") && (
                 <Button
                   variant="outline"
@@ -236,7 +234,6 @@ export const IslandLayout = ({
               )}
             </div>
 
-            {/* Results Count */}
             <div className="flex items-center justify-between text-sm text-gray-600">
               <span>
                 Showing {toursToDisplay.length} of {filteredTours.length} tours
@@ -246,40 +243,9 @@ export const IslandLayout = ({
             </div>
           </div>
 
-          {/* Category Button Filter */}
-          {!customTours && (
-            <div className="flex flex-wrap justify-center gap-3 mb-6">
-              <button
-                onClick={() => setSelectedCategory("all")}
-                className={`px-4 py-2 rounded-full text-sm font-medium border transition ${
-                  selectedCategory === "all"
-                    ? "bg-sunset-100 text-white border-sunset-100"
-                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
-                }`}
-              >
-                All ({islandTours.length})
-              </button>
-              {categories.map((cat) => {
-                const count = islandTours.filter(tour => tour.category === cat).length;
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium border transition ${
-                      selectedCategory === cat
-                        ? "bg-sunset-100 text-white border-sunset-100"
-                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
-                    }`}
-                  >
-                    {cat} ({count})
-                  </button>
-                );
-              })}
-            </div>
-          )}
-
-          {/* Tours Grid */}
-          {customTours ? (
+          {loadingTours ? (
+            <p className="text-center text-gray-500">Loading tours...</p>
+          ) : customTours ? (
             customTours
           ) : (
             <>
@@ -290,8 +256,7 @@ export const IslandLayout = ({
                       <TourCard key={createUniqueKey(tour, "featured", index)} {...tour} />
                     ))}
                   </div>
-                  
-                  {/* Load More Button */}
+
                   {hasMoreTours && (
                     <div className="text-center mt-12">
                       <Button
@@ -313,10 +278,7 @@ export const IslandLayout = ({
                   <p className="text-gray-500 mb-4">
                     Try adjusting your search terms or category filter
                   </p>
-                  <Button
-                    variant="outline"
-                    onClick={clearSearch}
-                  >
+                  <Button variant="outline" onClick={clearSearch}>
                     Clear Search
                   </Button>
                 </div>
@@ -326,13 +288,12 @@ export const IslandLayout = ({
         </section>
       </div>
 
-      {/* Newsletter Section - Full Width */}
       <div className="w-full bg-gradient-to-br from-blue-50 to-green-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Newsletter />
         </div>
       </div>
-      
+
       <Footer />
     </div>
   );

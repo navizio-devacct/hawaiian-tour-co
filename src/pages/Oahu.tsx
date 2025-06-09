@@ -1,4 +1,3 @@
-
 import { IslandLayout } from "@/components/layouts/IslandLayout";
 import { OahuHero } from "@/components/islands/oahu/OahuHero";
 import { OahuMap } from "@/components/islands/oahu/OahuMap";
@@ -11,20 +10,20 @@ import { OahuTestimonials } from "@/components/islands/oahu/OahuTestimonials";
 
 const Oahu = () => {
   return (
-<IslandLayout
-  name="Oahu"
-  hero={<OahuHero />}
-  map={<OahuMap />}
-  weather={<OahuWeather />}
-  culture={<OahuCulture />}
-  highlights={
-    <>
-      <OahuHighlights />
-      <OahuTestimonials />
-    </>
-  }
-  history={<OahuHistory />}
-/>
+    <IslandLayout
+      name="Oahu"
+      hero={<OahuHero />}
+      map={<OahuMap />}
+      weather={<OahuWeather />}
+      culture={<OahuCulture />}
+      highlights={
+        <>
+          <OahuHighlights />
+          <OahuTestimonials />
+        </>
+      }
+      history={<OahuHistory />}
+    />
   );
 };
 
