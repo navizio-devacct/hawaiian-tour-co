@@ -50,18 +50,34 @@ export const IslandLayout = ({
   useEffect(() => {
     const fetchTours = async () => {
       try {
-        const res = await fetch(`/.netlify/functions/get-tours?location=${encodeURIComponent(name)}`);
-        const data = await res.json();
-        setFetchedTours(data || []);
+        const response = await fetch(`/.netlify/functions/get-tours?location=${encodeURIComponent(name)}`);
+        const rawData = await response.json();
+  
+        const mappedTours = rawData.map((tour: any) => ({
+          id: tour.id,
+          title: tour.title,
+          description: tour.description,
+          price: tour.price,
+          image: tour.image,
+          affiliateUrl: tour.affiliate_url,
+          rating: tour.rating || 4.5,
+          location: tour.location,
+          category: tour.category,
+          tags: tour.tags || "",
+        }));
+  
+        setFetchedTours(mappedTours);
       } catch (error) {
-        console.error("Error fetching tours:", error);
+        console.error("❌ Error fetching tours:", error);
       } finally {
         setLoadingTours(false);
       }
     };
-
+  
     fetchTours();
   }, [name]);
+  
+  
 
   useEffect(() => {
     const handleHeroSearch = (event: CustomEvent) => {

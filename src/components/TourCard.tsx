@@ -23,14 +23,9 @@ export const TourCard = ({
   const [isFavorited, setIsFavorited] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  // 🔍 DEBUG: Log props input
-  console.log('🔗 TourCard Debug:', { title, affiliateUrl, hasAffiliateUrl: !!affiliateUrl });
-
   // Dynamically replace BACKLINK with your current site URL
   const fullUrl = affiliateUrl?.replace("BACKLINK", window.location.origin) || affiliateUrl;
 
-  // 🔍 DEBUG: Log processed URL
-  console.log('🎯 Processed URL for', title, ':', { original: affiliateUrl, processed: fullUrl });
 
   // Show duration only if available, otherwise hide it
   const getDisplayInfo = () => {
@@ -43,9 +38,7 @@ export const TourCard = ({
   const displayCategory = category?.replace(/([A-Z])/g, ' $1').trim() || 'Adventure';
 
   const handleBookClick = () => {
-    // 🔍 DEBUG: Log click event
-    console.log('🎯 Book Now clicked!', { tourTitle: title, originalUrl: affiliateUrl, processedUrl: fullUrl });
-
+   
     // 🔍 DEBUG: URL safety check
     if (!fullUrl) {
       console.error('❌ No URL to redirect to for:', title);
