@@ -3,15 +3,14 @@ import { HeroSection } from "./HeroSection";
 import { SearchFilters } from "./SearchFilters";
 import { TourGrid } from "./TourGrid";
 import { CTASection } from "./CTASection";
-
-// Import your actual tour data
-import { tours } from "../../data/tours";
-import type { Tour } from "../../data/types";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import type { Tour } from "../../data/types";
 
 const BookNow = () => {
-  // Search and filter state
+  const [tours, setTours] = useState<Tour[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedIsland, setSelectedIsland] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -22,19 +21,39 @@ const BookNow = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [activeFilters, setActiveFilters] = useState<Array<{ type: string; value: string }>>([]);
 
-  // Pagination state
   const [displayCount, setDisplayCount] = useState(12);
-  const [isLoading, setIsLoading] = useState(false);
-
-  // Constants
   const INITIAL_LOAD = 12;
   const LOAD_MORE_COUNT = 12;
 
-  // Get unique categories and islands from your actual data
-  const categories = [...new Set(tours.map(tour => tour.category))].sort();
-  const islands = [...new Set(tours.map(tour => tour.location))].sort();
+  useEffect(() => {
+    const fetchTours = async () => {
+      try {
+        const res = await fetch("/.netlify/functions/get-tours?location=all");
+        const data = await res.json();
+  
+        // ✅ Inline mapping fix
+        const mapped = data.map((tour: any) => ({
+          ...tour,
+          affiliateUrl: tour.affiliate_url,
+          showOnHomepage: tour.show_on_homepage,
+          isUnforgettable: tour.is_unforgettable,
+        }));
+  
+        setTours(mapped);
+      } catch (err) {
+        console.error("❌ Error loading tours:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+  
+    fetchTours();
+  }, []);
+  
 
-  // Update active filters
+  const categories = [...new Set(tours.map(t => t.category))].sort();
+  const islands = [...new Set(tours.map(t => t.location))].sort();
+
   useEffect(() => {
     const filters = [];
     if (selectedIsland !== "all") filters.push({ type: "island", value: selectedIsland });
@@ -44,41 +63,30 @@ const BookNow = () => {
     setActiveFilters(filters);
   }, [selectedIsland, selectedCategory, priceFilter, searchQuery]);
 
-  // Reset display count when filters change
   useEffect(() => {
     setDisplayCount(INITIAL_LOAD);
   }, [selectedIsland, selectedCategory, priceFilter, searchQuery, sortBy]);
 
   const removeFilter = (filterToRemove: { type: string; value: string }) => {
     switch (filterToRemove.type) {
-      case "island":
-        setSelectedIsland("all");
-        break;
-      case "category":
-        setSelectedCategory("all");
-        break;
-      case "price":
-        setPriceFilter("all");
-        break;
-      case "search":
-        setSearchQuery("");
-        break;
+      case "island": setSelectedIsland("all"); break;
+      case "category": setSelectedCategory("all"); break;
+      case "price": setPriceFilter("all"); break;
+      case "search": setSearchQuery(""); break;
     }
   };
 
-  // Enhanced filtering and sorting using your actual data
   const filteredTours = tours.filter(tour => {
-    const matchesSearch = !searchQuery || 
+    const matchesSearch = !searchQuery ||
       tour.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       tour.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       tour.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (tour.tags && tour.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())));
+      (tour.tags && tour.tags.includes(searchQuery.toLowerCase()));
     
     const matchesIsland = selectedIsland === "all" || tour.location === selectedIsland;
     const matchesCategory = selectedCategory === "all" || tour.category === selectedCategory;
-    
-    // Price filtering (you can enhance this based on your actual price data)
-    const matchesPrice = priceFilter === "all" || 
+
+    const matchesPrice = priceFilter === "all" ||
       (priceFilter === "budget" && (!tour.price || tour.price < 100)) ||
       (priceFilter === "mid" && tour.price && tour.price >= 100 && tour.price <= 200) ||
       (priceFilter === "luxury" && tour.price && tour.price > 200);
@@ -89,10 +97,7 @@ const BookNow = () => {
       case "rating":
         return (b.rating || 0) - (a.rating || 0);
       case "popular":
-        // Prioritize tours with "featured" tag
-        const aFeatured = a.tags?.includes("featured") ? 1 : 0;
-        const bFeatured = b.tags?.includes("featured") ? 1 : 0;
-        return bFeatured - aFeatured;
+        return (b.tags?.includes("featured") ? 1 : 0) - (a.tags?.includes("featured") ? 1 : 0);
       case "title":
         return a.title.localeCompare(b.title);
       default:
@@ -100,13 +105,11 @@ const BookNow = () => {
     }
   });
 
-  // Get tours to display (limited by displayCount)
   const toursToDisplay = filteredTours.slice(0, displayCount);
   const hasMoreTours = filteredTours.length > displayCount;
 
   const loadMoreTours = () => {
     setIsLoading(true);
-    // Simulate loading delay for better UX
     setTimeout(() => {
       setDisplayCount(prev => prev + LOAD_MORE_COUNT);
       setIsLoading(false);
@@ -126,7 +129,6 @@ const BookNow = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-sand-50 to-ocean-50">
       <Navigation />
-      {/* Hero Section */}
       <HeroSection
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
@@ -143,8 +145,6 @@ const BookNow = () => {
         islands={islands}
         totalTours={tours.length}
       />
-
-      {/* Search Filters */}
       <SearchFilters
         showFilters={showFilters}
         selectedCategory={selectedCategory}
@@ -156,8 +156,6 @@ const BookNow = () => {
         removeFilter={removeFilter}
         clearAllFilters={clearAllFilters}
       />
-
-      {/* Tour Grid */}
       <TourGrid
         tours={toursToDisplay}
         totalFilteredTours={filteredTours.length}
@@ -168,8 +166,6 @@ const BookNow = () => {
         loadMoreTours={loadMoreTours}
         isLoading={isLoading}
       />
-
-      {/* CTA Section */}
       <CTASection />
       <Footer />
     </div>

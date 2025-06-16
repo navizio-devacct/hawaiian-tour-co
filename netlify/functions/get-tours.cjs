@@ -8,13 +8,16 @@ exports.handler = async (event) => {
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-  const location = event.queryStringParameters.location || "Oahu"; // fallback
+  const location = event.queryStringParameters.location || "Oahu";
   console.log("📍 Searching for location:", location);
 
-  const { data, error } = await supabase
-    .from('tours')
-    .select('*')
-    .eq('location', location);
+  let query = supabase.from('tours').select('*');
+
+  if (location !== "all") {
+    query = query.eq('location', location);
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     console.error("❌ Supabase Error:", error.message);
