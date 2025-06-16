@@ -118,8 +118,11 @@ export const IslandLayout = ({
 
   // FIX 1: Remove extra line break and fix tag parsing
   const islandTours = fetchedTours.filter(
-    (tour) => tour.tags?.split(",").map(t => t.trim().toLowerCase()).includes("featured")
+    (tour) =>
+      Array.isArray(tour.tags) &&
+      tour.tags.map(t => t.toLowerCase()).includes("featured")
   );
+  
 
   // FIX 2: Proper tag parsing for unforgettable tours
   const unforgettableTours = fetchedTours.filter(
