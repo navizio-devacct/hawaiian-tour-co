@@ -64,6 +64,8 @@ export const IslandLayout = ({
           location: tour.location,
           category: tour.category,
           tags: tour.tags || "",
+          isUnforgettable: tour.is_unforgettable,  // Add this line
+          isFeatured: tour.is_featured             // Add this line
         }));
   
         setFetchedTours(mappedTours);
@@ -121,8 +123,9 @@ export const IslandLayout = ({
 
   // FIX 2: Proper tag parsing for unforgettable tours
   const unforgettableTours = fetchedTours.filter(
-    (tour) => tour.tags?.split(",").map(t => t.trim().toLowerCase()).includes("unforgettable")
+    (tour) => tour.isUnforgettable === true
   );
+  
 
   // FIX 3: Categories from ALL tours, not just featured ones
   const categories = Array.from(
