@@ -136,14 +136,19 @@ export const IslandLayout = ({
   );
 
   // FIX 4: Filter ALL tours, not just featured ones
-  const filteredTours = fetchedTours.filter((tour) => {
-    const matchesCategory = selectedCategory === "all" || tour.category === selectedCategory;
-    const matchesSearch = searchQuery === "" || 
-      tour.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      tour.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      tour.category.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+const filteredTours = fetchedTours
+.filter((tour) => {
+  const matchesCategory =
+    selectedCategory === "all" || tour.category === selectedCategory;
+  const matchesSearch =
+    searchQuery === "" ||
+    tour.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    tour.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    tour.category.toLowerCase().includes(searchQuery.toLowerCase());
+  return matchesCategory && matchesSearch;
+})
+.sort((a, b) => (a.sort_order ?? 9999) - (b.sort_order ?? 9999));
+
 
   const toursToDisplay = filteredTours.slice(0, toursToShow);
   const hasMoreTours = filteredTours.length > toursToShow;
