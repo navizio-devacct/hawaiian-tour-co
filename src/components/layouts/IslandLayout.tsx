@@ -60,7 +60,7 @@ export const IslandLayout = ({
           price: tour.price,
           image: tour.image,
           affiliateUrl: tour.affiliate_url,
-         {/* rating: tour.rating || 4.5, */}
+//          rating: tour.rating || 4.5,
           location: tour.location,
           category: tour.category,
           tags: tour.tags || "",
