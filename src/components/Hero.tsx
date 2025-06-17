@@ -9,7 +9,7 @@ import {
   Zap,
   Award,
   Sparkles,
-  X,
+  ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,17 +20,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Link } from "react-router-dom";
-import { categoryToUrl } from "@/data/tours";
+import { useNavigate } from "react-router-dom";
+import { TourCard } from "@/components/TourCard";
+import type { Tour } from "../data/types";
 
 export const Hero = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
-  const [selectedIsland, setSelectedIsland] = useState("");
-  const [suggestedCategories, setSuggestedCategories] = useState<string[]>([]);
-  const [error, setError] = useState("");
+  const [selectedIsland, setSelectedIsland] = useState("all");
   const [currentSlide, setCurrentSlide] = useState(0);
-  const suggestionsRef = useRef<HTMLDivElement>(null);
+  const [searchSuggestions, setSearchSuggestions] = useState<Array<{text: string; type: string}>>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [vipTours, setVipTours] = useState<Tour[]>([]);
+  const [isLoadingVip, setIsLoadingVip] = useState(true);
+  const searchRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   const islands = [
     {
@@ -70,6 +74,7 @@ export const Hero = () => {
     { icon: <Star className="w-5 h-5" />, text: "4.8★ Rated Tours", color: "text-orange-600" },
   ];
 
+  // ✅ Background slideshow
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % islands.length);
@@ -77,46 +82,154 @@ export const Hero = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // ✅ Load STATIC VIP tours (only once, no search affects these)
+  useEffect(() => {
+    const loadVIPTours = async () => {
+      setIsLoadingVip(true);
+      try {
+        // ✅ Only load tours with is_vip=true
+        const res = await fetch(`/.netlify/functions/get-tours?limit=3&is_vip=true`);
+        const data = await res.json();
+        
+        // Only set tours if we actually have VIP tours
+        if (data.data && data.data.length > 0) {
+          const mapped = data.data.map((tour: any) => ({
+            id: tour.id,
+            title: tour.title,
+            description: tour.description,
+            price: tour.price,
+            image: tour.image,
+            affiliateUrl: tour.affiliate_url,
+            location: tour.location,
+            category: tour.category,
+            rating: "4.8", // Default rating
+            duration: tour.duration || null,
+            isUnforgettable: tour.is_unforgettable,
+          }));
+          
+          setVipTours(mapped);
+        } else {
+          setVipTours([]); // No VIP tours found
+        }
+      } catch (err) {
+        console.error("❌ Error loading VIP tours:", err);
+        setVipTours([]); // Set empty on error
+      } finally {
+        setIsLoadingVip(false);
+      }
+    };
+
+    loadVIPTours();
+  }, []); // Only runs once, no dependencies
+
+  // ✅ Close suggestions when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        suggestionsRef.current &&
-        !suggestionsRef.current.contains(event.target as Node)
-      ) {
-        setSuggestedCategories([]);
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowSuggestions(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value;
-    setSearchQuery(input);
-    setError("");
-
-    if (input.length > 0) {
-      const matches = Object.keys(categoryToUrl).filter((cat) =>
-        cat.toLowerCase().startsWith(input.toLowerCase())
-      );
-      setSuggestedCategories(matches);
-    } else {
-      setSuggestedCategories([]);
+  // ✅ Get search suggestions from API (BookNow style)
+  const getSearchSuggestions = async (query: string) => {
+    if (query.length < 2) return [];
+    
+    try {
+      const params = new URLSearchParams({
+        search: query,
+        location: selectedIsland,
+        limit: "12" // Get more results for better suggestions
+      });
+      
+      const res = await fetch(`/.netlify/functions/get-tours?${params}`);
+      const data = await res.json();
+      
+      if (data.data && data.data.length > 0) {
+        const titles = data.data.map((tour: any) => ({
+          text: tour.title,
+          type: 'tour'
+        }));
+        
+        const categories = [...new Set(data.data.map((tour: any) => tour.category))]
+          .map(cat => ({
+            text: cat,
+            type: 'category'
+          }));
+        
+        // Combine suggestions with type information
+        const allSuggestions = [...titles, ...categories]
+          .filter(item => item.text.toLowerCase().includes(query.toLowerCase()))
+          .slice(0, 8);
+        
+        return allSuggestions;
+      }
+      return [];
+    } catch {
+      return [];
     }
   };
 
+  // ✅ Handle search input with debounced suggestions (BookNow style)
+  const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    
+    if (query.length >= 2) {
+      const suggestions = await getSearchSuggestions(query);
+      setSearchSuggestions(suggestions);
+      setShowSuggestions(suggestions.length > 0);
+    } else {
+      setSearchSuggestions([]);
+      setShowSuggestions(false);
+    }
+  };
+
+  // ✅ Handle suggestion click with smart behavior
+  const handleSuggestionClick = (suggestion: {text: string; type: string}) => {
+    if (suggestion.type === 'category') {
+      // For categories, search for the category to show ALL tours in that category
+      setSearchQuery(suggestion.text);
+    } else {
+      // For tour titles, search for the exact title
+      setSearchQuery(suggestion.text);
+    }
+    setShowSuggestions(false);
+    // Auto-trigger search
+    setTimeout(() => handleSearch(), 100);
+  };
+
   const handleSearch = () => {
-    if (!searchQuery || !selectedIsland) {
-      setError("Please enter a search term and select an island.");
-      return;
+    // ✅ Build URL params for BookNow with auto-scroll trigger
+    const params = new URLSearchParams();
+    
+    if (searchQuery.trim()) {
+      params.set("search", searchQuery.trim());
+    }
+    
+    if (selectedIsland && selectedIsland !== "all") {
+      params.set("island", selectedIsland);
+    }
+    
+    if (selectedDate) {
+      params.set("date", selectedDate);
     }
 
-    const params = new URLSearchParams();
-    params.set("search", searchQuery);
-    if (selectedDate) params.set("date", selectedDate);
+    // ✅ Add auto-scroll parameter to trigger scroll in BookNow
+    params.set("autoScroll", "true");
 
-    const islandPath = selectedIsland.toLowerCase().replace(" ", "-");
-    window.location.href = `/${islandPath}?${params.toString()}`;
+    // ✅ Navigate to BookNow with search params for auto-scroll
+    const queryString = params.toString();
+    navigate(`/booknow${queryString ? `?${queryString}` : '?autoScroll=true'}`);
+  };
+
+  // ✅ Handle Enter key in search input
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
   };
 
   const currentIsland = islands[currentSlide];
@@ -147,92 +260,124 @@ export const Hero = () => {
           </span>
         </h1>
 
-{/* Search Box + Trust Badges Combined */}
-<div className="bg-white/95 backdrop-blur-xl max-w-4xl w-full rounded-2xl p-6 shadow-xl border mb-10">
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-    <div className="relative" ref={suggestionsRef}>
-      <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
-      <Input
-        placeholder="Search volcano, snorkeling, helicopter..."
-        value={searchQuery}
-        onChange={handleInputChange}
-        className="pl-10 h-12 rounded-xl border-gray-300 text-gray-900"
-      />
-      {suggestedCategories.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-xl shadow-lg z-50 p-2 grid grid-cols-2 gap-2">
-          {suggestedCategories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => {
-                setSearchQuery(cat);
-                setSuggestedCategories([]);
-              }}
-              className="bg-blue-100 hover:bg-blue-200 text-blue-900 text-sm px-3 py-2 rounded-xl text-left transition"
+        {/* Search Interface - BookNow Style */}
+        <div className="bg-white/95 backdrop-blur-xl max-w-5xl w-full rounded-3xl p-8 shadow-2xl border border-white/30 mb-10">
+          {/* Main Search Row */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            {/* Search Input with Predictions - BookNow Style */}
+            <div className="relative md:col-span-2" ref={searchRef}>
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5 z-10" />
+              <Input
+                placeholder="Search tours, activities, or experiences..."
+                value={searchQuery}
+                onChange={handleSearchChange}
+                onKeyPress={handleKeyPress}
+                onFocus={() => searchSuggestions.length > 0 && setShowSuggestions(true)}
+                className="pl-12 pr-12 h-16 border-gray-200 text-gray-800 rounded-xl text-lg shadow-sm focus:shadow-md transition-shadow"
+              />
+              
+              {/* ✅ Search Suggestions Dropdown - BookNow Style */}
+              {showSuggestions && searchSuggestions.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-xl shadow-lg border z-50 max-h-60 overflow-y-auto">
+                  {searchSuggestions.map((suggestion, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleSuggestionClick(suggestion)}
+                      className="w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors border-b last:border-b-0 flex items-center gap-3"
+                    >
+                      <Search className="w-4 h-4 text-gray-400" />
+                      <div className="flex-1">
+                        <span className="text-gray-700">{suggestion.text}</span>
+                        {suggestion.type === 'category' && (
+                          <span className="ml-2 text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full">
+                            Category
+                          </span>
+                        )}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Island Selector */}
+            <Select value={selectedIsland} onValueChange={setSelectedIsland}>
+              <SelectTrigger className="h-16 border-gray-200 text-gray-800 rounded-xl text-lg shadow-sm">
+                <div className="flex items-center">
+                  <MapPin className="mr-3 h-5 w-5 text-gray-400" />
+                  <SelectValue placeholder="Choose Island" />
+                </div>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Islands</SelectItem>
+                {islands.map(island => (
+                  <SelectItem key={island.name} value={island.name}>{island.name}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            {/* Date Picker */}
+            <Input
+              type="date"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              className="h-16 border-gray-200 text-gray-800 rounded-xl text-lg pl-4 shadow-sm"
+              min={new Date().toISOString().split('T')[0]}
+            />
+          </div>
+
+          {/* Trust Signals */}
+          <div className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl p-6 mb-8 border border-gray-100">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {trustSignals.map((signal, index) => (
+                <div key={index} className="flex items-center gap-3 text-gray-700">
+                  <div className={`p-2 rounded-xl bg-white shadow-sm ${signal.color}`}>
+                    {signal.icon}
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">{signal.text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Search Button */}
+          <div className="text-center">
+            <Button
+              onClick={handleSearch}
+              className="h-12 px-8 bg-gradient-to-r from-sunset-100 to-sunset-200 hover:from-sunset-200 hover:to-sunset-300 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-3 mx-auto"
             >
-              {cat}
-            </button>
-          ))}
+              <Search className="w-5 h-5" />
+              Search Tours
+            </Button>
+          </div>
         </div>
-      )}
-    </div>
 
-    <Select value={selectedIsland} onValueChange={setSelectedIsland}>
-      <SelectTrigger className="h-12 rounded-xl border-gray-300 text-gray-900">
-        <div className="flex items-center">
-          <MapPin className="mr-2 h-5 w-5 text-gray-400" />
-          <SelectValue placeholder="Choose Island" />
-        </div>
-      </SelectTrigger>
-      <SelectContent>
-        {islands.map((i) => (
-          <SelectItem key={i.name} value={i.name}>
-            {i.name}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+        {/* ✅ STATIC VIP Tours Section - Only show if VIP tours exist */}
+        {!isLoadingVip && vipTours.length > 0 && (
+          <div className="bg-white/95 backdrop-blur-xl max-w-6xl w-full rounded-2xl p-6 shadow-xl border mb-10">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">VIP Hawaiian Adventures</h2>
+              <Button
+                onClick={() => navigate('/booknow')}
+                variant="outline"
+                className="text-sunset-200 border-sunset-200 hover:bg-sunset-50"
+              >
+                View All Tours
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </div>
 
-    <div className="relative">
-      <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
-      <Input
-        type="date"
-        value={selectedDate}
-        onChange={(e) => setSelectedDate(e.target.value)}
-        className="pl-10 h-12 rounded-xl border-gray-300 text-gray-900"
-        min={new Date().toISOString().split("T")[0]}
-      />
-    </div>
-  </div>
-
-  {error && (
-    <div className="text-red-600 text-sm mb-3 font-medium bg-red-50 border border-red-200 px-4 py-2 rounded-xl">
-      {error}
-    </div>
-  )}
-
-  <div className="text-center mb-6">
-    <Button
-      onClick={handleSearch}
-      className="bg-sunset-200 hover:bg-sunset-300 text-white text-lg px-8 py-3 rounded-xl shadow transition"
-    >
-      <Search className="w-5 h-5 mr-2" />
-      Find Your Perfect Adventure
-    </Button>
-  </div>
-
-  {/* Trust Badges Inside */}
-  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-    {trustSignals.map((signal, i) => (
-      <div key={i} className="flex items-center gap-2 text-gray-800 text-sm">
-        <div className={`p-2 rounded-xl bg-white/80 ${signal.color}`}>
-          {signal.icon}
-        </div>
-        {signal.text}
-      </div>
-    ))}
-  </div>
-</div>
-
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {vipTours.map((tour) => (
+                <TourCard
+                  key={tour.id}
+                  {...tour}
+                  isPromoted={true}
+                />
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Island Dots */}
         <div className="flex gap-2">

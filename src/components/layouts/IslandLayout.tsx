@@ -50,12 +50,13 @@ export const IslandLayout = ({
   useEffect(() => {
     const fetchTours = async () => {
       try {
-        const supabaseLocation = name === "Big Island" ? "Hawaii" : name;
+        // ✅ Now that database uses "Big Island", no need to map anymore
+        const supabaseLocation = name;
   
         const response = await fetch(`/.netlify/functions/get-tours?location=${encodeURIComponent(supabaseLocation)}`);
         const rawData = await response.json();
   
-        const mappedTours = rawData.map((tour: any) => ({
+        const mappedTours = rawData.data.map((tour: any) => ({
           id: tour.id,
           title: tour.title,
           description: tour.description,
@@ -79,9 +80,6 @@ export const IslandLayout = ({
   
     fetchTours();
   }, [name]);
-  
-  
-  
 
   useEffect(() => {
     const handleHeroSearch = (event: CustomEvent) => {

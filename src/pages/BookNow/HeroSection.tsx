@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -37,6 +37,7 @@ interface HeroSectionProps {
   setShowFilters: (show: boolean) => void;
   islands: string[];
   totalTours: number;
+  onSearch: () => void; // ✅ Added missing prop
 }
 
 export const HeroSection = ({
@@ -53,9 +54,13 @@ export const HeroSection = ({
   showFilters,
   setShowFilters,
   islands,
-  totalTours
+  totalTours,
+  onSearch // ✅ Added missing prop
 }: HeroSectionProps) => {
   const [isSearching, setIsSearching] = useState(false);
+  const [searchSuggestions, setSearchSuggestions] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
 
   // Search with debounce effect
   useEffect(() => {
@@ -67,6 +72,74 @@ export const HeroSection = ({
       return () => clearTimeout(timer);
     }
   }, [searchQuery]);
+
+  // ✅ Close suggestions when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // ✅ Get search suggestions from API
+  const getSearchSuggestions = async (query: string) => {
+    if (query.length < 2) return [];
+    
+    try {
+      const params = new URLSearchParams({
+        search: query,
+        location: selectedIsland,
+        limit: "8"
+      });
+      
+      const res = await fetch(`/.netlify/functions/get-tours?${params}`);
+      const data = await res.json();
+      
+      if (data.data && data.data.length > 0) {
+        const titles = data.data.map((tour: any) => tour.title);
+        const categories = [...new Set(data.data.map((tour: any) => tour.category))];
+        
+        // Combine and filter unique suggestions
+        const allSuggestions = [...new Set([...titles, ...categories])]
+          .filter(item => item.toLowerCase().includes(query.toLowerCase()))
+          .slice(0, 5);
+        
+        return allSuggestions;
+      }
+      return [];
+    } catch {
+      return [];
+    }
+  };
+
+  // ✅ Handle search input with debounced suggestions
+  const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    
+    if (query.length >= 2) {
+      const suggestions = await getSearchSuggestions(query);
+      setSearchSuggestions(suggestions);
+      setShowSuggestions(suggestions.length > 0);
+    } else {
+      setSearchSuggestions([]);
+      setShowSuggestions(false);
+    }
+  };
+
+  // ✅ Handle suggestion click
+  const handleSuggestionClick = (suggestion: string) => {
+    setSearchQuery(suggestion);
+    setShowSuggestions(false);
+  };
+
+  // ✅ Handle search tours button click
+  const handleSearchTours = () => {
+    onSearch(); // Scroll to tours section
+  };
 
   const trustSignals = [
     { icon: <Shield className="w-5 h-5" />, text: "Secure Booking", color: "text-emerald-600" },
@@ -126,18 +199,35 @@ export const HeroSection = ({
           <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/30">
             {/* Main Search Row */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-              {/* Search Input */}
-              <div className="relative md:col-span-2">
+              {/* Search Input with Predictions */}
+              <div className="relative md:col-span-2" ref={searchRef}>
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5 z-10" />
                 <Input
                   placeholder="Search tours, activities, or experiences..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={handleSearchChange}
+                  onFocus={() => searchSuggestions.length > 0 && setShowSuggestions(true)}
                   className="pl-12 pr-12 h-16 border-gray-200 text-gray-800 rounded-xl text-lg shadow-sm focus:shadow-md transition-shadow"
                 />
                 {isSearching && (
                   <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-ocean-100"></div>
+                  </div>
+                )}
+                
+                {/* ✅ Search Suggestions Dropdown */}
+                {showSuggestions && searchSuggestions.length > 0 && (
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-xl shadow-lg border z-50 max-h-60 overflow-y-auto">
+                    {searchSuggestions.map((suggestion, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handleSuggestionClick(suggestion)}
+                        className="w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors border-b last:border-b-0 flex items-center gap-3"
+                      >
+                        <Search className="w-4 h-4 text-gray-400" />
+                        <span className="text-gray-700">{suggestion}</span>
+                      </button>
+                    ))}
                   </div>
                 )}
               </div>
@@ -168,7 +258,7 @@ export const HeroSection = ({
               />
             </div>
 
-            {/* Trust Signals - REDESIGNED */}
+            {/* Trust Signals */}
             <div className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl p-6 mb-8 border border-gray-100">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {trustSignals.map((signal, index) => (
@@ -182,7 +272,7 @@ export const HeroSection = ({
               </div>
             </div>
 
-            {/* Secondary Controls */}
+            {/* Secondary Controls & Search Button */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-6 border-t border-gray-100">
               <div className="flex items-center gap-4">
                 {/* Guest Count */}
@@ -216,17 +306,26 @@ export const HeroSection = ({
                     <SelectItem value="title">A-Z</SelectItem>
                   </SelectContent>
                 </Select>
+
+                {/* More Filters Toggle */}
+                <Button
+                  onClick={() => setShowFilters(!showFilters)}
+                  variant="outline"
+                  className="flex items-center gap-3 h-12 px-6 border-gray-200 rounded-xl hover:bg-gray-50 transition-colors text-gray-700"
+                >
+                  <Filter className="w-4 h-4" />
+                  More Filters
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${showFilters ? 'rotate-180' : ''}`} />
+                </Button>
               </div>
 
-              {/* More Filters Toggle */}
-              <Button
-                onClick={() => setShowFilters(!showFilters)}
-                variant="outline"
-                className="flex items-center gap-3 h-12 px-6 border-gray-200 rounded-xl hover:bg-gray-50 transition-colors text-gray-700"
+              {/* ✅ NEW: Search Tours Button */}
+              <Button 
+                onClick={handleSearchTours}
+                className="h-12 px-8 bg-gradient-to-r from-sunset-100 to-sunset-200 hover:from-sunset-200 hover:to-sunset-300 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-3"
               >
-                <Filter className="w-4 h-4" />
-                More Filters
-                <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${showFilters ? 'rotate-180' : ''}`} />
+                <Search className="w-5 h-5" />
+                Search Tours
               </Button>
             </div>
           </div>

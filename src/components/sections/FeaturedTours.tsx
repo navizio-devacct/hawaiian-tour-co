@@ -12,10 +12,10 @@ export const FeaturedTours = () => {
   useEffect(() => {
     const fetchTours = async () => {
       try {
-        const res = await fetch("/.netlify/functions/get-tours?location=all");
+        const res = await fetch("/.netlify/functions/get-tours?show_on_homepage=true&limit=20");
         const data = await res.json();
 
-        const mapped = data.map((tour) => ({
+        const mapped = data.data.map((tour) => ({
           ...tour,
           affiliateUrl: tour.affiliate_url,
           showOnHomepage: tour.show_on_homepage,
@@ -83,7 +83,7 @@ export const FeaturedTours = () => {
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
+       {/* <div className="flex flex-wrap justify-center gap-3 mb-12">
           {categories.map((category) => (
             <button
               key={category.id}
@@ -101,7 +101,7 @@ export const FeaturedTours = () => {
               {category.label}
             </button>
           ))}
-        </div>
+        </div> */}
 
         <div className="text-center mb-8">
           <div className="inline-flex items-center bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-gray-200 shadow-sm">

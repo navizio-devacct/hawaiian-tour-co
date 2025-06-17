@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { HeroSection } from "./HeroSection";
 import { SearchFilters } from "./SearchFilters";
 import { TourGrid } from "./TourGrid";
@@ -8,51 +9,87 @@ import { Footer } from "@/components/Footer";
 import type { Tour } from "../../data/types";
 
 const BookNow = () => {
+  const [searchParams] = useSearchParams();
   const [tours, setTours] = useState<Tour[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedIsland, setSelectedIsland] = useState("all");
+  // ✅ Initialize state from URL params
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
+  const [selectedIsland, setSelectedIsland] = useState(searchParams.get("island") || "all");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState(searchParams.get("date") || "");
   const [guestCount, setGuestCount] = useState("2");
   const [priceFilter, setPriceFilter] = useState("all");
   const [sortBy, setSortBy] = useState("popular");
   const [showFilters, setShowFilters] = useState(false);
   const [activeFilters, setActiveFilters] = useState<Array<{ type: string; value: string }>>([]);
 
-  const [displayCount, setDisplayCount] = useState(12);
-  const INITIAL_LOAD = 12;
-  const LOAD_MORE_COUNT = 12;
+  const [page, setPage] = useState(1);
+  const [limit] = useState(12);
+  const [total, setTotal] = useState(0);
+
+  // ✅ Function to scroll to tours section
+  const scrollToTours = () => {
+    const toursSection = document.querySelector('[data-section="tours"]');
+    if (toursSection) {
+      toursSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  // ✅ Auto-scroll when coming from homepage
+  useEffect(() => {
+    const autoScrollParam = searchParams.get("autoScroll");
+    if (autoScrollParam === "true") {
+      // Small delay to ensure content is loaded
+      setTimeout(() => {
+        scrollToTours();
+      }, 500);
+    }
+  }, [searchParams]);
+
+  // ✅ Reset page when search params change
+  useEffect(() => {
+    setPage(1);
+    setTours([]); // Clear existing tours when search changes
+  }, [selectedIsland, searchQuery]);
 
   useEffect(() => {
     const fetchTours = async () => {
+      setIsLoading(true);
       try {
-        const res = await fetch("/.netlify/functions/get-tours?location=all");
-        const data = await res.json();
-  
-        // ✅ Inline mapping fix
-        const mapped = data.map((tour: any) => ({
+        const params = new URLSearchParams({
+          location: selectedIsland,
+          search: searchQuery,
+          page: page.toString(),
+          limit: limit.toString(),
+        });
+
+        const res = await fetch(`/.netlify/functions/get-tours?${params}`);
+        const json = await res.json();
+
+        const mapped = json.data.map((tour: any) => ({
           ...tour,
           affiliateUrl: tour.affiliate_url,
           showOnHomepage: tour.show_on_homepage,
           isUnforgettable: tour.is_unforgettable,
         }));
-  
-        setTours(mapped);
+
+        if (page === 1) {
+          setTours(mapped);
+        } else {
+          setTours(prev => [...prev, ...mapped]);
+        }
+
+        setTotal(json.pagination.total || 0);
       } catch (err) {
         console.error("❌ Error loading tours:", err);
       } finally {
         setIsLoading(false);
       }
     };
-  
-    fetchTours();
-  }, []);
-  
 
-  const categories = [...new Set(tours.map(t => t.category))].sort();
-  const islands = [...new Set(tours.map(t => t.location))].sort();
+    fetchTours();
+  }, [selectedIsland, searchQuery, page]);
 
   useEffect(() => {
     const filters = [];
@@ -63,10 +100,6 @@ const BookNow = () => {
     setActiveFilters(filters);
   }, [selectedIsland, selectedCategory, priceFilter, searchQuery]);
 
-  useEffect(() => {
-    setDisplayCount(INITIAL_LOAD);
-  }, [selectedIsland, selectedCategory, priceFilter, searchQuery, sortBy]);
-
   const removeFilter = (filterToRemove: { type: string; value: string }) => {
     switch (filterToRemove.type) {
       case "island": setSelectedIsland("all"); break;
@@ -74,46 +107,14 @@ const BookNow = () => {
       case "price": setPriceFilter("all"); break;
       case "search": setSearchQuery(""); break;
     }
+    setPage(1);
   };
 
-  const filteredTours = tours.filter(tour => {
-    const matchesSearch = !searchQuery ||
-      tour.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      tour.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      tour.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (tour.tags && tour.tags.includes(searchQuery.toLowerCase()));
-    
-    const matchesIsland = selectedIsland === "all" || tour.location === selectedIsland;
-    const matchesCategory = selectedCategory === "all" || tour.category === selectedCategory;
-
-    const matchesPrice = priceFilter === "all" ||
-      (priceFilter === "budget" && (!tour.price || tour.price < 100)) ||
-      (priceFilter === "mid" && tour.price && tour.price >= 100 && tour.price <= 200) ||
-      (priceFilter === "luxury" && tour.price && tour.price > 200);
-
-    return matchesSearch && matchesIsland && matchesCategory && matchesPrice;
-  }).sort((a, b) => {
-    switch (sortBy) {
-      case "rating":
-        return (b.rating || 0) - (a.rating || 0);
-      case "popular":
-        return (b.tags?.includes("featured") ? 1 : 0) - (a.tags?.includes("featured") ? 1 : 0);
-      case "title":
-        return a.title.localeCompare(b.title);
-      default:
-        return 0;
-    }
-  });
-
-  const toursToDisplay = filteredTours.slice(0, displayCount);
-  const hasMoreTours = filteredTours.length > displayCount;
+  const toursToDisplay = tours;
+  const hasMoreTours = tours.length < total;
 
   const loadMoreTours = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setDisplayCount(prev => prev + LOAD_MORE_COUNT);
-      setIsLoading(false);
-    }, 500);
+    setPage(prev => prev + 1);
   };
 
   const clearAllFilters = () => {
@@ -123,8 +124,11 @@ const BookNow = () => {
     setPriceFilter("all");
     setSelectedDate("");
     setGuestCount("2");
-    setDisplayCount(INITIAL_LOAD);
+    setPage(1);
   };
+
+  const categories = [...new Set(tours.map(t => t.category))].sort();
+  const islands = [...new Set(tours.map(t => t.location))].sort();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sand-50 to-ocean-50">
@@ -143,7 +147,8 @@ const BookNow = () => {
         showFilters={showFilters}
         setShowFilters={setShowFilters}
         islands={islands}
-        totalTours={tours.length}
+        totalTours={total}
+        onSearch={scrollToTours}
       />
       <SearchFilters
         showFilters={showFilters}
@@ -156,16 +161,18 @@ const BookNow = () => {
         removeFilter={removeFilter}
         clearAllFilters={clearAllFilters}
       />
-      <TourGrid
-        tours={toursToDisplay}
-        totalFilteredTours={filteredTours.length}
-        selectedIsland={selectedIsland}
-        selectedCategory={selectedCategory}
-        clearAllFilters={clearAllFilters}
-        hasMoreTours={hasMoreTours}
-        loadMoreTours={loadMoreTours}
-        isLoading={isLoading}
-      />
+      <div data-section="tours">
+        <TourGrid
+          tours={toursToDisplay}
+          totalFilteredTours={total}
+          selectedIsland={selectedIsland}
+          selectedCategory={selectedCategory}
+          clearAllFilters={clearAllFilters}
+          hasMoreTours={hasMoreTours}
+          loadMoreTours={loadMoreTours}
+          isLoading={isLoading}
+        />
+      </div>
       <CTASection />
       <Footer />
     </div>
