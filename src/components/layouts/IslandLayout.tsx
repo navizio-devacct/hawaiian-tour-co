@@ -50,7 +50,9 @@ export const IslandLayout = ({
   useEffect(() => {
     const fetchTours = async () => {
       try {
-        const response = await fetch(`/.netlify/functions/get-tours?location=${encodeURIComponent(name)}`);
+        const supabaseLocation = name === "Big Island" ? "Hawaii" : name;
+  
+        const response = await fetch(`/.netlify/functions/get-tours?location=${encodeURIComponent(supabaseLocation)}`);
         const rawData = await response.json();
   
         const mappedTours = rawData.map((tour: any) => ({
@@ -60,12 +62,11 @@ export const IslandLayout = ({
           price: tour.price,
           image: tour.image,
           affiliateUrl: tour.affiliate_url,
-//          rating: tour.rating || 4.5,
           location: tour.location,
           category: tour.category,
           tags: tour.tags || "",
-          isUnforgettable: tour.is_unforgettable,  // Add this line
-          isFeatured: tour.is_featured             // Add this line
+          isUnforgettable: tour.is_unforgettable,
+          isFeatured: tour.is_featured
         }));
   
         setFetchedTours(mappedTours);
@@ -78,6 +79,7 @@ export const IslandLayout = ({
   
     fetchTours();
   }, [name]);
+  
   
   
 
@@ -152,6 +154,11 @@ const filteredTours = fetchedTours
 
   const toursToDisplay = filteredTours.slice(0, toursToShow);
   const hasMoreTours = filteredTours.length > toursToShow;
+  const [unforgettableToShow, setUnforgettableToShow] = useState(6);
+const visibleUnforgettable = unforgettableTours.slice(0, unforgettableToShow);
+const hasMoreUnforgettable = unforgettableTours.length > unforgettableToShow;
+const loadMoreUnforgettable = () => setUnforgettableToShow(prev => prev + 6);
+
 
   return (
     <div className="w-full bg-sand-50">
@@ -191,23 +198,32 @@ const filteredTours = fetchedTours
         </div>
 
         {!customTours && (
-          <section className="space-y-6">
-            <div className="text-center">
-              <span className="inline-block bg-sunset-100/10 text-sunset-100 px-4 py-1 rounded-full text-sm">
-                Unforgettable Experiences
-              </span>
-              <h2 className="mt-4 text-3xl font-bold text-palm-100">
-                Our Top Picks for {name}
-              </h2>
-            </div>
+  <section className="space-y-6">
+    <div className="text-center">
+      <span className="inline-block bg-sunset-100/10 text-sunset-100 px-4 py-1 rounded-full text-sm">
+        Unforgettable Experiences
+      </span>
+      <h2 className="mt-4 text-3xl font-bold text-palm-100">
+        Our Top Picks for {name}
+      </h2>
+    </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {unforgettableTours.map((tour, index) => (
-                <TourCard key={createUniqueKey(tour, "unforgettable", index)} {...tour} />
-              ))}
-            </div>
-          </section>
-        )}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {unforgettableTours.slice(0, unforgettableToShow).map((tour, index) => (
+        <TourCard key={createUniqueKey(tour, "unforgettable", index)} {...tour} />
+      ))}
+    </div>
+
+    {hasMoreUnforgettable && (
+      <div className="text-center mt-8">
+        <Button onClick={loadMoreUnforgettable} variant="outline">
+          Load More Unforgettable Tours ({unforgettableTours.length - unforgettableToShow} remaining)
+        </Button>
+      </div>
+    )}
+  </section>
+)}
+
 
         {highlights && <section className="space-y-6">{highlights}</section>}
         {activities && <section className="space-y-6">{activities}</section>}

@@ -11,29 +11,58 @@ exports.handler = async (event) => {
   const location = event.queryStringParameters.location || "Oahu";
   console.log("📍 Searching for location:", location);
 
-  let query = supabase.from('tours').select('*');
+  try {
+    // ✅ Fetch all tours in batches to bypass 1000 limit
+    let allTours = [];
+    let from = 0;
+    const batchSize = 1000;
+    let hasMore = true;
 
-  if (location !== "all") {
-    query = query.eq('location', location);
-  }
+    while (hasMore) {
+      let query = supabase
+        .from('tours')
+        .select('*')
+        .range(from, from + batchSize - 1)
+        .order('id');
 
-  const { data, error } = await query;
+      if (location !== "all") {
+        query = query.eq('location', location);
+      }
 
-  if (error) {
-    console.error("❌ Supabase Error:", error.message);
+      const { data, error } = await query;
+
+      if (error) {
+        console.error("❌ Supabase Error:", error.message);
+        return {
+          statusCode: 500,
+          body: JSON.stringify({ error: error.message }),
+        };
+      }
+
+      if (data && data.length > 0) {
+        allTours = [...allTours, ...data];
+        from += batchSize;
+        hasMore = data.length === batchSize; // Continue if we got a full batch
+      } else {
+        hasMore = false;
+      }
+    }
+
+    console.log("📦 Total returned tours:", allTours.length);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(allTours),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+  } catch (err) {
+    console.error("❌ Function Error:", err);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message }),
+      body: JSON.stringify({ error: "Failed to fetch tours" }),
     };
   }
-
-  console.log("✅ Tours found:", data.length);
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify(data),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
 };
