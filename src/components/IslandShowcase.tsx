@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowRight, MapPin, Star, Users, Flame, Mountain, Waves, TreePine, Camera, RefreshCw } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useWeatherAPI } from "../hooks/useWeatherAPI";
 
+interface TourCounts {
+  [key: string]: number;
+}
+
 export const IslandShowcase = () => {
   const [hoveredIsland, setHoveredIsland] = useState<string | null>(null);
+  const [tourCounts, setTourCounts] = useState<TourCounts>({});
+  const [toursLoading, setToursLoading] = useState(true);
   
   // Get live weather data from National Weather Service
   const { 
@@ -16,6 +22,52 @@ export const IslandShowcase = () => {
     getWeatherWithEmoji,
     lastFetch 
   } = useWeatherAPI();
+
+  // ✅ Fetch live tour counts from existing tours API
+  useEffect(() => {
+    const fetchTourCounts = async () => {
+      setToursLoading(true);
+      try {
+        console.log('🔍 Fetching tour counts...');
+        
+        // Use existing get-tours API to count tours by location
+        const islands = ['Oahu', 'Kauai', 'Big Island', 'Maui'];
+        const counts: TourCounts = {};
+        
+        for (const island of islands) {
+          try {
+            const response = await fetch(`/.netlify/functions/get-tours?location=${encodeURIComponent(island)}&limit=1`);
+            const data = await response.json();
+            
+            if (data.pagination) {
+              counts[island] = data.pagination.total || 0;
+              console.log(`✅ ${island}: ${counts[island]} tours`);
+            }
+          } catch (err) {
+            console.error(`❌ Error fetching ${island} count:`, err);
+            counts[island] = 0;
+          }
+        }
+        
+        setTourCounts(counts);
+        console.log('📊 Final tour counts:', counts);
+        
+      } catch (error) {
+        console.error('❌ Error fetching tour counts:', error);
+        // Fallback to default counts
+        setTourCounts({
+          'Oahu': 2047,
+          'Big Island': 878,
+          'Maui': 840,
+          'Kauai': 417
+        });
+      } finally {
+        setToursLoading(false);
+      }
+    };
+
+    fetchTourCounts();
+  }, []);
 
   // Dynamic status with LIVE weather data
   const getIslandStatus = (islandName: string) => {
@@ -65,37 +117,10 @@ export const IslandShowcase = () => {
 
   const islands = [
     {
-      name: "Big Island",
-      subtitle: "Volcanic Wonders",
-      description: "Witness active volcanoes, black sand beaches, and diverse landscapes on Hawaii's largest island.",
-      image: "https://images.unsplash.com/photo-1576941026827-bccc82341bdd",
-      tourCount: 35,
-      highlights: ["Active Kilauea Volcano", "Manta Ray Night Dives", "Mauna Kea Stargazing"],
-      topActivity: "Volcano Tours",
-      rating: 4.9,
-      icon: <Flame className="w-5 h-5" />,
-      gradient: "from-red-500 to-orange-500",
-      link: "/big-island"
-    },
-    {
-      name: "Maui",
-      subtitle: "The Valley Isle", 
-      description: "Experience the legendary Road to Hana, Haleakala sunrise, and world-class beaches.",
-      image: "https://images.unsplash.com/photo-1542259009477-d625272157b7?q=80&w=2070",
-      tourCount: 42,
-      highlights: ["Road to Hana", "Haleakala Sunrise", "Snorkeling at Molokini"],
-      topActivity: "Scenic Tours",
-      rating: 4.8,
-      icon: <Mountain className="w-5 h-5" />,
-      gradient: "from-purple-500 to-pink-500",
-      link: "/maui"
-    },
-    {
       name: "Oahu",
       subtitle: "The Gathering Place",
       description: "Discover Waikiki Beach, Pearl Harbor, and the vibrant culture of Honolulu.",
       image: "https://images.unsplash.com/photo-1633511090690-0b7f2fec0e8d?q=80&w=2070",
-      tourCount: 48,
       highlights: ["Pearl Harbor Memorial", "Diamond Head Hike", "Waikiki Beach"],
       topActivity: "Historical Tours", 
       rating: 4.7,
@@ -104,11 +129,34 @@ export const IslandShowcase = () => {
       link: "/oahu"
     },
     {
+      name: "Maui",
+      subtitle: "The Valley Isle", 
+      description: "Experience the legendary Road to Hana, Haleakala sunrise, and world-class beaches.",
+      image: "https://images.unsplash.com/photo-1542259009477-d625272157b7?q=80&w=2070",
+      highlights: ["Road to Hana", "Haleakala Sunrise", "Snorkeling at Molokini"],
+      topActivity: "Scenic Tours",
+      rating: 4.8,
+      icon: <Mountain className="w-5 h-5" />,
+      gradient: "from-purple-500 to-pink-500",
+      link: "/maui"
+    },
+    {
+      name: "Big Island",
+      subtitle: "Volcanic Wonders",
+      description: "Witness active volcanoes, black sand beaches, and diverse landscapes on Hawaii's largest island.",
+      image: "https://images.unsplash.com/photo-1576941026827-bccc82341bdd",
+      highlights: ["Active Kilauea Volcano", "Manta Ray Night Dives", "Mauna Kea Stargazing"],
+      topActivity: "Volcano Tours",
+      rating: 4.9,
+      icon: <Flame className="w-5 h-5" />,
+      gradient: "from-red-500 to-orange-500",
+      link: "/big-island"
+    },
+    {
       name: "Kauai",
       subtitle: "The Garden Isle",
       description: "Explore dramatic Na Pali Coast cliffs, lush valleys, and pristine wilderness.",
       image: "https://images.unsplash.com/photo-1505852679233-d9fd70aff56d?q=80&w=2070",
-      tourCount: 28,
       highlights: ["Na Pali Coast", "Waimea Canyon", "Helicopter Tours"],
       topActivity: "Nature Tours",
       rating: 4.9,
@@ -118,7 +166,8 @@ export const IslandShowcase = () => {
     }
   ];
 
-  const totalTours = islands.reduce((sum, island) => sum + island.tourCount, 0);
+  // ✅ Calculate total tours from live data
+  const totalTours = Object.values(tourCounts).reduce((sum, count) => sum + count, 0);
 
   return (
     <section className="py-20 bg-gradient-to-br from-sand-50 via-white to-ocean-50">
@@ -138,7 +187,7 @@ export const IslandShowcase = () => {
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Each Hawaiian island offers unique experiences and breathtaking beauty. 
-            Discover {totalTours}+ carefully curated tours across all four major islands.
+            Discover {toursLoading ? '...' : `${totalTours.toLocaleString()}+`} carefully curated tours across all four major islands.
           </p>
           
           {/* Live Weather Indicator */}
@@ -166,6 +215,7 @@ export const IslandShowcase = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
           {islands.map((island, index) => {
             const islandStatus = getIslandStatus(island.name);
+            const tourCount = tourCounts[island.name] || 0;
             
             return (
               <Link
@@ -202,9 +252,16 @@ export const IslandShowcase = () => {
                     </div>
                   </div>
                   
-                  {/* Tour Count Badge - Top Right */}
+                  {/* ✅ Dynamic Tour Count Badge - Top Right */}
                   <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-md px-3 py-2 rounded-xl text-white font-bold text-sm border border-white/20">
-                    {island.tourCount} Tours
+                    {toursLoading ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 border border-white/30 border-t-white rounded-full animate-spin"></div>
+                        <span>...</span>
+                      </div>
+                    ) : (
+                      <span>{tourCount.toLocaleString()} Tours</span>
+                    )}
                   </div>
 
                   {/* Activity Status - Bottom Right Corner */}
@@ -278,44 +335,44 @@ export const IslandShowcase = () => {
           })}
         </div>
 
-{/* Call to Action */}
-<div className="text-center mt-16">
-  <div className="max-w-4xl mx-auto">
-    <div className="bg-gradient-to-r from-sunset-100 via-sunset-200 to-sunset-100 rounded-3xl p-8 text-white relative overflow-hidden">
-      {/* Subtle pattern overlay */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 left-0 w-32 h-32 bg-white rounded-full -translate-x-16 -translate-y-16"></div>
-        <div className="absolute bottom-0 right-0 w-48 h-48 bg-white rounded-full translate-x-24 translate-y-24"></div>
-      </div>
+        {/* Call to Action */}
+        <div className="text-center mt-16">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-gradient-to-r from-sunset-100 via-sunset-200 to-sunset-100 rounded-3xl p-8 text-white relative overflow-hidden">
+              {/* Subtle pattern overlay */}
+              <div className="absolute inset-0 opacity-10">
+                <div className="absolute top-0 left-0 w-32 h-32 bg-white rounded-full -translate-x-16 -translate-y-16"></div>
+                <div className="absolute bottom-0 right-0 w-48 h-48 bg-white rounded-full translate-x-24 translate-y-24"></div>
+              </div>
 
-      <div className="relative z-10">
-        <Camera className="w-12 h-12 mx-auto mb-4 text-white" />
-        <h3 className="text-2xl md:text-3xl font-bold mb-4">
-          Can't Decide? Let Our Experts Help!
-        </h3>
-        <p className="text-white/90 mb-6 text-lg max-w-2xl mx-auto">
-          Get personalized island recommendations based on your interests, travel dates, and group size.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            to="/booknow"
-            className="inline-flex items-center bg-white text-sunset-100 hover:bg-gray-50 px-6 py-3 rounded-xl font-semibold shadow-lg transform hover:scale-105 transition-all duration-300"
-          >
-            Browse All {totalTours} Experiences
-            <ArrowRight className="w-5 h-5 ml-2" />
-          </Link>
-          <a
-            href="tel:18884119121"
-            className="inline-flex items-center bg-white/20 hover:bg-white/30 text-white border border-white/30 px-6 py-3 rounded-xl font-semibold transition-all duration-300"
-          >
-            <Users className="w-5 h-5 mr-2" />
-            Talk to an Expert
-          </a>
+              <div className="relative z-10">
+                <Camera className="w-12 h-12 mx-auto mb-4 text-white" />
+                <h3 className="text-2xl md:text-3xl font-bold mb-4">
+                  Can't Decide? Let Our Experts Help!
+                </h3>
+                <p className="text-white/90 mb-6 text-lg max-w-2xl mx-auto">
+                  Get personalized island recommendations based on your interests, travel dates, and group size.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link
+                    to="/booknow"
+                    className="inline-flex items-center bg-white text-sunset-100 hover:bg-gray-50 px-6 py-3 rounded-xl font-semibold shadow-lg transform hover:scale-105 transition-all duration-300"
+                  >
+                    Browse All {toursLoading ? '...' : totalTours.toLocaleString()} Experiences
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Link>
+                  <a
+                    href="tel:18884119121"
+                    className="inline-flex items-center bg-white/20 hover:bg-white/30 text-white border border-white/30 px-6 py-3 rounded-xl font-semibold transition-all duration-300"
+                  >
+                    <Users className="w-5 h-5 mr-2" />
+                    Talk to an Expert
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
 
       </div>
     </section>
