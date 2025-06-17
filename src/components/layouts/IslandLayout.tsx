@@ -52,8 +52,7 @@ export const IslandLayout = ({
       try {
         // ✅ Now that database uses "Big Island", no need to map anymore
         const supabaseLocation = name;
-  
-        const response = await fetch(`/.netlify/functions/get-tours?location=${encodeURIComponent(supabaseLocation)}`);
+        const response = await fetch(`/.netlify/functions/get-tours?location=${encodeURIComponent(supabaseLocation)}&is_featured=true&is_unforgettable=true`);
         const rawData = await response.json();
   
         const mappedTours = rawData.data.map((tour: any) => ({
