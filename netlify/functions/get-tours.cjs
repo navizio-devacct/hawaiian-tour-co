@@ -59,6 +59,12 @@ exports.handler = async (event) => {
       query = query.eq('is_pinned', true);
     }
 
+    // ✅ AGGRESSIVE ORDERING: Ensure priority tours appear first!
+    query = query.order('is_vip', { ascending: false, nullsLast: true })
+                 .order('is_unforgettable', { ascending: false, nullsLast: true })
+                 .order('is_featured', { ascending: false, nullsLast: true })
+                 .order('id'); // Consistent secondary sort
+
     // 🧭 Pagination
     query = query.range(offset, offset + parseInt(limit) - 1);
 
@@ -68,13 +74,22 @@ exports.handler = async (event) => {
       console.error("❌ Supabase error:", error.message);
       return {
         statusCode: 500,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
         body: JSON.stringify({ error: error.message }),
       };
     }
 
+    console.log(`✅ Found ${data?.length || 0} tours (total: ${count})`);
+
     return {
       statusCode: 200,
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      },
       body: JSON.stringify({
         data,
         pagination: {
@@ -88,6 +103,10 @@ exports.handler = async (event) => {
     console.error("❌ Function error:", err);
     return {
       statusCode: 500,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      },
       body: JSON.stringify({ error: "Internal Server Error" }),
     };
   }

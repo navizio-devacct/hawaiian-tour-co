@@ -45,40 +45,59 @@ export const IslandLayout = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [toursToShow, setToursToShow] = useState(12);
+  const [unforgettableToShow, setUnforgettableToShow] = useState(6);
   const [searchParams] = useSearchParams();
 
-  useEffect(() => {
-    const fetchTours = async () => {
-      try {
-        // ✅ Now that database uses "Big Island", no need to map anymore
-        const supabaseLocation = name;
-        const response = await fetch(`/.netlify/functions/get-tours?location=${encodeURIComponent(supabaseLocation)}&is_featured=true&is_unforgettable=true`);
-        const rawData = await response.json();
-  
-        const mappedTours = rawData.data.map((tour: any) => ({
-          id: tour.id,
-          title: tour.title,
-          description: tour.description,
-          price: tour.price,
-          image: tour.image,
-          affiliateUrl: tour.affiliate_url,
-          location: tour.location,
-          category: tour.category,
-          tags: tour.tags || "",
-          isUnforgettable: tour.is_unforgettable,
-          isFeatured: tour.is_featured
-        }));
-  
-        setFetchedTours(mappedTours);
-      } catch (error) {
-        console.error("❌ Error fetching tours:", error);
-      } finally {
-        setLoadingTours(false);
-      }
-    };
-  
-    fetchTours();
-  }, [name]);
+  // Replace the fetchTours function in IslandLayout.tsx with this debug version:
+
+useEffect(() => {
+  const fetchTours = async () => {
+    try {
+      const supabaseLocation = name;
+      console.log(`🏝️ Fetching tours for: "${supabaseLocation}"`);
+      
+      const response = await fetch(`/.netlify/functions/get-tours?location=${encodeURIComponent(supabaseLocation)}&limit=2500`);
+      console.log(`📡 API Response status: ${response.status}`);
+      
+      const rawData = await response.json();
+      console.log(`📊 Raw data for ${supabaseLocation}:`, {
+        total_tours: rawData.data?.length || 0,
+        pagination: rawData.pagination,
+        first_tour: rawData.data?.[0]
+      });
+
+      const mappedTours = rawData.data.map((tour: any) => ({
+        id: tour.id,
+        title: tour.title,
+        description: tour.description,
+        price: tour.price,
+        image: tour.image,
+        affiliateUrl: tour.affiliate_url,
+        location: tour.location,
+        category: tour.category,
+        tags: tour.tags || [],
+        isUnforgettable: tour.is_unforgettable,
+        isFeatured: tour.is_featured,
+        sort_order: tour.sort_order
+      }));
+
+      console.log(`🔍 Processed tours for ${supabaseLocation}:`, {
+        total: mappedTours.length,
+        featured: mappedTours.filter(t => t.isFeatured).length,
+        unforgettable: mappedTours.filter(t => t.isUnforgettable).length,
+        sample_locations: [...new Set(mappedTours.map(t => t.location))]
+      });
+
+      setFetchedTours(mappedTours);
+    } catch (error) {
+      console.error(`❌ Error fetching tours for ${name}:`, error);
+    } finally {
+      setLoadingTours(false);
+    }
+  };
+
+  fetchTours();
+}, [name]);
 
   useEffect(() => {
     const handleHeroSearch = (event: CustomEvent) => {
@@ -88,8 +107,8 @@ export const IslandLayout = ({
       setShowSearch(true);
     };
 
-    window.addEventListener('heroSearch', handleHeroSearch as EventListener);
-    return () => window.removeEventListener('heroSearch', handleHeroSearch as EventListener);
+    window.addEventListener("heroSearch", handleHeroSearch as EventListener);
+    return () => window.removeEventListener("heroSearch", handleHeroSearch as EventListener);
   }, []);
 
   useEffect(() => {
@@ -107,62 +126,38 @@ export const IslandLayout = ({
     setToursToShow(12);
   };
 
-  const loadMoreTours = () => {
-    setToursToShow(prev => prev + 12);
-  };
+  const loadMoreTours = () => setToursToShow((prev) => prev + 12);
+  const loadMoreUnforgettable = () => setUnforgettableToShow((prev) => prev + 6);
 
-  const createUniqueKey = (tour: any, section: string, index?: number) => {
-    return `${section}-${tour.title}-${tour.location}-${index || 0}`;
-  };
+  const categories = Array.from(new Set(fetchedTours.map((tour) => tour.category)));
 
-  // FIX 1: Remove extra line break and fix tag parsing
-  const islandTours = fetchedTours.filter(
-    (tour) =>
-      Array.isArray(tour.tags) &&
-      tour.tags.map(t => t.toLowerCase()).includes("featured")
-  );
-  
+  const unforgettableTours = fetchedTours.filter((tour) => tour.isUnforgettable);
+  const featuredTours = fetchedTours.filter((tour) => tour.isFeatured);
 
-  // FIX 2: Proper tag parsing for unforgettable tours
-  const unforgettableTours = fetchedTours.filter(
-    (tour) => tour.isUnforgettable === true
-  );
-  
-
-  // FIX 3: Categories from ALL tours, not just featured ones
-  const categories = Array.from(
-    new Set(fetchedTours.map((tour) => tour.category))
-  );
-
-  // FIX 4: Filter ALL tours, not just featured ones
-const filteredTours = fetchedTours
-.filter((tour) => {
-  const matchesCategory =
-    selectedCategory === "all" || tour.category === selectedCategory;
-  const matchesSearch =
-    searchQuery === "" ||
-    tour.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    tour.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    tour.category.toLowerCase().includes(searchQuery.toLowerCase());
-  return matchesCategory && matchesSearch;
-})
-.sort((a, b) => (a.sort_order ?? 9999) - (b.sort_order ?? 9999));
-
+  const filteredTours = featuredTours
+    .filter((tour) => {
+      const matchesCategory = selectedCategory === "all" || tour.category === selectedCategory;
+      const matchesSearch =
+        searchQuery === "" ||
+        tour.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        tour.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        tour.category.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    })
+    .sort((a, b) => (a.sort_order ?? 9999) - (b.sort_order ?? 9999));
 
   const toursToDisplay = filteredTours.slice(0, toursToShow);
+  const visibleUnforgettable = unforgettableTours.slice(0, unforgettableToShow);
+  const hasMoreUnforgettable = unforgettableTours.length > unforgettableToShow;
   const hasMoreTours = filteredTours.length > toursToShow;
-  const [unforgettableToShow, setUnforgettableToShow] = useState(6);
-const visibleUnforgettable = unforgettableTours.slice(0, unforgettableToShow);
-const hasMoreUnforgettable = unforgettableTours.length > unforgettableToShow;
-const loadMoreUnforgettable = () => setUnforgettableToShow(prev => prev + 6);
 
+  const createUniqueKey = (tour: any, section: string, index?: number) =>
+    `${section}-${tour.title}-${tour.location}-${index || 0}`;
 
   return (
     <div className="w-full bg-sand-50">
       <Navigation />
-      
       <div className="w-full">{hero}</div>
-
       <div className="w-full bg-white py-8 shadow-sm">
         <WeatherTicker location={name} />
       </div>
@@ -194,38 +189,37 @@ const loadMoreUnforgettable = () => setUnforgettableToShow(prev => prev + 6);
           {culture}
         </div>
 
-        {!customTours && (
-  <section className="space-y-6">
-    <div className="text-center">
-      <span className="inline-block bg-sunset-100/10 text-sunset-100 px-4 py-1 rounded-full text-sm">
-        Unforgettable Experiences
-      </span>
-      <h2 className="mt-4 text-3xl font-bold text-palm-100">
-        Our Top Picks for {name}
-      </h2>
-    </div>
-
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {unforgettableTours.slice(0, unforgettableToShow).map((tour, index) => (
-        <TourCard key={createUniqueKey(tour, "unforgettable", index)} {...tour} />
-      ))}
-    </div>
-
-    {hasMoreUnforgettable && (
-      <div className="text-center mt-8">
-        <Button onClick={loadMoreUnforgettable} variant="outline">
-          Load More Unforgettable Tours ({unforgettableTours.length - unforgettableToShow} remaining)
-        </Button>
-      </div>
-    )}
-  </section>
-)}
-
+        {/* Unforgettable Section */}
+        {unforgettableTours.length > 0 && (
+          <section className="space-y-6">
+            <div className="text-center">
+              <span className="inline-block bg-sunset-100/10 text-sunset-100 px-4 py-1 rounded-full text-sm">
+                Unforgettable Experiences
+              </span>
+              <h2 className="mt-4 text-3xl font-bold text-palm-100">
+                Our Top Picks for {name}
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {visibleUnforgettable.map((tour, index) => (
+                <TourCard key={createUniqueKey(tour, "unforgettable", index)} {...tour} />
+              ))}
+            </div>
+            {hasMoreUnforgettable && (
+              <div className="text-center mt-8">
+                <Button onClick={loadMoreUnforgettable} variant="outline">
+                  Load More Unforgettable Tours ({unforgettableTours.length - unforgettableToShow} remaining)
+                </Button>
+              </div>
+            )}
+          </section>
+        )}
 
         {highlights && <section className="space-y-6">{highlights}</section>}
         {activities && <section className="space-y-6">{activities}</section>}
         {history && <section className="space-y-6">{history}</section>}
 
+        {/* Featured Section */}
         <section className="space-y-6" data-section="tours">
           <div className="text-center">
             <span className="inline-block bg-ocean-100/10 text-ocean-100 px-4 py-1 rounded-full text-sm">
@@ -263,11 +257,7 @@ const loadMoreUnforgettable = () => setUnforgettableToShow(prev => prev + 6);
               </Select>
 
               {(searchQuery || selectedCategory !== "all") && (
-                <Button
-                  variant="outline"
-                  onClick={clearSearch}
-                  className="flex items-center gap-2"
-                >
+                <Button variant="outline" onClick={clearSearch} className="flex items-center gap-2">
                   <X className="h-4 w-4" />
                   Clear
                 </Button>
@@ -285,8 +275,6 @@ const loadMoreUnforgettable = () => setUnforgettableToShow(prev => prev + 6);
 
           {loadingTours ? (
             <p className="text-center text-gray-500">Loading tours...</p>
-          ) : customTours ? (
-            customTours
           ) : (
             <>
               {toursToDisplay.length > 0 ? (
@@ -296,7 +284,6 @@ const loadMoreUnforgettable = () => setUnforgettableToShow(prev => prev + 6);
                       <TourCard key={createUniqueKey(tour, "featured", index)} {...tour} />
                     ))}
                   </div>
-
                   {hasMoreTours && (
                     <div className="text-center mt-12">
                       <Button
