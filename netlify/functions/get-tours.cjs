@@ -9,7 +9,7 @@ exports.handler = async (event) => {
     location = 'all',
     search = '',
     page = 1,
-    limit = 20,
+    limit = 500,
     show_on_homepage,
     is_featured,
     is_unforgettable,
