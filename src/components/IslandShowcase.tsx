@@ -114,16 +114,16 @@ export const IslandShowcase = () => {
       isLive: false
     };
   };
-
+  
   const islands = [
     {
       name: "Oahu",
       subtitle: "The Gathering Place",
       description: "Discover Waikiki Beach, Pearl Harbor, and the vibrant culture of Honolulu.",
-      image: "https://images.unsplash.com/photo-1633511090690-0b7f2fec0e8d?q=80&w=2070",
+      image: "https://images.unsplash.com/photo-1698094276298-92b21f2df7f9",
       highlights: ["Pearl Harbor Memorial", "Diamond Head Hike", "Waikiki Beach"],
       topActivity: "Historical Tours", 
-      rating: 4.7,
+      rating: 4.8,
       icon: <Users className="w-5 h-5" />,
       gradient: "from-blue-500 to-cyan-500",
       link: "/oahu"
@@ -132,12 +132,12 @@ export const IslandShowcase = () => {
       name: "Maui",
       subtitle: "The Valley Isle", 
       description: "Experience the legendary Road to Hana, Haleakala sunrise, and world-class beaches.",
-      image: "https://images.unsplash.com/photo-1542259009477-d625272157b7?q=80&w=2070",
+      image: "https://images.unsplash.com/photo-1633511090690-0b7f2fec0e8d?q=80&w=2070",
       highlights: ["Road to Hana", "Haleakala Sunrise", "Snorkeling at Molokini"],
       topActivity: "Scenic Tours",
       rating: 4.8,
       icon: <Mountain className="w-5 h-5" />,
-      gradient: "from-purple-500 to-pink-500",
+      gradient: "from-green-500 to-emerald-500",
       link: "/maui"
     },
     {
@@ -161,7 +161,7 @@ export const IslandShowcase = () => {
       topActivity: "Nature Tours",
       rating: 4.9,
       icon: <TreePine className="w-5 h-5" />,
-      gradient: "from-green-500 to-emerald-500", 
+      gradient: "from-purple-500 to-pink-500", 
       link: "/kauai"
     }
   ];

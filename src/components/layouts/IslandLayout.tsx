@@ -162,7 +162,7 @@ useEffect(() => {
         <WeatherTicker location={name} />
       </div>
 
-      <div className="w-full bg-white py-8 shadow-sm">
+     {/* <div className="w-full bg-white py-8 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-4">
             <Button className="bg-sunset-100 hover:bg-sunset-200">
@@ -173,7 +173,7 @@ useEffect(() => {
             </Button>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
         <section className="space-y-6">
@@ -217,8 +217,7 @@ useEffect(() => {
 
         {highlights && <section className="space-y-6">{highlights}</section>}
         {activities && <section className="space-y-6">{activities}</section>}
-        {history && <section className="space-y-6">{history}</section>}
-
+        
         {/* Featured Section */}
         <section className="space-y-6" data-section="tours">
           <div className="text-center">
@@ -266,7 +265,7 @@ useEffect(() => {
 
             <div className="flex items-center justify-between text-sm text-gray-600">
               <span>
-                Showing {toursToDisplay.length} of {filteredTours.length} tours
+                Showing {toursToDisplay.length} of {filteredTours.length} featured tours
                 {searchQuery && ` for "${searchQuery}"`}
                 {selectedCategory !== "all" && ` in ${selectedCategory}`}
               </span>
@@ -312,9 +311,10 @@ useEffect(() => {
               )}
             </>
           )}
-        </section>
+        </section>      
       </div>
 
+     {/* {history && <section className="space-y-6">{history}</section>} */}
       <div className="w-full bg-gradient-to-br from-blue-50 to-green-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Newsletter />

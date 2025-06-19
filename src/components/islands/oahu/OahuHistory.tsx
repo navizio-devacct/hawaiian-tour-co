@@ -22,8 +22,34 @@ export const OahuHistory = () => {
   return (
     <section className="py-16 bg-sand-50">
       <div className="container mx-auto px-4">
+
+        {/* Fun Facts */}
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold text-palm-100 mb-12">Fascinating Oahu Facts</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {funFacts.map((fact, index) => (
+              <div 
+                key={index}
+                className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+              >
+                <div className="flex justify-center mb-4">{fact.icon}</div>
+                <p className="text-gray-600">{fact.fact}</p>
+              </div>
+            ))}
+          </div>
+         {/* <div className="mt-12">
+            <Button 
+              variant="outline" 
+              className="border-ocean-100 text-ocean-100 hover:bg-ocean-100 hover:text-white"
+              onClick={() => window.location.href = "#activities"}
+            >
+              Discover More About Oahu
+            </Button>
+          </div> */}
+        </div>
+
         {/* Historical Overview */}
-        <div className="mb-16 text-center">
+       {/* <div className="mb-16 text-center">
           <div className="flex items-center justify-center mb-4">
             <History className="h-8 w-8 text-ocean-100 mr-2" />
             <h2 className="text-3xl font-bold text-palm-100">The Gathering Place</h2>
@@ -41,7 +67,8 @@ export const OahuHistory = () => {
               Explore Historical Tours
             </Button>
           </div>
-        </div>
+        </div> */}
+
 
         {/* Timeline Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
@@ -83,30 +110,7 @@ export const OahuHistory = () => {
           </Card>
         </div>
 
-        {/* Fun Facts */}
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-palm-100 mb-12">Fascinating Oahu Facts</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {funFacts.map((fact, index) => (
-              <div 
-                key={index}
-                className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
-              >
-                <div className="flex justify-center mb-4">{fact.icon}</div>
-                <p className="text-gray-600">{fact.fact}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-12">
-            <Button 
-              variant="outline" 
-              className="border-ocean-100 text-ocean-100 hover:bg-ocean-100 hover:text-white"
-              onClick={() => window.location.href = "#activities"}
-            >
-              Discover More About Oahu
-            </Button>
-          </div>
-        </div>
+        
       </div>
     </section>
   );
