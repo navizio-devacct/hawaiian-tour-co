@@ -20,7 +20,7 @@ const Index = () => {
       <Navigation />
       <Hero />
       <IslandShowcase />
-      <LiveStats />
+      {/* <LiveStats /> */}
       <FeaturedTours />
      {/*  <FeaturedActivities /> */}
       <AboutUs />
