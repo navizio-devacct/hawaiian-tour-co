@@ -40,7 +40,7 @@ export const Hero = () => {
     {
       name: "Big Island",
       subtitle: "Active Volcanoes & Adventure",
-      image: "https://images.unsplash.com/photo-1733711603118-eadcdd85bd25?q=80&w=2070",
+      image: "https://images.unsplash.com/photo-1545048984-76f238de07f6",
       gradient: "from-red-500/35 via-orange-400/25 to-yellow-400/35",
       link: "/big-island",
     },
@@ -71,7 +71,7 @@ export const Hero = () => {
     { icon: <Shield className="w-5 h-5" />, text: "Secure Booking", color: "text-emerald-600" },
     { icon: <Zap className="w-5 h-5" />, text: "Instant Confirmation", color: "text-blue-600" },
     { icon: <Award className="w-5 h-5" />, text: "Competitive Pricing", color: "text-amber-600" },
-    { icon: <Star className="w-5 h-5" />, text: "4.8★ Rated Tours", color: "text-orange-600" },
+    { icon: <Star className="w-5 h-5" />, text: "4.8 ★ Rated Tours", color: "text-orange-600" },
   ];
 
   // ✅ Background slideshow

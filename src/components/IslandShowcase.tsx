@@ -132,7 +132,7 @@ export const IslandShowcase = () => {
       name: "Maui",
       subtitle: "The Valley Isle", 
       description: "Experience the legendary Road to Hana, Haleakala sunrise, and world-class beaches.",
-      image: "https://images.unsplash.com/photo-1633511090690-0b7f2fec0e8d?q=80&w=2070",
+      image: "https://images.unsplash.com/photo-1659292950033-f47fad76e79d",
       highlights: ["Road to Hana", "Haleakala Sunrise", "Snorkeling at Molokini"],
       topActivity: "Scenic Tours",
       rating: 4.8,
@@ -336,11 +336,11 @@ export const IslandShowcase = () => {
         </div>
 
         {/* Call to Action */}
-        <div className="text-center mt-16">
+       {/*} <div className="text-center mt-16">
           <div className="max-w-4xl mx-auto">
             <div className="bg-gradient-to-r from-sunset-100 via-sunset-200 to-sunset-100 rounded-3xl p-8 text-white relative overflow-hidden">
               {/* Subtle pattern overlay */}
-              <div className="absolute inset-0 opacity-10">
+         {/*     <div className="absolute inset-0 opacity-10">
                 <div className="absolute top-0 left-0 w-32 h-32 bg-white rounded-full -translate-x-16 -translate-y-16"></div>
                 <div className="absolute bottom-0 right-0 w-48 h-48 bg-white rounded-full translate-x-24 translate-y-24"></div>
               </div>
@@ -372,7 +372,7 @@ export const IslandShowcase = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
       </div>
     </section>

@@ -2,6 +2,13 @@ import { Star, Clock, Users, MapPin, ExternalLink, Heart, Badge as BadgeIcon } f
 import { useState } from "react";
 import { Tour } from "@/types/Tour";
 
+// TypeScript declaration for FareHarbor Lightframe API
+declare global {
+  interface Window {
+    FareHarbor: any;
+  }
+}
+
 type TourCardProps = Omit<Tour, "tags"> & {
   showCategory?: boolean;
   isPromoted?: boolean;
@@ -26,7 +33,6 @@ export const TourCard = ({
   // Dynamically replace BACKLINK with your current site URL
   const fullUrl = affiliateUrl?.replace("BACKLINK", window.location.origin) || affiliateUrl;
 
-
   // Show duration only if available, otherwise hide it
   const getDisplayInfo = () => {
     const showDuration = duration && duration !== null;
@@ -38,7 +44,6 @@ export const TourCard = ({
   const displayCategory = category?.replace(/([A-Z])/g, ' $1').trim() || 'Adventure';
 
   const handleBookClick = () => {
-   
     // 🔍 DEBUG: URL safety check
     if (!fullUrl) {
       console.error('❌ No URL to redirect to for:', title);
@@ -46,7 +51,30 @@ export const TourCard = ({
       return;
     }
 
-    window.open(fullUrl, '_blank', 'noopener,noreferrer');
+    // Check if it's a FareHarbor URL and lightframe is available
+    if (fullUrl.includes('fareharbor.com') && window.FareHarbor) {
+      // Advanced lightframe with custom options
+      window.FareHarbor.open({
+        url: fullUrl,
+        type: 'booking',
+        // Optional advanced settings:
+        lightframe: {
+          width: '100%',
+          height: '100%',
+          // Optional event callbacks
+          onClose: () => {
+            console.log('Booking popup closed for:', title);
+            // Optional: Track analytics, show thank you message, etc.
+          },
+          onLoad: () => {
+            console.log('Booking popup loaded for:', title);
+          }
+        }
+      });
+    } else {
+      // Fallback to regular link for non-FareHarbor URLs
+      window.open(fullUrl, '_blank', 'noopener,noreferrer');
+    }
   };
 
   return (

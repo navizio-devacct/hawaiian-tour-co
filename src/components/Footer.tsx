@@ -27,7 +27,7 @@ export const Footer = () => {
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-sunset-100 flex-shrink-0" />
-                <p>hello@hawaiitours.com</p>
+                <p>hello@hawaiiantourco.com</p>
               </div>
               <div className="flex items-start gap-3">
                 <Clock className="w-4 h-4 text-sunset-100 mt-0.5 flex-shrink-0" />
@@ -187,11 +187,11 @@ export const Footer = () => {
             <div className="text-center md:text-left">
               <p>&copy; {new Date().getFullYear()} Hawaiian Tour Co. All rights reserved.</p>
             </div>
-            <div className="flex gap-6 text-center">
+           {/* <div className="flex gap-6 text-center">
               <Link to="/sitemap" className="hover:text-white transition-colors">Sitemap</Link>
               <Link to="/accessibility" className="hover:text-white transition-colors">Accessibility</Link>
               <Link to="/careers" className="hover:text-white transition-colors">Careers</Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

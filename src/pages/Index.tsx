@@ -26,7 +26,7 @@ const Index = () => {
       <AboutUs />
      {/* <WhyChooseUs /> */}
       <HawaiiNews />
-      <Blog />
+     {/* <Blog /> */}
       <Testimonials />
       <Newsletter />
       <FAQ />
