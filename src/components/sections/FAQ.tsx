@@ -70,6 +70,13 @@ export const FAQ = () => {
         "All our partner operators are licensed, insured, and regularly inspected. Our guides are certified professionals with extensive local knowledge. We maintain the highest safety standards across all activities.",
       category: "Safety",
     },
+     {
+      id: "safety",
+      icon: <Shield className="text-teal-600 w-5 h-5 mr-3" />,
+      question: "What makes Hawaiian Tour Co a trusted Hawaii tour operator online?",
+      answer:
+        "Hawaii Tour Co. offers small group trips with real, local guides and one-of-a-kind island adventures. Online, people trust us as a Hawaii tour company because we focus on comfort, safety, and real excitement, making each tour unique and memorable.",
+    },
   ];
 
   return (
