@@ -77,6 +77,34 @@ export const FAQ = () => {
       answer:
         "Hawaii Tour Co. offers small group trips with real, local guides and one-of-a-kind island adventures. Online, people trust us as a Hawaii tour company because we focus on comfort, safety, and real excitement, making each tour unique and memorable.",
     },
+    {
+      id: "safety",
+      icon: <Shield className="text-teal-600 w-5 h-5 mr-3" />,
+      question: "Can I book Hawaii tours online through your website?",
+      answer:
+        "Yes, our website makes it easy to book tours in Hawaii. Our booking process is easy and safe, and you can quickly choose your island, date, and type of tour.",
+    },
+    {
+      id: "safety",
+      icon: <Shield className="text-teal-600 w-5 h-5 mr-3" />,
+      question: "Do you offer local tour booking for Hawaiian adventure trips?",
+      answer:
+        "Of course! We are experts at booking local tours for exciting adventures in Hawaii. Our guides are from the area and know all the best secret gems and unique places to visit. This makes your trip more real and fun.",
+    },
+    {
+      id: "safety",
+      icon: <Shield className="text-teal-600 w-5 h-5 mr-3" />,
+      question: "What types of tours does your Hawaii adventure tour booking service include?",
+      answer:
+        "Our service for booking Hawaii adventure tours includes hiking, sightseeing, trips to cultural sites, and more. We have things to do on all of the Hawaiian Islands for all kinds of visitors, whether they are interested in nature or history.",
+    },
+    {
+      id: "safety",
+      icon: <Shield className="text-teal-600 w-5 h-5 mr-3" />,
+      question: "Why should I choose your service for tour booking in Hawaii?",
+      answer:
+        "We're a Hawaii-based tour company with years of experience. We offer a personalised, flexible, and fully led tour booking service in Hawaii. This way, you can make sure you see the state the right way without any stress. ",
+    },
   ];
 
   return (
